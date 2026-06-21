@@ -1,0 +1,710 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--gdark:#0D401C;--gdark2:#1F4224;--ggreen:#568612;--glight:#97C459;--glight2:#9DCD5A;--gpale:#EFFFDA;
+--yellow:#F8C32C;--yellow2:#FAD02C;--brown:#52320A;--brown2:#6B3E0A;--orange:#E45623;
+--gray:#D0D0CE;--gray2:#888780;
+--txt:var(--color-text-primary);--mut:var(--color-text-secondary);
+--bg:var(--color-background-primary);--bg2:var(--color-background-secondary);
+--bd:var(--color-border-tertiary);
+--r:14px;--rm:8px;
+}
+body{font-family:var(--font-sans);color:var(--txt);font-size:14px;background:#fff}
+.nav{background:var(--gdark);padding:0 24px;display:flex;align-items:center;gap:18px;height:56px;position:sticky;top:0;z-index:200}
+.logo{font-weight:700;font-size:17px;color:#fff;display:flex;align-items:center;gap:6px}
+.logo i{color:var(--yellow);font-size:20px}
+.nl{padding:6px 4px;font-size:13px;cursor:pointer;color:#E8E8E0;border-bottom:2px solid transparent}
+.nl:hover,.nl.on{color:#fff;border-bottom-color:var(--yellow)}
+.nav-r{margin-left:auto;display:flex;gap:14px;align-items:center}
+.nicon{background:none;border:none;cursor:pointer;color:#fff;font-size:18px;position:relative}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;color:var(--brown);font-weight:700;font-size:13px;cursor:pointer;border:none}
+.pg{display:none}
+.pg.on{display:block}
+.btn-dark{background:var(--gdark);color:#fff;border:none;border-radius:var(--rm);padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer}
+.btn-dark:hover{background:var(--gdark2)}
+.btn-outline{background:#fff;color:var(--gdark);border:1.5px solid var(--gdark);border-radius:var(--rm);padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn-yellow{background:var(--glight);color:var(--gdark);border:none;border-radius:var(--rm);padding:8px 18px;font-size:12.5px;font-weight:700;cursor:pointer}
+.btn-yellow:hover{background:var(--glight2)}
+.btn-brown{background:var(--brown);color:var(--yellow);border:none;border-radius:6px;padding:6px 14px;font-size:11.5px;font-weight:600;cursor:pointer}
+
+.hero{background:linear-gradient(180deg,#F4F0E4,#E9E4D2);padding:48px 60px 56px;display:flex;justify-content:space-between;align-items:center;gap:30px}
+.hero h1{font-size:34px;font-weight:700;color:#1a1a1a;line-height:1.2;margin-bottom:10px}
+.hero h1 .accent{color:var(--ggreen)}
+.hero p{font-size:13.5px;color:#4a4a45;line-height:1.6;max-width:380px;margin-bottom:18px}
+.hero-badges{display:flex;gap:18px;margin-top:18px;flex-wrap:wrap}
+.hbadge{display:flex;align-items:center;gap:6px;font-size:11.5px;color:#3a3a35;font-weight:600}
+.hbadge i{color:var(--ggreen);font-size:15px}
+.hero-card{background:#fff;border-radius:var(--r);width:280px;flex-shrink:0;box-shadow:0 8px 24px rgba(0,0,0,0.1);overflow:hidden}
+.hc-img{height:140px;background:linear-gradient(160deg,#dde8b8,#aac457);position:relative}
+.hc-new{position:absolute;top:10px;left:10px;background:var(--yellow);color:var(--brown);font-size:10px;font-weight:700;padding:4px 10px;border-radius:10px}
+.hc-rate{position:absolute;bottom:10px;right:10px;background:#fff;font-size:11px;font-weight:700;padding:4px 9px;border-radius:10px;display:flex;align-items:center;gap:3px}
+.hc-body{padding:14px}
+.hc-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.hc-loc{font-size:11px;color:var(--mut);margin-bottom:8px}
+.hc-prog{height:5px;background:#eee;border-radius:3px;margin-bottom:4px}
+.hc-prog-bar{height:5px;background:var(--ggreen);border-radius:3px}
+.hc-meta{display:flex;justify-content:space-between;font-size:10px;color:var(--mut);margin-bottom:10px}
+.hc-foot{display:flex;justify-content:space-between;align-items:center}
+.hc-price{font-size:13px;font-weight:700;color:var(--ggreen)}
+
+.sec-yellow{background:var(--yellow2);padding:36px 60px}
+.sec-title-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.sec-title{font-size:21px;font-weight:700;color:#1a1a1a}
+.viewall{font-size:12px;font-weight:600;color:#1a1a1a;display:flex;align-items:center;gap:4px;cursor:pointer}
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.fcard{background:#fff;border-radius:var(--r);overflow:hidden;cursor:pointer}
+.fcard:hover{box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+.fc-img{height:130px;position:relative;background:linear-gradient(160deg,#cfe0a0,#8fb84e)}
+.fc-rate{position:absolute;bottom:8px;right:8px;background:#fff;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:10px;display:flex;align-items:center;gap:3px}
+.fc-body{padding:13px}
+.fc-name{font-size:13.5px;font-weight:700;margin-bottom:2px}
+.fc-loc{font-size:11px;color:var(--mut);margin-bottom:2px}
+.fc-variety{font-size:11px;color:var(--mut);margin-bottom:8px}
+.fc-prog{height:5px;background:#eee;border-radius:3px;margin-bottom:4px}
+.fc-prog-bar{height:5px;background:var(--ggreen);border-radius:3px}
+.fc-meta{display:flex;justify-content:space-between;font-size:10px;color:var(--mut);margin-bottom:10px}
+.fc-foot{display:flex;justify-content:space-between;align-items:center}
+.fc-price{font-size:13px;font-weight:700;color:var(--ggreen)}
+
+.sec-white{padding:42px 60px;text-align:center}
+.sec-title2{font-size:26px;font-weight:700;margin-bottom:4px}
+.sec-title2 .accent{color:var(--ggreen)}
+.sec-sub{font-size:12.5px;color:var(--mut);margin-bottom:26px}
+.steps3{display:flex;justify-content:center;align-items:flex-start;gap:0;max-width:680px;margin:0 auto}
+.step-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px}
+.step-circ{width:62px;height:62px;border-radius:50%;border:1.5px solid var(--gdark);display:flex;align-items:center;justify-content:center;color:var(--gdark);font-size:24px}
+.step-title{font-size:13.5px;font-weight:700}
+.step-desc{font-size:11px;color:var(--mut);line-height:1.6;max-width:160px}
+.step-dash{flex-shrink:0;width:60px;height:1px;border-top:2px dashed var(--gdark);margin-top:31px}
+
+.sec-why{padding:36px 60px 48px}
+.why-title{font-size:21px;font-weight:700;margin-bottom:18px}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.why-card{background:var(--brown);border-radius:var(--r);padding:24px 18px;text-align:center;color:#fff}
+.why-icon{width:42px;height:42px;border-radius:50%;background:var(--brown2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--yellow);font-size:19px}
+.why-h{font-size:14px;font-weight:700;margin-bottom:6px}
+.why-p{font-size:11px;color:#E8D9C0;line-height:1.6}
+
+.footer{background:var(--gdark);padding:18px 24px;display:flex;align-items:center;gap:8px}
+.footer .logo{font-size:14px}
+
+.content-wrap{padding:24px 32px;max-width:1240px;margin:0 auto}
+.filter-box{background:var(--gdark);border-radius:var(--r);padding:22px;color:#fff}
+.filter-title{font-size:16px;font-weight:700;color:var(--yellow2);margin-bottom:16px}
+.filter-label{font-size:12px;color:#D8D8D0;margin-bottom:6px;display:block}
+.filter-select{width:100%;padding:9px 10px;border-radius:7px;border:none;background:#fff;color:#333;font-size:12.5px;margin-bottom:16px}
+.exp-layout{display:grid;grid-template-columns:240px 1fr;gap:20px}
+.exp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.exp-count{font-size:13px;color:var(--mut)}
+.exp-count b{color:var(--txt)}
+.exp-search{display:flex;gap:8px}
+.exp-search input{padding:8px 12px;border:1px solid var(--bd);border-radius:7px;font-size:12.5px;width:200px;outline:none}
+.exp-search select{padding:8px 10px;border:1px solid var(--bd);border-radius:7px;font-size:12.5px;background:#fff}
+.exp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+
+.detail-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mut);cursor:pointer;margin-bottom:16px}
+.detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.plotmap-box{background:var(--gpale);border-radius:var(--r);padding:20px}
+.plotmap-title{text-align:center;font-size:14px;font-weight:700;color:var(--gdark);margin-bottom:14px}
+.plot-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px}
+.plot{height:24px;border-radius:5px;cursor:pointer}
+.plot.available{background:var(--glight)}
+.plot.adopted{background:#E0E0DC}
+.plot.mine{background:var(--gdark)}
+.plot-legend{display:flex;justify-content:center;gap:18px;font-size:11px;color:var(--mut)}
+.leg-dot{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.tl{margin-top:20px;position:relative;padding-left:20px}
+.tl::before{content:'';position:absolute;left:5px;top:4px;bottom:4px;width:1.5px;background:#ddd}
+.tli{position:relative;padding-bottom:18px}
+.tld{position:absolute;left:-20px;top:2px;width:11px;height:11px;border-radius:50%;border:2px solid #fff}
+.tld.done{background:var(--glight2)}
+.tld.now{background:var(--orange)}
+.tld.next{background:#42A5C5}
+.tlt{font-size:13px;font-weight:700}
+.tls{font-size:11px;color:var(--mut);margin-top:1px}
+
+.fd-name{font-size:21px;font-weight:700;margin-bottom:4px}
+.fd-loc{font-size:12.5px;color:var(--mut);margin-bottom:6px}
+.fd-rate{font-size:13px;color:#1a1a1a;margin-bottom:14px}
+.fd-rate .stars{color:var(--yellow);letter-spacing:1px}
+.fd-specs{font-size:12.5px;line-height:2;margin-bottom:14px}
+.fd-specs b{font-weight:700}
+.fd-pkg-title{font-size:13px;font-weight:700;margin-bottom:8px}
+.pkg-card{border:1.5px solid var(--bd);border-radius:10px;padding:12px 16px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.pkg-card.sel{border-color:var(--glight2);background:var(--gpale)}
+.pkg-name{font-size:13px;font-weight:700}
+.pkg-desc{font-size:11px;color:var(--mut);margin-top:2px}
+.pkg-price{font-size:14px;font-weight:700}
+.addcart-btn{width:100%;background:#fff;border:1.5px solid var(--gdark);color:var(--gdark);font-weight:700;font-size:14px;padding:12px;border-radius:10px;cursor:pointer;margin-bottom:12px}
+.addcart-btn:hover{background:var(--gdark);color:#fff}
+.guarantee-note{background:var(--gpale);border-radius:8px;padding:10px 12px;font-size:11.5px;color:#3a5a1a;line-height:1.6}
+.guarantee-note b{color:var(--orange)}
+
+.mf-stats{display:flex;gap:14px;margin-bottom:20px}
+.mf-stat{background:var(--brown);color:#fff;border-radius:var(--r);padding:18px 22px;text-align:center;flex:1}
+.mf-stat-val{font-size:19px;font-weight:700}
+.mf-stat-lbl{font-size:11px;color:#E8D9C0;margin-top:4px;line-height:1.4}
+.mf-layout{display:grid;grid-template-columns:280px 1fr;gap:20px}
+.cert-box{background:var(--gpale);border-radius:var(--r);padding:24px 20px;text-align:center}
+.cert-label{font-size:10px;letter-spacing:2px;color:var(--gdark);font-weight:700;margin-bottom:14px}
+.cert-icon{font-size:30px;margin-bottom:10px;color:var(--ggreen)}
+.cert-name{font-size:17px;font-weight:700;color:var(--gdark);margin-bottom:2px}
+.cert-sub{font-size:11.5px;color:#557a2a;margin-bottom:12px}
+.cert-pkg{font-size:13px;font-weight:700;color:var(--gdark);margin-bottom:6px}
+.cert-meta{font-size:11px;color:#557a2a;line-height:1.8;margin-bottom:12px}
+.cert-id{font-size:10px;color:var(--gdark);font-family:var(--font-mono);margin-bottom:14px}
+.cert-btns{display:flex;gap:8px}
+.cert-btns button{flex:1;font-size:11.5px;padding:8px;border-radius:7px;cursor:pointer;font-weight:600}
+.cert-dl{background:var(--ggreen);color:#fff;border:none}
+.cert-sh{background:none;border:1.5px solid var(--ggreen);color:var(--ggreen)}
+.field-list-box{border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.fl-tabs{display:flex;border-bottom:1px solid var(--bd);background:#FAFAF8}
+.fl-tab{padding:11px 18px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent}
+.fl-tab.on{color:var(--gdark);border-bottom-color:var(--gdark)}
+.fl-item{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--bd)}
+.fl-item:last-child{border-bottom:none}
+.fl-thumb{width:48px;height:48px;border-radius:8px;flex-shrink:0;background:linear-gradient(160deg,#cfe0a0,#8fb84e)}
+.fl-info{flex:1}
+.fl-title{font-size:13px;font-weight:700}
+.fl-sub{font-size:11px;color:var(--mut);margin-top:2px}
+.fl-prog-wrap{margin-top:6px;display:flex;align-items:center;gap:8px}
+.fl-prog{flex:1;height:5px;background:#eee;border-radius:3px}
+.fl-prog-bar{height:5px;background:var(--ggreen);border-radius:3px}
+.fl-prog-txt{font-size:10px;color:var(--mut);min-width:30px}
+.fl-right{text-align:right;flex-shrink:0}
+.fl-harvest-lbl{font-size:10px;color:var(--mut)}
+.fl-harvest-val{font-size:11.5px;font-weight:700;color:var(--ggreen);margin:2px 0 6px}
+.fl-update-item{padding:14px 18px;border-bottom:1px solid var(--bd);display:flex;gap:10px}
+.fl-update-item:last-child{border-bottom:none}
+.fl-upd-icon{width:36px;height:36px;border-radius:50%;background:var(--gpale);display:flex;align-items:center;justify-content:center;color:var(--ggreen);font-size:16px;flex-shrink:0}
+.empty-state{padding:40px 20px;text-align:center;color:var(--mut)}
+.empty-state i{font-size:32px;color:var(--bd);margin-bottom:8px;display:block}
+
+.cart-tabs{display:flex;gap:24px;border-bottom:1px solid var(--bd);margin-bottom:20px}
+.cart-tab{padding:8px 2px;font-size:13px;font-weight:600;color:var(--mut);cursor:pointer;border-bottom:2px solid transparent}
+.cart-tab.on{color:var(--gdark);border-bottom-color:var(--yellow)}
+.cart-layout{display:grid;grid-template-columns:1fr 320px;gap:24px}
+.cart-item{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--bd)}
+.cart-thumb{width:54px;height:54px;border-radius:50%;background:linear-gradient(160deg,#cfe0a0,#8fb84e);flex-shrink:0}
+.cart-info{flex:1}
+.cart-name{font-size:13.5px;font-weight:700}
+.cart-sub{font-size:11px;color:var(--mut);margin:2px 0 6px}
+.cart-detail-btn{background:var(--brown);color:var(--yellow);border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer}
+.cart-price{font-size:14px;font-weight:700;text-align:right;min-width:90px}
+.summary-box{border:1px solid var(--bd);border-radius:var(--r);padding:20px}
+.summary-tab{background:var(--brown);color:var(--yellow);border:none;border-radius:6px;padding:7px 14px;font-size:11.5px;font-weight:600;margin-bottom:8px;cursor:pointer;display:block;width:fit-content}
+.summary-row{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0}
+.summary-total{display:flex;justify-content:space-between;font-size:14px;font-weight:700;padding:10px 0;border-top:1px solid var(--bd);margin-top:6px}
+.summary-total .val{color:var(--ggreen)}
+.proceed-btn{width:100%;background:var(--glight2);color:#1a3a08;font-weight:700;font-size:13.5px;padding:12px;border-radius:8px;border:none;cursor:pointer;margin-top:14px}
+.proceed-btn:hover{background:var(--glight)}
+
+.checkout-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-card{border:1px solid var(--bd);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.form-card-title{font-size:13.5px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.fg label{font-size:11.5px;color:var(--mut)}
+.fg input,.fg select,.fg textarea{padding:9px 11px;border:1px solid var(--bd);border-radius:7px;font-size:12.5px;outline:none}
+.fg input:focus{border-color:var(--ggreen)}
+.pay-opt{border:1px solid var(--bd);border-radius:8px;padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:12.5px;margin-bottom:8px}
+.pay-opt.sel{border-color:var(--ggreen);background:var(--gpale)}
+
+.confirm-box{text-align:center;padding:60px 20px}
+.confirm-icon{width:64px;height:64px;border-radius:50%;background:var(--gpale);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--ggreen);font-size:30px}
+.confirm-title{font-size:19px;font-weight:700;color:var(--gdark);margin-bottom:6px}
+.confirm-desc{font-size:13px;color:var(--mut);margin-bottom:22px;line-height:1.6}
+.confirm-btns{display:flex;gap:10px;justify-content:center}
+
+.login-wrap{min-height:560px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#0D401C,#1F4224);padding:50px 20px}
+.login-card{background:#fff;border-radius:18px;width:380px;padding:36px 32px;text-align:center}
+.login-logo{display:flex;align-items:center;justify-content:center;gap:7px;font-size:19px;font-weight:700;color:var(--gdark);margin-bottom:6px}
+.login-logo i{color:var(--yellow2);font-size:23px}
+.login-tag{font-size:12px;color:var(--mut);margin-bottom:24px}
+.role-toggle{display:flex;background:var(--bg2);border-radius:10px;padding:4px;margin-bottom:22px}
+.role-btn{flex:1;padding:9px;border-radius:7px;border:none;background:none;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--mut);display:flex;align-items:center;justify-content:center;gap:5px}
+.role-btn.active{background:var(--gdark);color:#fff}
+.login-form{text-align:left}
+.login-submit{width:100%;background:var(--gdark);color:#fff;border:none;border-radius:8px;padding:12px;font-size:13.5px;font-weight:700;cursor:pointer;margin-top:6px}
+.login-submit:hover{background:var(--gdark2)}
+.login-switch{font-size:12px;color:var(--mut);margin-top:18px}
+.login-switch span{color:var(--ggreen);font-weight:600;cursor:pointer}
+.guest-link{font-size:11.5px;color:var(--mut);margin-top:10px;cursor:pointer;text-decoration:underline}
+
+.toast{position:fixed;bottom:18px;right:18px;background:var(--gdark);color:#fff;padding:11px 16px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+
+<h2 class="sr-only">SawahKu — paddy field adoption platform website prototype with login, browsing, field detail, my field dashboard, and cart pages</h2>
+
+<div id="app">
+
+<div class="pg on" id="pg-login">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo"><i class="ti ti-plant-2" aria-hidden="true"></i> SawahKu</div>
+      <div class="login-tag">Adopt a paddy field, harvest it at home</div>
+      <div class="role-toggle">
+        <button class="role-btn active" id="role-adopter" onclick="setRole('adopter')"><i class="ti ti-user" aria-hidden="true"></i> Adopter</button>
+        <button class="role-btn" id="role-farmer" onclick="setRole('farmer')"><i class="ti ti-plant-2" aria-hidden="true"></i> Farmer</button>
+      </div>
+      <div class="login-form">
+        <div class="fg"><label id="login-id-label">Email</label><input id="login-id-input" placeholder="you@email.com"></div>
+        <div class="fg"><label>Password</label><input type="password" placeholder="••••••••"></div>
+        <button class="login-submit" onclick="doLogin()" id="login-submit-btn"><i class="ti ti-login-2" aria-hidden="true"></i> Log in as Adopter</button>
+      </div>
+      <div class="login-switch">Don't have an account? <span onclick="showToast('Registration form opened')">Register here</span></div>
+      <div class="guest-link" onclick="enterAsGuest()">Continue browsing as guest →</div>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="pg-main">
+<div class="nav">
+  <div class="logo"><i class="ti ti-plant-2" aria-hidden="true"></i> SawahKu</div>
+  <div class="nl on" onclick="gp('home',this)">Home</div>
+  <div class="nl" onclick="gp('explore',this)">Explore Field</div>
+  <div class="nl" onclick="gp('myfield',this)">My Field</div>
+  <div class="nl" onclick="gp('cart',this)">Cart</div>
+  <div class="nav-r">
+    <button class="nicon" onclick="gp('cart',document.querySelectorAll('.nl')[3])" aria-label="Cart"><i class="ti ti-shopping-bag" aria-hidden="true"></i></button>
+    <button class="avatar" onclick="gp('myfield',document.querySelectorAll('.nl')[2])" id="avatar-btn">BS</button>
+  </div>
+</div>
+
+<div class="pg on" id="sub-home">
+  <div class="hero">
+    <div>
+      <h1>Adopt a Paddy Field,<br><span class="accent">Harvest it at Home.</span></h1>
+      <p>Connect directly with local farmers in Aceh. Choose your plot, track your rice growing week by week, and receive fresh organic rice when harvest comes.</p>
+      <div style="display:flex;gap:10px">
+        <button class="btn-dark" onclick="gp('explore',document.querySelectorAll('.nl')[1])"><i class="ti ti-search" aria-hidden="true"></i> Explore Fields</button>
+        <button class="btn-outline"><i class="ti ti-player-play" aria-hidden="true"></i> How It Works</button>
+      </div>
+      <div class="hero-badges">
+        <div class="hbadge"><i class="ti ti-shield-check" aria-hidden="true"></i> Verified Farmers</div>
+        <div class="hbadge"><i class="ti ti-refresh" aria-hidden="true"></i> Update Real-time</div>
+        <div class="hbadge"><i class="ti ti-leaf" aria-hidden="true"></i> Sustainable Agriculture</div>
+      </div>
+    </div>
+    <div class="hero-card" onclick="openDetail(1)" style="cursor:pointer">
+      <div class="hc-img"><span class="hc-new">NEW</span><span class="hc-rate"><i class="ti ti-star-filled" aria-hidden="true" style="color:var(--yellow2);font-size:11px"></i> 4.9</span></div>
+      <div class="hc-body">
+        <div class="hc-title">Pak Burhan's Field — Block A</div>
+        <div class="hc-loc"><i class="ti ti-map-pin" aria-hidden="true"></i> Indrapuri, Aceh Besar</div>
+        <div class="hc-prog"><div class="hc-prog-bar" style="width:75%"></div></div>
+        <div class="hc-meta"><span>75% adopted</span><span>12 plots left</span></div>
+        <div class="hc-foot"><span class="hc-price">IDR 150,000 / plot</span><button class="btn-yellow" onclick="event.stopPropagation();addCart(1)">Adopt</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-yellow">
+    <div class="sec-title-row">
+      <div class="sec-title">Featured Fields</div>
+      <div class="viewall" onclick="gp('explore',document.querySelectorAll('.nl')[1])">View All Fields <i class="ti ti-arrow-up-right" aria-hidden="true"></i></div>
+    </div>
+    <div class="fgrid" id="featured-grid"></div>
+  </div>
+
+  <div class="sec-white">
+    <div class="sec-title2">How <span class="accent">Sawahku</span> Works</div>
+    <div class="sec-sub">From sustainable sourcing to measurable impact.</div>
+    <div class="steps3">
+      <div class="step-item"><div class="step-circ"><i class="ti ti-seeding" aria-hidden="true"></i></div><div class="step-title">Choose your field</div><div class="step-desc">Browse available paddy fields across Aceh. View farmer profiles and rice varieties.</div></div>
+      <div class="step-dash"></div>
+      <div class="step-item"><div class="step-circ"><i class="ti ti-user-check" aria-hidden="true"></i></div><div class="step-title">Adopt & monitor</div><div class="step-desc">Receive your digital certificate and track your rice growth through weekly farmer updates.</div></div>
+      <div class="step-dash"></div>
+      <div class="step-item"><div class="step-circ"><i class="ti ti-package" aria-hidden="true"></i></div><div class="step-title">Receive your harvest</div><div class="step-desc">Fresh organic rice from your own plot is delivered straight to your doorstep.</div></div>
+    </div>
+  </div>
+
+  <div class="sec-why">
+    <div class="why-title">Why adopt with SawahKu?</div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon"><i class="ti ti-shield-check" aria-hidden="true"></i></div><div class="why-h">Harvest guarantee</div><div class="why-p">100% refund if the harvest fails due to natural disaster, or free adoption next season.</div></div>
+      <div class="why-card"><div class="why-icon"><i class="ti ti-certificate" aria-hidden="true"></i></div><div class="why-h">Digital certificate</div><div class="why-p">Receive an official digital certificate with your unique plot ID upon adoption.</div></div>
+      <div class="why-card"><div class="why-icon"><i class="ti ti-users" aria-hidden="true"></i></div><div class="why-h">Support local farmers</div><div class="why-p">60% of your payment goes directly to the farmer at adoption — fair and transparent.</div></div>
+    </div>
+  </div>
+
+  <div class="footer"><div class="logo"><i class="ti ti-plant-2" aria-hidden="true"></i> SawahKu</div></div>
+</div>
+
+<div class="pg" id="sub-explore">
+  <div class="content-wrap">
+    <div class="exp-layout">
+      <div class="filter-box">
+        <div class="filter-title">Filter Fields</div>
+        <span class="filter-label">Location</span>
+        <select class="filter-select"><option>All regions</option><option>Aceh Besar</option><option>Bireuen</option><option>North Aceh</option><option>Pidie Jaya</option></select>
+        <span class="filter-label">Rice variety</span>
+        <select class="filter-select"><option>All variety</option><option>White Rice</option><option>Red Rice</option><option>Black Rice</option><option>Glutinous</option></select>
+        <span class="filter-label">Season duration</span>
+        <select class="filter-select"><option>All variety</option><option>3 months</option><option>4 months</option><option>6 months</option></select>
+      </div>
+      <div>
+        <div class="exp-top">
+          <div class="exp-count">Showing <b>4</b> available fields</div>
+          <div class="exp-search">
+            <input placeholder="Search field or farmer">
+            <select><option>Most Popular</option><option>Lowest price</option><option>Earliest harvest</option></select>
+          </div>
+        </div>
+        <div class="exp-grid" id="explore-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="sub-detail">
+  <div class="content-wrap">
+    <div class="detail-back" onclick="gp('explore',document.querySelectorAll('.nl')[1])"><i class="ti ti-chevron-left" aria-hidden="true"></i> Go Back</div>
+    <div class="detail-layout">
+      <div>
+        <div class="plotmap-box">
+          <div class="plotmap-title">Field Plot Map</div>
+          <div class="plot-grid" id="plot-grid"></div>
+          <div class="plot-legend">
+            <span><span class="leg-dot" style="background:#E0E0DC"></span>Adopted</span>
+            <span><span class="leg-dot" style="background:var(--glight)"></span>Available</span>
+            <span><span class="leg-dot" style="background:var(--gdark)"></span>Yours</span>
+          </div>
+        </div>
+        <div class="tl">
+          <div style="font-size:13.5px;font-weight:700;margin-bottom:14px">Growing season progress</div>
+          <div class="tli"><div class="tld done"></div><div class="tlt">Land preparation</div><div class="tls">1 April 2026 · Completed</div></div>
+          <div class="tli"><div class="tld done"></div><div class="tlt">Seedling planted</div><div class="tls">15 April 2026 · Completed</div></div>
+          <div class="tli"><div class="tld now"></div><div class="tlt">Vegetative growth</div><div class="tls">May–June 2026 · In progress<br>Height: 42 cm, conditions optimal</div></div>
+          <div class="tli"><div class="tld next"></div><div class="tlt" style="color:var(--mut)">Flowering stage</div><div class="tls">July 2026</div></div>
+          <div class="tli"><div class="tld next"></div><div class="tlt" style="color:var(--mut)">Harvest day</div><div class="tls">August 2026 · Estimated</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="fd-name" id="fd-name">Pak Burhan's Field — Block A</div>
+        <div class="fd-loc" id="fd-loc"><i class="ti ti-map-pin" aria-hidden="true"></i> Indrapuri, Aceh Besar</div>
+        <div class="fd-rate"><span class="stars">★★★★★</span> <span id="fd-rate-txt">4.9 · 38 adopters</span></div>
+        <div class="fd-specs">
+          <div><b>Plot size</b> &nbsp; 10 × 10 meters</div>
+          <div><b>Rice variety</b> &nbsp; Sirtanio Organic</div>
+          <div><b>Est. yield</b> &nbsp; 5–7 kg rice / plot</div>
+          <div><b>Certification</b> &nbsp; Organic SNI 6729:2016</div>
+        </div>
+        <div class="fd-pkg-title">Select adoption package</div>
+        <div class="pkg-card sel" onclick="selPkg(this,'Basic',150000)">
+          <div><div class="pkg-name">Basic package</div><div class="pkg-desc">1 plot · ~5 kg rice · weekly updates</div></div>
+          <div class="pkg-price">IDR 150,000</div>
+        </div>
+        <div class="pkg-card" onclick="selPkg(this,'Family',380000)">
+          <div><div class="pkg-name">Family package</div><div class="pkg-desc">3 plots · ~18 kg · 3x/week updates + video</div></div>
+          <div class="pkg-price">IDR 380,000</div>
+        </div>
+        <div class="pkg-card" onclick="selPkg(this,'Premium',750000)">
+          <div><div class="pkg-name">Premium package</div><div class="pkg-desc">6 plots · ~38 kg · daily updates + harvest invitation</div></div>
+          <div class="pkg-price">IDR 750,000</div>
+        </div>
+        <button class="addcart-btn" onclick="addCartFromDetail()">Add to cart</button>
+        <div class="guarantee-note"><b>SawahKu guarantee:</b> if harvest fails due to natural disaster, we offer a full refund or free adoption next season.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="sub-myfield">
+  <div class="content-wrap">
+    <div class="mf-stats">
+      <div class="mf-stat"><div class="mf-stat-val">3</div><div class="mf-stat-lbl">Adopted Plots</div></div>
+      <div class="mf-stat"><div class="mf-stat-val">54 kg</div><div class="mf-stat-lbl">Est. harvest</div></div>
+      <div class="mf-stat"><div class="mf-stat-val">IDR 1.28M</div><div class="mf-stat-lbl">Total invested</div></div>
+      <div class="mf-stat"><div class="mf-stat-val">3</div><div class="mf-stat-lbl">Certificates earned</div></div>
+    </div>
+    <div class="mf-layout">
+      <div class="cert-box">
+        <div class="cert-label">FIELD ADOPTION CERTIFICATE</div>
+        <div class="cert-icon"><i class="ti ti-certificate" aria-hidden="true"></i></div>
+        <div class="cert-name">Budi Santoso</div>
+        <div class="cert-sub">has officially adopted</div>
+        <div class="cert-pkg">Pak Burhan's Field — Premium Package</div>
+        <div class="cert-meta">Block A, Plots 4–9 (6 plots)<br>Indrapuri, Aceh Besar<br>April – August 2026<br>Est. yield: 38 kg organic rice</div>
+        <div class="cert-id">ID: SK-2026-BH-A-00042</div>
+        <div class="cert-btns">
+          <button class="cert-dl" onclick="showToast('Certificate downloaded')"><i class="ti ti-download" aria-hidden="true"></i> Download</button>
+          <button class="cert-sh" onclick="showToast('Link copied')"><i class="ti ti-share" aria-hidden="true"></i> Share</button>
+        </div>
+      </div>
+      <div class="field-list-box">
+        <div class="fl-tabs">
+          <div class="fl-tab on" onclick="mfTab('fields',this)"><i class="ti ti-leaf" aria-hidden="true"></i> My Fields</div>
+          <div class="fl-tab" onclick="mfTab('updates',this)"><i class="ti ti-camera" aria-hidden="true"></i> Farmer Updates</div>
+          <div class="fl-tab" onclick="mfTab('history',this)"><i class="ti ti-history" aria-hidden="true"></i> Harvest History</div>
+        </div>
+        <div id="mf-fields-list"></div>
+        <div id="mf-updates-list" style="display:none"></div>
+        <div id="mf-history-list" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="sub-cart">
+  <div class="content-wrap">
+    <div class="cart-tabs">
+      <div class="cart-tab on" id="ctab-cart" onclick="cTab('cart')">Cart</div>
+      <div class="cart-tab" id="ctab-checkout" onclick="cTab('checkout')">Checkout</div>
+      <div class="cart-tab" id="ctab-confirmed" onclick="cTab('confirmed')">Confirmed</div>
+    </div>
+    <div id="csub-cart">
+      <div class="cart-layout">
+        <div id="cart-items-list"></div>
+        <div class="summary-box">
+          <button class="summary-tab">Order summary</button>
+          <div id="cart-summary-rows"></div>
+          <div class="summary-total"><span>Total</span><span class="val" id="cart-total-val">IDR 0</span></div>
+          <button class="proceed-btn" onclick="cTab('checkout')">Proceed to checkout</button>
+        </div>
+      </div>
+    </div>
+    <div id="csub-checkout" style="display:none">
+      <div class="checkout-grid">
+        <div>
+          <div class="form-card">
+            <div class="form-card-title"><i class="ti ti-user" aria-hidden="true" style="color:var(--ggreen)"></i> Adopter details</div>
+            <div class="fg"><label>Full name</label><input value="Budi Santoso"></div>
+            <div class="fg"><label>Phone</label><input value="+62 812-3456-7890"></div>
+            <div class="fg"><label>Email</label><input value="budi@email.com"></div>
+          </div>
+          <div class="form-card">
+            <div class="form-card-title"><i class="ti ti-home" aria-hidden="true" style="color:var(--ggreen)"></i> Delivery address</div>
+            <div class="fg"><label>Full address</label><textarea rows="2" style="resize:none">Jl. Merdeka No. 12, Banda Aceh</textarea></div>
+            <div class="fg"><label>City</label><input value="Banda Aceh"></div>
+          </div>
+        </div>
+        <div>
+          <div class="form-card">
+            <div class="form-card-title"><i class="ti ti-credit-card" aria-hidden="true" style="color:var(--ggreen)"></i> Payment method</div>
+            <div class="pay-opt sel" onclick="selPay(this)"><i class="ti ti-building-bank" aria-hidden="true"></i> Bank transfer</div>
+            <div class="pay-opt" onclick="selPay(this)"><i class="ti ti-wallet" aria-hidden="true"></i> E-wallet</div>
+            <div class="pay-opt" onclick="selPay(this)"><i class="ti ti-credit-card" aria-hidden="true"></i> Installment 0%</div>
+          </div>
+          <button class="proceed-btn" onclick="cTab('confirmed')">Confirm adoption</button>
+        </div>
+      </div>
+    </div>
+    <div id="csub-confirmed" style="display:none">
+      <div class="confirm-box">
+        <div class="confirm-icon"><i class="ti ti-check" aria-hidden="true"></i></div>
+        <div class="confirm-title">Adoption confirmed!</div>
+        <div class="confirm-desc">Your digital certificate has been sent to budi@email.com.<br>Track your field growth in My Field.</div>
+        <div class="confirm-btns">
+          <button class="btn-dark" onclick="gp('myfield',document.querySelectorAll('.nl')[2])"><i class="ti ti-leaf" aria-hidden="true"></i> Go to My Field</button>
+          <button class="btn-outline" onclick="gp('explore',document.querySelectorAll('.nl')[1])">Adopt another field</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<div class="toast" id="toast"><i class="ti ti-check" aria-hidden="true"></i><span id="tmsg"></span></div>
+
+<script>
+const fields=[
+  {id:1,name:"Pak Burhan's Field — Block A",loc:'Indrapuri, Aceh Besar',variety:'Organic White Rice',price:150000,adopted:75,rem:12,rating:'4.9',rev:38},
+  {id:2,name:"Bu Aminah's Field — Block B",loc:'Kota Juang, Bireuen',variety:'Organic Red Rice',price:180000,adopted:81,rem:6,rating:'5',rev:24},
+  {id:3,name:"Sawah Pak Ismail — Blok C",loc:'Muara Batu, North Aceh',variety:'Organic Black Rice',price:220000,adopted:50,rem:20,rating:'4.9',rev:38},
+  {id:4,name:"Pak Darwis' Field — Block D",loc:'Pidie Jaya',variety:'Glutinous White Rice',price:180000,adopted:88,rem:3,rating:'4.7',rev:21},
+];
+let cart=[{id:1,pkg:'Premium package',price:750000},{id:1,pkg:'Basic package',price:360000}];
+let role='adopter';
+
+function fieldCardHTML(f,big){
+  return`<div class="fcard" onclick="openDetail(${f.id})">
+    <div class="fc-img"><span class="fc-rate"><i class="ti ti-star-filled" aria-hidden="true" style="color:var(--yellow2);font-size:10px"></i> ${f.rating}</span></div>
+    <div class="fc-body">
+      <div class="fc-name">${f.name}</div>
+      <div class="fc-loc"><i class="ti ti-map-pin" aria-hidden="true"></i> ${f.loc}</div>
+      <div class="fc-variety">${f.variety}</div>
+      <div class="fc-prog"><div class="fc-prog-bar" style="width:${f.adopted}%"></div></div>
+      <div class="fc-meta"><span>${f.adopted}% adopted</span><span>${f.rem} plots left</span></div>
+      <div class="fc-foot"><span class="fc-price">IDR ${f.price.toLocaleString()} / plot</span><button class="btn-yellow" onclick="event.stopPropagation();addCart(${f.id})">Adopt</button></div>
+    </div>
+  </div>`;
+}
+
+function renderGrids(){
+  document.getElementById('featured-grid').innerHTML=fields.slice(0,3).map(f=>fieldCardHTML(f)).join('');
+  document.getElementById('explore-grid').innerHTML=fields.map(f=>fieldCardHTML(f)).join('');
+}
+
+function setRole(r){
+  role=r;
+  document.getElementById('role-adopter').classList.toggle('active',r==='adopter');
+  document.getElementById('role-farmer').classList.toggle('active',r==='farmer');
+  document.getElementById('login-id-label').textContent=r==='adopter'?'Email':'Phone number / Farmer ID';
+  document.getElementById('login-id-input').placeholder=r==='adopter'?'you@email.com':'08xx-xxxx-xxxx';
+  document.getElementById('login-submit-btn').innerHTML=`<i class="ti ti-login-2" aria-hidden="true"></i> Log in as ${r==='adopter'?'Adopter':'Farmer'}`;
+}
+
+function doLogin(){
+  document.getElementById('pg-login').classList.remove('on');
+  document.getElementById('pg-main').classList.add('on');
+  showToast(role==='adopter'?'Welcome back, Budi!':'Welcome back, Farmer!');
+  if(role==='farmer'){
+    document.getElementById('avatar-btn').textContent='PB';
+  }
+}
+function enterAsGuest(){
+  document.getElementById('pg-login').classList.remove('on');
+  document.getElementById('pg-main').classList.add('on');
+  showToast('Browsing as guest');
+}
+
+function gp(id,nl){
+  document.querySelectorAll('#pg-main > .pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('sub-'+id).classList.add('on');
+  document.querySelectorAll('.nl').forEach(n=>n.classList.remove('on'));
+  if(nl)nl.classList.add('on');
+  if(id==='cart')renderCart();
+  if(id==='myfield')renderMyField();
+  window.scrollTo(0,0);
+}
+
+let currentField=fields[0];
+function openDetail(id){
+  currentField=fields.find(f=>f.id===id)||fields[0];
+  document.getElementById('fd-name').textContent=currentField.name;
+  document.getElementById('fd-loc').innerHTML='<i class="ti ti-map-pin" aria-hidden="true"></i> '+currentField.loc;
+  document.getElementById('fd-rate-txt').textContent=currentField.rating+' · '+currentField.rev+' adopters';
+  gp('detail',document.querySelectorAll('.nl')[1]);
+  const g=document.getElementById('plot-grid');
+  g.innerHTML='';
+  for(let i=0;i<24;i++){
+    const d=document.createElement('div');
+    d.className='plot';
+    if(i===1||i===3)d.className+=' mine';
+    else if(Math.random()<0.55)d.className+=' adopted';
+    else d.className+=' available';
+    d.onclick=()=>showToast('Plot '+(i+1));
+    g.appendChild(d);
+  }
+}
+
+let selectedPkg={name:'Basic package',price:150000};
+function selPkg(el,name,price){
+  document.querySelectorAll('.pkg-card').forEach(p=>p.classList.remove('sel'));
+  el.classList.add('sel');
+  selectedPkg={name:name+' package',price};
+}
+function addCartFromDetail(){
+  cart.push({id:currentField.id,pkg:selectedPkg.name,price:selectedPkg.price});
+  showToast(selectedPkg.name+' added to cart');
+  setTimeout(()=>gp('cart',document.querySelectorAll('.nl')[3]),700);
+}
+function addCart(id){
+  const f=fields.find(x=>x.id===id);
+  cart.push({id:f.id,pkg:'Basic package',price:f.price});
+  showToast('Added to cart');
+}
+function selPay(el){document.querySelectorAll('.pay-opt').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');}
+
+function renderCart(){
+  const list=document.getElementById('cart-items-list');
+  const sum=document.getElementById('cart-summary-rows');
+  list.innerHTML=cart.map((c,i)=>{
+    const f=fields.find(x=>x.id===c.id)||fields[0];
+    return`<div class="cart-item">
+      <div class="cart-thumb"></div>
+      <div class="cart-info">
+        <div class="cart-name">${f.name}</div>
+        <div class="cart-sub">${c.pkg} · ${f.loc}</div>
+        <button class="cart-detail-btn" onclick="openDetail(${f.id})">Checkout detail</button>
+      </div>
+      <div class="cart-price">IDR ${c.price.toLocaleString()}</div>
+    </div>`;
+  }).join('');
+  sum.innerHTML=cart.map(c=>{
+    const f=fields.find(x=>x.id===c.id)||fields[0];
+    return`<div class="summary-row"><span>${c.pkg}</span><span>IDR ${c.price.toLocaleString()}</span></div>`;
+  }).join('');
+  const total=cart.reduce((a,c)=>a+c.price,0);
+  document.getElementById('cart-total-val').textContent='IDR '+total.toLocaleString();
+  cTab('cart');
+}
+function cTab(id){
+  ['cart','checkout','confirmed'].forEach(t=>{
+    document.getElementById('csub-'+t).style.display=t===id?'block':'none';
+    document.getElementById('ctab-'+t).classList.toggle('on',t===id);
+  });
+}
+
+function mfTab(id,el){
+  document.querySelectorAll('.fl-tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('mf-fields-list').style.display=id==='fields'?'block':'none';
+  document.getElementById('mf-updates-list').style.display=id==='updates'?'block':'none';
+  document.getElementById('mf-history-list').style.display=id==='history'?'block':'none';
+}
+
+function renderMyField(){
+  const myFields=[
+    {name:"Pak Burhan's Field — Block A",pkg:'Premium package',loc:'Indrapuri, Aceh Besar',harvest:'August 2026',progress:72},
+    {name:"Bu Aminah's Field — Block B",pkg:'Basic package',loc:'Kota Juang, Bireuen',harvest:'July 2026',progress:45},
+    {name:"Sawah Pak Ismail — Blok C",pkg:'Family package',loc:'Muara Batu, North Aceh',harvest:'September 2026',progress:30},
+  ];
+  document.getElementById('mf-fields-list').innerHTML=myFields.map(f=>`
+    <div class="fl-item">
+      <div class="fl-thumb"></div>
+      <div class="fl-info">
+        <div class="fl-title">${f.name}</div>
+        <div class="fl-sub">${f.pkg} · ${f.loc}</div>
+        <div class="fl-prog-wrap"><div class="fl-prog"><div class="fl-prog-bar" style="width:${f.progress}%"></div></div><div class="fl-prog-txt">${f.progress}%</div></div>
+      </div>
+      <div class="fl-right">
+        <div class="fl-harvest-lbl">Harvest</div>
+        <div class="fl-harvest-val">${f.harvest}</div>
+        <button class="cart-detail-btn" onclick="showToast('Opening monitor view...')"><i class="ti ti-eye" aria-hidden="true"></i> Monitor</button>
+      </div>
+    </div>`).join('');
+
+  const updates=[
+    {field:"Pak Burhan's Field",date:'4 Jun 2026',title:'Active vegetative stage',desc:'Average height 42 cm, excellent condition. Organic fertilizer applied yesterday.'},
+    {field:"Bu Aminah's Field",date:'3 Jun 2026',title:'Week 7 update',desc:'Red rice growing vigorously, no pests detected this week.'},
+    {field:"Sawah Pak Ismail",date:'28 May 2026',title:'Natural pest control applied',desc:'Used botanical pesticide from soursop leaves and garlic. Fully organic.'},
+  ];
+  document.getElementById('mf-updates-list').innerHTML=updates.map(u=>`
+    <div class="fl-update-item">
+      <div class="fl-upd-icon"><i class="ti ti-camera" aria-hidden="true"></i></div>
+      <div class="fl-info">
+        <div class="fl-title">${u.title}</div>
+        <div class="fl-sub">${u.field} · ${u.date}</div>
+        <div style="font-size:11.5px;color:var(--mut);margin-top:4px;line-height:1.5">${u.desc}</div>
+      </div>
+    </div>`).join('');
+
+  const history=[
+    {field:'Pak Burhan',yield:'38 kg',status:'Awaiting harvest'},
+    {field:'Bu Aminah',yield:'5 kg',status:'In transit'},
+    {field:'Pak Ismail',yield:'18 kg',status:'Delivered'},
+  ];
+  document.getElementById('mf-history-list').innerHTML=history.map(h=>`
+    <div class="fl-item">
+      <div class="fl-upd-icon" style="background:var(--gpale)"><i class="ti ti-package" aria-hidden="true" style="color:var(--ggreen)"></i></div>
+      <div class="fl-info">
+        <div class="fl-title">${h.field}</div>
+        <div class="fl-sub">Estimated yield: ${h.yield}</div>
+      </div>
+      <div class="fl-right"><span style="font-size:11px;font-weight:600;color:var(--ggreen)">${h.status}</span></div>
+    </div>`).join('');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('tmsg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+renderGrids();
+</script>
