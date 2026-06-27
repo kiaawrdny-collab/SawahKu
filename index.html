@@ -1561,7 +1561,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
    Contoh: https://github.com/USERNAME/REPO/raw/main/template.docx */
 const PERJANJIAN_TEMPLATE_URL = 'https://github.com/kiaawrdny-collab/SawahKu/raw/main/template.docx';
 /* Rekening tujuan pembayaran fee 3% (rekening pemilik web/admin) — isi sesuai punyamu */
-const PLATFORM_BANK = { name:'Bank Syariah Indonesia (BSI)', account:'1234567890', holder:'SawahKu Indonesia' };
+const PLATFORM_BANK = { name:'Bank Syariah Indonesia (BSI)', account:'7312166113', holder:'SawahKu Indonesia' };
 const SB_READY = /^https:\/\//.test(SUPABASE_URL) && SUPABASE_ANON_KEY.length > 20 && !!window.supabase;
 const sb = SB_READY ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 const idDate = s => { try { return new Date(s).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}); } catch(e){ return s||''; } };
