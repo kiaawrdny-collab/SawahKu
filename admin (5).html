@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SawahKu — Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{--green-900:#0D401C;--green-700:#1F4224;--green-600:#32620E;--lime:#97C459;--gold:#F8C32C;
+    --ink:#232526;--ink-soft:#6b7280;--line:#e7ece2;--surface:#FBFCF8;--tint:#EFFFDA;--danger:#c0392b}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#f3f6ef;color:var(--ink)}
+  .bar{background:var(--green-900);color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .bar b{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px}
+  .bar .who{font-size:13px;opacity:.85}
+  .wrap{max-width:1100px;margin:0 auto;padding:26px 20px}
+  /* gate */
+  .gate{max-width:380px;margin:9vh auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+  .gate h1{font-size:22px;color:var(--green-900);margin-bottom:6px}
+  .gate p{font-size:13px;color:var(--ink-soft);margin-bottom:18px}
+  input,select{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;font-size:14px;font-family:inherit;outline:none}
+  input:focus{border-color:var(--green-600)}
+  .btn{border:none;cursor:pointer;font-family:inherit;font-weight:700;border-radius:11px;padding:11px 16px;font-size:14px;transition:.15s}
+  .btn-primary{background:var(--green-900);color:#fff;width:100%;margin-top:12px}
+  .btn-primary:hover{background:#0a3417}
+  .btn-sm{padding:7px 13px;font-size:12.5px;border-radius:9px}
+  .btn-danger{background:#fce8e6;color:var(--danger)}
+  .btn-danger:hover{background:#f8d7d3}
+  .btn-ghost{background:#eef2ea;color:var(--green-700)}
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+  .stat{background:#fff;border:1px solid var(--line);border-left:4px solid var(--lime);border-radius:14px;padding:16px 18px}
+  .stat .v{font-size:26px;font-weight:800;color:var(--green-900)}
+  .stat .l{font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin-top:2px}
+  /* card/table */
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:22px}
+  .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .card-head h2{font-size:17px;color:var(--green-900)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink-soft);padding:10px 12px;border-bottom:2px solid var(--line)}
+  td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  .pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--tint);color:var(--green-700)}
+  .pill.seller{background:#fdf1d6;color:#9a7b16}
+  .pill.suspended{background:#fce8e6;color:#c0392b}
+  .pill.unpaid{background:#fce8e6;color:#c0392b}
+  .pill.pending{background:#fdf1d6;color:#9a7b16}
+  .pill.paid{background:var(--tint);color:var(--green-700)}
+  .btn-warn{background:#fdf1d6;color:#9a7b16}
+  .btn-warn:hover{background:#f8e6bd}
+  .img-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+  .img-modal img{max-width:92%;max-height:88vh;border-radius:10px;background:#fff}
+  .bank-modal{display:none;position:fixed;inset:0;background:rgba(10,28,14,.5);z-index:140;align-items:center;justify-content:center;padding:20px}
+  .bank-box{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:420px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+  .bank-box h3{font-size:18px;color:var(--green-900);margin-bottom:4px}
+  .bank-box label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin:10px 0 6px}
+  .bank-box input{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;font-size:14px;font-family:inherit;outline:none}
+  .bank-box input:focus{border-color:var(--green-600)}
+  .bank-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+  .empty{padding:24px;text-align:center;color:var(--ink-soft);font-size:13px}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green-900);color:#fff;padding:12px 22px;border-radius:99px;font-weight:600;font-size:14px;opacity:0;transition:.25s;z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .muted{color:var(--ink-soft);font-size:12px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}td .hide-sm{display:none}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate" class="gate">
+  <h1>Admin SawahKu</h1>
+  <p>Masuk dengan sandi admin</p>
+  <input id="adminPass" type="password" placeholder="Sandi admin" onkeydown="if(event.key==='Enter')doLogin()">
+  <button class="btn btn-primary" onclick="doLogin()">Masuk</button>
+  <p class="muted" style="margin-top:14px" id="cfgWarn"></p>
+</div>
+
+<!-- PANEL -->
+<div id="panel" style="display:none">
+  <div class="bar">
+    <b>🌾 SawahKu Admin</b>
+    <span class="who">Panel admin · <a href="#" onclick="logout()" style="color:#F8C32C">Keluar</a></span>
+  </div>
+  <div class="wrap">
+    <div class="stats" id="stats"></div>
+
+    <div class="card">
+      <div class="card-head"><h2>Akun pengguna</h2><button class="btn btn-ghost btn-sm" onclick="loadAll()">↻ Refresh</button></div>
+      <div id="accountsTable"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Fee platform (3%)</h2><span class="muted">Bukti dari petani · tandai lunas / tangguhkan</span></div>
+      <div id="feeTable"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Sawah</h2><span class="muted">Hapus sawah ikut menghapus adopsi & update terkait</span></div>
+      <div id="fieldsTable"></div>
+    </div>
+  </div>
+</div>
+
+<div class="img-modal" id="imgModal" onclick="this.style.display='none'"><img id="imgModalSrc" src="" alt="bukti"></div>
+
+<div class="bank-modal" id="profileModal">
+  <div class="bank-box">
+    <h3>Edit profil</h3>
+    <p class="muted" style="margin:-6px 0 14px" id="profModalEmail"></p>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+      <div id="profAvatar" style="width:64px;height:64px;border-radius:50%;background:#cdd6c7 center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-weight:800;color:#0D401C;font-size:26px"></div>
+      <div>
+        <label class="btn btn-ghost btn-sm" style="cursor:pointer">Ganti foto<input id="profPhoto" type="file" accept="image/*" hidden></label>
+        <button class="btn btn-ghost btn-sm" onclick="profRemovePhoto()">Hapus foto</button>
+      </div>
+    </div>
+    <label>Nama</label>
+    <input id="profName" type="text" placeholder="Nama lengkap">
+    <label>No. HP</label>
+    <input id="profPhone" type="text" placeholder="0812-xxxx-xxxx">
+    <div class="bank-actions">
+      <button class="btn btn-ghost" onclick="closeProfileModal()">Batal</button>
+      <button class="btn btn-primary" onclick="saveProfile()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="bank-modal" id="bankModal">
+  <div class="bank-box">
+    <h3>Rekening pencairan</h3>
+    <p class="muted" style="margin:-6px 0 14px">Petani: <b id="bankModalName"></b></p>
+    <label>Nama bank</label>
+    <input id="bankName" type="text" placeholder="cth. Bank Syariah Indonesia (BSI)">
+    <label>Nomor rekening</label>
+    <input id="bankAccount" type="text" placeholder="123456789">
+    <label>Atas nama</label>
+    <input id="bankHolder" type="text" placeholder="Nama pemilik rekening">
+    <div class="bank-actions">
+      <button class="btn btn-ghost" onclick="closeBankModal()">Batal</button>
+      <button class="btn btn-primary" onclick="saveBank()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ KONFIGURASI ADMIN ============
+   1) Isi URL & anon key Supabase (sama dengan web utama).
+   2) Ganti ADMIN_PASSWORD dengan sandi admin pilihanmu.
+   Catatan: gate ini hanya pelindung sederhana sisi-browser (prototype). */
+const SUPABASE_URL = 'PASTE_SUPABASE_URL';            // cth. https://xxxx.supabase.co
+const SUPABASE_ANON_KEY = 'PASTE_SUPABASE_ANON_KEY';  // anon public key
+const ADMIN_PASSWORD = 'admin123';                    // ganti sandi admin di sini
+
+const ready = /^https:\/\//.test(SUPABASE_URL) && SUPABASE_ANON_KEY.length>20;
+const sb = ready ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const $ = id => document.getElementById(id);
+function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2200); }
+
+if(!ready){ $('cfgWarn').textContent='⚠ Isi SUPABASE_URL & anon key di bagian atas <script> dulu.'; }
+
+function doLogin(){
+  if(!ready){ toast('Isi konfigurasi Supabase dulu'); return; }
+  if($('adminPass').value !== ADMIN_PASSWORD){ toast('Sandi admin salah'); return; }
+  $('gate').style.display='none';
+  $('panel').style.display='block';
+  loadAll();
+}
+function logout(){ location.reload(); }
+
+async function loadAll(){
+  try{
+    const [{data:accounts},{data:fields},{data:adoptions},{count:orderCount}] = await Promise.all([
+      sb.from('accounts').select('*').order('created_at',{ascending:false}),
+      sb.from('fields').select('*').order('created_at',{ascending:false}),
+      sb.from('adoptions').select('field_id,amount,status'),
+      sb.from('orders').select('*',{count:'exact',head:true})
+    ]);
+    window._accounts=accounts||[]; window._fields=fields||[]; window._adoptions=adoptions||[];
+    renderStats(accounts||[], fields||[], orderCount||0, (adoptions||[]).length);
+    renderAccounts(accounts||[]);
+    renderFees(fields||[], adoptions||[], accounts||[]);
+    renderFields(fields||[], accounts||[]);
+  }catch(err){ console.error(err); toast('Gagal memuat: '+(err.message||'')); }
+}
+
+function renderStats(acc, fld, ord, adp){
+  const buyers=acc.filter(a=>a.role==='buyer').length, sellers=acc.filter(a=>a.role==='seller').length;
+  const feePaid=fld.filter(f=>f.fee_status==='paid').reduce((s,f)=>s+(f.fee_amount||0),0);
+  $('stats').innerHTML =
+    statCard(acc.length, 'Total akun') +
+    statCard(sellers+' / '+buyers, 'Penjual / Pembeli') +
+    statCard(fld.length, 'Total sawah') +
+    statCard('IDR '+feePaid.toLocaleString('id-ID'), 'Fee terkumpul');
+}
+const statCard=(v,l)=>`<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+const rupiah=n=>'IDR '+Number(n||0).toLocaleString('id-ID');
+
+function renderAccounts(list){
+  $('accountsTable').innerHTML = list.length ? `<table><thead><tr>
+    <th>Nama</th><th>Email</th><th>Role</th><th class="hide-sm">Rekening</th><th>Status</th><th></th>
+    </tr></thead><tbody>${list.map(a=>`<tr>
+      <td><b>${esc(a.name)||'-'}</b></td>
+      <td>${esc(a.email)||'-'}</td>
+      <td><span class="pill ${a.role}">${a.role}</span></td>
+      <td class="hide-sm">${a.role==='seller'?(a.bank_account?`${esc(a.bank_name)||''} · ${esc(a.bank_account)}<br><span class="muted">a.n. ${esc(a.bank_holder)||'-'}</span>`:'<span class="pill unpaid">belum ada</span>'):'<span class="muted">—</span>'}</td>
+      <td>${a.suspended?'<span class="pill suspended">ditangguhkan</span>':'<span class="pill">aktif</span>'}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-ghost btn-sm" onclick="openProfileModal('${a.id}')">Profil</button>
+        ${a.role==='seller'?`<button class="btn btn-ghost btn-sm" onclick="openBankModal('${a.id}')">Rekening</button>`:''}
+        ${a.role==='seller'?(a.suspended
+          ? `<button class="btn btn-ghost btn-sm" onclick="suspendAccount('${a.id}',false)">Aktifkan</button>`
+          : `<button class="btn btn-warn btn-sm" onclick="suspendAccount('${a.id}',true)">Tangguhkan</button>`):''}
+        <button class="btn btn-danger btn-sm" onclick="delAccount('${a.id}','${esc(a.name)}')">Hapus</button>
+      </td>
+    </tr>`).join('')}</tbody></table>` : `<div class="empty">Belum ada akun.</div>`;
+}
+function openBankModal(id){
+  const a=(window._accounts||[]).find(x=>x.id===id); if(!a) return;
+  $('bankName').value=a.bank_name||''; $('bankAccount').value=a.bank_account||''; $('bankHolder').value=a.bank_holder||'';
+  $('bankModal').dataset.id=id;
+  $('bankModalName').textContent=a.name||'';
+  $('bankModal').style.display='flex';
+}
+function closeBankModal(){ $('bankModal').style.display='none'; }
+async function saveBank(){
+  const id=$('bankModal').dataset.id;
+  const bank_name=$('bankName').value.trim(), bank_account=$('bankAccount').value.trim(), bank_holder=$('bankHolder').value.trim();
+  if(!bank_name||!bank_account||!bank_holder){ toast('Isi semua kolom rekening'); return; }
+  try{ const {error}=await sb.from('accounts').update({bank_name,bank_account,bank_holder}).eq('id',id); if(error) throw error;
+    toast('Rekening tersimpan ✓'); closeBankModal(); loadAll();
+  }catch(err){ console.error(err); toast('Gagal: '+(err.message||'')); }
+}
+
+let profPhotoData; // undefined=tak berubah, null=hapus, string=baru
+function openProfileModal(id){
+  const a=(window._accounts||[]).find(x=>x.id===id); if(!a) return;
+  profPhotoData=undefined;
+  $('profileModal').dataset.id=id;
+  $('profModalEmail').textContent=a.email||'';
+  $('profName').value=a.name||''; $('profPhone').value=a.phone||'';
+  const av=$('profAvatar');
+  if(a.avatar_url){ av.style.backgroundImage=`url("${a.avatar_url}")`; av.textContent=''; }
+  else { av.style.backgroundImage=''; av.textContent=(a.name||'?').charAt(0).toUpperCase(); }
+  $('profileModal').style.display='flex';
+}
+function closeProfileModal(){ $('profileModal').style.display='none'; }
+function profRemovePhoto(){ profPhotoData=null; const av=$('profAvatar'); av.style.backgroundImage=''; av.textContent=($('profName').value||'?').charAt(0).toUpperCase(); }
+document.getElementById('profPhoto').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const r=new FileReader(); r.onload=()=>{ profPhotoData=r.result; const av=$('profAvatar'); av.style.backgroundImage=`url("${profPhotoData}")`; av.textContent=''; }; r.readAsDataURL(f);
+});
+async function saveProfile(){
+  const id=$('profileModal').dataset.id;
+  const name=$('profName').value.trim(); if(!name){ toast('Nama tidak boleh kosong'); return; }
+  const patch={ name, phone:$('profPhone').value.trim() };
+  if(profPhotoData!==undefined) patch.avatar_url=profPhotoData;
+  try{ const {error}=await sb.from('accounts').update(patch).eq('id',id); if(error) throw error;
+    toast('Profil tersimpan ✓'); closeProfileModal(); loadAll();
+  }catch(err){ console.error(err); toast('Gagal: '+(err.message||'')); }
+}
+
+function renderFees(fields, adoptions, accounts){
+  const owner=id=>{const a=accounts.find(x=>x.id===id);return a?a.name:'-';};
+  // fee base = omzet adopsi confirmed/done per sawah
+  const base={};
+  adoptions.forEach(a=>{ if(a.status==='confirmed'||a.status==='done') base[a.field_id]=(base[a.field_id]||0)+(a.amount||0); });
+  const rows=fields.map(f=>({f, omzet:base[f.id]||0, fee:Math.round((base[f.id]||0)*0.03)}))
+                   .filter(r=>r.omzet>0 || r.f.fee_status!=='unpaid');
+  const badge=s=>({unpaid:'<span class="pill unpaid">belum bayar</span>',pending:'<span class="pill pending">menunggu</span>',paid:'<span class="pill paid">lunas</span>'}[s]||s);
+  $('feeTable').innerHTML = rows.length ? `<table><thead><tr>
+    <th>Petani</th><th>Sawah</th><th class="hide-sm">Omzet adopsi</th><th>Fee 3%</th><th>Status</th><th>Bukti</th><th></th>
+    </tr></thead><tbody>${rows.map(({f,omzet,fee})=>`<tr>
+      <td><b>${esc(owner(f.owner_id))}</b></td>
+      <td>${esc(f.name)}</td>
+      <td class="hide-sm">${rupiah(omzet)}</td>
+      <td><b>${rupiah(f.fee_status==='paid'?(f.fee_amount||fee):fee)}</b></td>
+      <td>${badge(f.fee_status||'unpaid')}</td>
+      <td>${f.fee_proof_url?`<button class="btn btn-ghost btn-sm" onclick="viewProof('${f.id}')">Lihat</button>`:'<span class="muted">—</span>'}</td>
+      <td style="white-space:nowrap">${f.fee_status==='paid'?'<span class="muted">selesai</span>':`<button class="btn btn-ghost btn-sm" onclick="markFeePaid('${f.id}')">Tandai lunas</button>`}</td>
+    </tr>`).join('')}</tbody></table>` : `<div class="empty">Belum ada fee. Fee muncul saat sawah punya adopsi terkonfirmasi.</div>`;
+}
+function viewProof(fid){
+  const f=(window._fields||[]).find(x=>x.id===fid);
+  if(!f||!f.fee_proof_url){ toast('Bukti tidak ada'); return; }
+  $('imgModalSrc').src=f.fee_proof_url; $('imgModal').style.display='flex';
+}
+async function suspendAccount(id, val){
+  if(!confirm(val?'Tangguhkan akun ini?':'Aktifkan kembali akun ini?')) return;
+  try{ const {error}=await sb.from('accounts').update({suspended:val}).eq('id',id); if(error) throw error;
+    toast(val?'Akun ditangguhkan':'Akun diaktifkan'); loadAll();
+  }catch(err){ console.error(err); toast('Gagal: '+(err.message||'')); }
+}
+async function markFeePaid(fid){
+  if(!confirm('Tandai fee sawah ini LUNAS?')) return;
+  try{ const {error}=await sb.from('fields').update({fee_status:'paid'}).eq('id',fid); if(error) throw error;
+    toast('Fee ditandai lunas ✓'); loadAll();
+  }catch(err){ console.error(err); toast('Gagal: '+(err.message||'')); }
+}
+function renderFields(list, accounts){
+  const owner=id=>{const a=accounts.find(x=>x.id===id);return a?a.name:'-';};
+  $('fieldsTable').innerHTML = list.length ? `<table><thead><tr>
+    <th>Nama sawah</th><th class="hide-sm">Petani</th><th class="hide-sm">Wilayah</th><th>Harga/plot</th><th>Status</th><th></th>
+    </tr></thead><tbody>${list.map(f=>`<tr>
+      <td><b>${esc(f.name)||'-'}</b></td>
+      <td class="hide-sm">${esc(owner(f.owner_id))}</td>
+      <td class="hide-sm">${esc(f.kecamatan)||''} ${esc(f.kabupaten)||''}</td>
+      <td>IDR ${Number(f.price_per_plot||0).toLocaleString('id-ID')}</td>
+      <td><span class="pill ${f.status==='active'?'':'seller'}">${f.status}</span></td>
+      <td><button class="btn btn-danger btn-sm" onclick="delField('${f.id}','${esc(f.name)}')">Hapus</button></td>
+    </tr>`).join('')}</tbody></table>` : `<div class="empty">Belum ada sawah.</div>`;
+}
+
+async function delAccount(id, name){
+  if(!confirm('Hapus akun "'+name+'"? Sawah milik akun ini juga akan dihapus.')) return;
+  try{
+    // hapus sawah milik akun + adopsi/update terkait
+    const {data:fs}=await sb.from('fields').select('id').eq('owner_id',id);
+    for(const f of (fs||[])){ await sb.from('field_updates').delete().eq('field_id',f.id); await sb.from('adoptions').delete().eq('field_id',f.id); }
+    await sb.from('fields').delete().eq('owner_id',id);
+    // hapus order/adopsi sebagai pembeli
+    await sb.from('adoptions').delete().eq('buyer_id',id);
+    await sb.from('orders').delete().eq('buyer_id',id);
+    const {error}=await sb.from('accounts').delete().eq('id',id);
+    if(error) throw error;
+    toast('Akun dihapus ✓'); loadAll();
+  }catch(err){ console.error(err); toast('Gagal hapus: '+(err.message||'')); }
+}
+async function delField(id, name){
+  if(!confirm('Hapus sawah "'+name+'"? Adopsi & update terkait ikut terhapus.')) return;
+  try{
+    await sb.from('field_updates').delete().eq('field_id',id);
+    await sb.from('adoptions').delete().eq('field_id',id);
+    const {error}=await sb.from('fields').delete().eq('id',id);
+    if(error) throw error;
+    toast('Sawah dihapus ✓'); loadAll();
+  }catch(err){ console.error(err); toast('Gagal hapus: '+(err.message||'')); }
+}
+function esc(s){ return (s==null?'':String(s)).replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c])); }
+</script>
+</body>
+</html>
