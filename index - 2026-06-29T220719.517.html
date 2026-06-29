@@ -1,0 +1,3059 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SawahKu — Adopsi Sawah, Panen di Rumah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --green-900:#0D401C;
+  --green-800:#16451F;
+  --green-700:#1F4224;
+  --green-600:#32620E;
+  --green-500:#568612;
+  --lime:#97C459;
+  --lime-600:#7BAE3F;
+  --lime-700:#67993180;
+  --gold:#F8C32C;
+  --gold-300:#FAD659;
+  --gold-deep:#E5A91E;
+  --brown:#6B3E0A;
+  --brown-700:#5A340A;
+  --tint:#EFFFDA;
+  --tint-2:#F4FBE9;
+  --ink:#232526;
+  --ink-soft:#5b5f57;
+  --line:#e7e8e0;
+  --line-2:#eef0ea;
+  --paper:#FFFFFF;
+  --paper-2:#F9F9F9;
+  --surface:#FBFCF8;
+  --accent-soft:#E9F4D6;
+  --nav-h:70px;
+  --r-sm:10px; --r-md:16px; --r-lg:22px; --r-xl:28px;
+  --shadow-sm:0 1px 2px rgba(13,64,28,.06),0 4px 12px rgba(13,64,28,.05);
+  --shadow-md:0 6px 22px rgba(13,64,28,.10);
+  --shadow-lg:0 18px 50px rgba(13,64,28,.16);
+  --grass:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='34' viewBox='0 0 120 34'><path fill='%23F8C32C' d='M0,34 L3,16 L7,34 L11,20 L16,4 L21,34 L25,15 L31,1 L36,34 L41,18 L47,34 L52,9 L58,34 L63,21 L69,6 L75,34 L80,16 L86,34 L91,11 L97,34 L102,20 L108,3 L114,34 L118,15 L120,34 Z'/></svg>");
+  --grass-deep:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='34' viewBox='0 0 120 34'><path fill='%23E5A91E' d='M0,34 L3,16 L7,34 L11,20 L16,4 L21,34 L25,15 L31,1 L36,34 L41,18 L47,34 L52,9 L58,34 L63,21 L69,6 L75,34 L80,16 L86,34 L91,11 L97,34 L102,20 L108,3 L114,34 L118,15 L120,34 Z'/></svg>");
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* ============ NAVBAR ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;
+  background:var(--green-900);
+  display:flex;align-items:center;
+  box-shadow:0 2px 14px rgba(13,64,28,.25);
+}
+.nav .wrap{display:flex;align-items:center;gap:30px;width:100%}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:21px;color:#fff;letter-spacing:-.3px}
+.brand svg{flex:none}
+.nav-links{display:flex;gap:6px;margin-left:14px}
+.nav-links a{
+  color:#e9f1e6;font-weight:500;font-size:15px;padding:8px 14px;border-radius:99px;
+  transition:.18s;position:relative;
+}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-links a.active{color:var(--gold);font-weight:600}
+.nav-links a.active::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:2px;height:2px;border-radius:2px;background:var(--gold);
+}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+.cart-btn{position:relative;display:flex;align-items:center;gap:8px;color:#e9f1e6;font-weight:500;font-size:15px;padding:8px 12px;border-radius:99px;transition:.18s}
+.cart-btn:hover{background:rgba(255,255,255,.08);color:#fff}
+.cart-count{position:absolute;top:-3px;right:-4px;min-width:18px;height:18px;padding:0 4px;background:var(--gold);color:var(--green-900);font-size:11px;font-weight:800;border-radius:99px;display:none;align-items:center;justify-content:center}
+.cart-count.show{display:flex}
+.avatar{width:38px;height:38px;border-radius:50%;background:#cdd6c7 center/cover no-repeat;border:2px solid rgba(255,255,255,.35);background-image:url('assets/profile.png')}
+.avatar::after{content:"";display:block;width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#dfe7d8,#b9c6ad);mask:radial-gradient(circle at 50% 38%,#000 9px,transparent 10px),radial-gradient(ellipse 13px 9px at 50% 92%,#000 99%,transparent);-webkit-mask:radial-gradient(circle at 50% 38%,#000 9px,transparent 10px),radial-gradient(ellipse 13px 9px at 50% 92%,#000 99%,transparent);opacity:.0}
+/* fallback silhouette only if no image; image set above wins */
+
+.menu-toggle{display:none;background:none;color:#fff;font-size:24px;margin-left:auto}
+
+/* ============ PAGES ============ */
+.page{display:none;padding-top:var(--nav-h);animation:fade .35s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ============ HERO + LANDING BG (hybrid) ============ */
+.landing-bg{position:relative}
+.hero{
+  position:relative;overflow:hidden;
+  background:
+    linear-gradient(90deg,#fff 0%,#fff 38%,rgba(255,255,255,.55) 55%,rgba(255,255,255,0) 100%),
+    image-set(url('assets/hero-bg.jpg') 1x),
+    linear-gradient(120deg,#fff 30%,#cfe3a8 60%,#9cc15f 100%);
+  background-size:cover;background-position:center right;
+  padding:80px 0 120px;
+}
+.hero .wrap{display:grid;grid-template-columns:1fr 400px;gap:48px;align-items:center}
+.hero-copy h1{font-size:54px;line-height:1.05;font-weight:800;letter-spacing:-1.5px}
+.hero-copy h1 .accent{color:var(--green-600);display:block}
+.hero-copy p{margin:22px 0 30px;font-size:17px;color:#3a3f37;max-width:460px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.trust{display:flex;gap:22px;margin-top:34px;flex-wrap:wrap}
+.trust span{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--green-700)}
+.trust svg{flex:none}
+
+/* hero featured card */
+.hero-card{
+  background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-lg);overflow:hidden;
+  transform:rotate(.4deg);transition:.3s;
+}
+.hero-card:hover{transform:rotate(0) translateY(-4px)}
+.field-photo{height:190px;position:relative}
+.hero-card .field-photo{height:210px}
+.field-photo .badge-new{position:absolute;top:12px;left:12px;background:var(--gold);color:var(--green-900);font-size:11px;font-weight:800;padding:5px 11px;border-radius:99px;letter-spacing:.4px}
+.field-photo .rating{position:absolute;bottom:12px;right:12px;background:#fff;color:var(--ink);font-size:13px;font-weight:700;padding:4px 10px;border-radius:99px;display:flex;align-items:center;gap:4px;box-shadow:var(--shadow-sm)}
+.field-body{padding:16px 18px}
+.field-title{font-weight:700;font-size:16px;line-height:1.25}
+.field-loc{display:flex;align-items:center;gap:5px;color:var(--ink-soft);font-size:13px;margin-top:5px}
+.field-variety{align-self:flex-start;display:inline-block;margin-top:9px;font-size:12px;font-weight:600;color:var(--green-600);background:var(--tint);padding:3px 10px;border-radius:99px}
+.progress{margin-top:14px}
+.progress-bar{height:7px;border-radius:99px;background:#edeee7;overflow:hidden}
+.progress-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--lime),var(--green-600));width:0;transition:width 1s ease}
+.progress-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-weight:500}
+.field-foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.field-price{font-weight:800;font-size:15px;color:var(--green-900)}
+.field-price small{font-weight:600;color:var(--ink-soft);font-size:12px}
+
+/* ============ BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:15px;padding:13px 24px;border-radius:99px;transition:.18s;white-space:nowrap}
+.btn-primary{background:var(--green-700);color:#fff;box-shadow:0 6px 16px rgba(13,64,28,.22)}
+.btn-primary:hover{background:var(--green-900);transform:translateY(-2px)}
+.btn-lime{background:var(--lime);color:var(--green-900)}
+.btn-gold{background:var(--gold);color:var(--green-900);font-weight:700}
+.btn-gold:hover{background:var(--gold-deep)}
+.sf-fee{margin-top:12px;padding:11px 13px;border-radius:11px;background:var(--paper-2);display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12.5px}
+.sf-fee span{color:var(--ink-soft);display:block;font-size:11.5px}
+.sf-fee b{color:var(--green-900);font-size:14px}
+.sf-fee.due{background:#fdf6e3}
+.sf-fee.due b{color:var(--gold-deep)}
+.sf-fee.paid{background:var(--tint)}
+.sf-fee.paid b{color:var(--green-700)}
+.sf-fee.pending{background:#fdf1d6}
+.sf-fee.pending b{color:#9a7b16;font-size:12px}
+.fee-amt{font-size:30px;font-weight:800;color:var(--green-900);text-align:center;margin:6px 0 2px}
+.fee-sub{font-size:13px;color:var(--ink-soft);text-align:center;margin-bottom:16px}
+.suspend-banner{background:#fce8e6;border:1px solid #f3c0ba;color:#a5301f;border-radius:12px;padding:13px 16px;font-size:13.5px;margin-bottom:18px}
+.suspend-banner b{color:#8a2417}
+.btn-lime:hover{background:var(--lime-600);transform:translateY(-2px)}
+.btn-ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--green-600);color:var(--green-700)}
+.btn-sm{padding:9px 18px;font-size:13.5px}
+.btn-block{width:100%}
+.btn-outline{background:transparent;border:1.5px solid var(--lime);color:var(--green-700)}
+.btn-outline:hover{background:var(--tint)}
+
+/* ============ FEATURED (yellow band) ============ */
+.band-yellow{position:relative;background:var(--gold);padding:74px 0 70px;margin-top:-40px}
+.band-yellow::before{
+  content:"";position:absolute;top:-22px;left:0;right:0;height:34px;
+  background:var(--grass);background-repeat:repeat-x;background-size:120px 34px;
+}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;flex-wrap:wrap;gap:14px}
+.sec-head h2{font-size:30px;font-weight:800;color:var(--green-900);letter-spacing:-.7px}
+.grid-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.fcard{background:#fff;border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-md);transition:.22s;display:flex;flex-direction:column}
+.fcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.fcard .field-body{flex:1;display:flex;flex-direction:column}
+.fcard .field-foot{margin-top:auto}
+
+/* ============ HOW IT WORKS ============ */
+.section{padding:78px 0}
+.sec-center{text-align:center;margin-bottom:50px}
+.sec-center h2{font-size:32px;font-weight:800;letter-spacing:-.8px}
+.sec-center h2 .accent{color:var(--green-600)}
+.sec-center p{color:var(--ink-soft);margin-top:10px;font-size:16px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;position:relative}
+.step{text-align:center;padding:0 14px;position:relative}
+.step-ic{width:84px;height:84px;border-radius:50%;background:var(--tint);border:2px solid var(--lime);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--green-600)}
+.step h3{font-size:18px;font-weight:700}
+.step p{color:var(--ink-soft);font-size:14px;margin-top:8px;max-width:240px;margin-left:auto;margin-right:auto}
+.step-num{position:absolute;top:-6px;left:50%;transform:translateX(26px);width:24px;height:24px;border-radius:50%;background:var(--green-700);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.steps .dash{position:absolute;top:42px;height:2px;border-top:2px dashed var(--lime);width:18%}
+.steps .dash.d1{left:27%}.steps .dash.d2{left:60%}
+
+/* ============ WHY ADOPT (brown) ============ */
+.why{background:var(--paper-2);padding:78px 0}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.why-card{background:var(--brown);color:#fdf6e8;border-radius:var(--r-lg);padding:34px 28px;text-align:center;transition:.22s}
+.why-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.why-ic{width:60px;height:60px;border-radius:14px;background:rgba(248,195,44,.16);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--gold)}
+.why-card h3{font-size:19px;font-weight:700;margin-bottom:10px}
+.why-card p{font-size:14px;color:#e9dcc4;line-height:1.6}
+
+/* footer grass */
+.footer{position:relative;background:var(--green-900);color:#cfe0c8;padding:46px 0 30px;margin-top:0}
+.footer::before{content:"";position:absolute;top:-30px;left:0;right:0;height:34px;background:var(--grass);background-repeat:repeat-x;background-size:120px 34px;z-index:1}
+.footer .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer .brand{font-size:19px}
+.footer small{color:#9fb89a;font-size:13px}
+
+/* ============ EXPLORE PAGE ============ */
+.explore-head{padding:34px 0 18px}
+.explore-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.explore-bar .count{color:var(--ink-soft);font-size:15px}
+.explore-bar .count b{color:var(--ink)}
+.search-box{position:relative;flex:1;min-width:220px;max-width:320px;margin-left:auto}
+.search-box input{width:100%;padding:11px 14px 11px 38px;border:1.5px solid var(--line);border-radius:99px;font-size:14px;font-family:inherit;outline:none;transition:.18s}
+.search-box input:focus{border-color:var(--green-600)}
+.search-box svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--ink-soft)}
+.sort-sel,.flt-sel{padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;font-size:14px;font-family:inherit;background:#fff;outline:none;cursor:pointer;color:var(--ink)}
+.sort-sel:focus,.flt-sel:focus{border-color:var(--green-600)}
+.explore-layout{display:grid;grid-template-columns:260px 1fr;gap:30px;align-items:start;padding-bottom:70px}
+.filter-panel{background:var(--green-800);border-radius:var(--r-lg);padding:26px 22px;position:sticky;top:calc(var(--nav-h) + 20px)}
+.filter-panel h3{color:var(--gold);font-size:18px;font-weight:700;margin-bottom:22px;display:flex;align-items:center;gap:8px}
+.flt-group{margin-bottom:20px}
+.flt-group label{display:block;color:#e7f0e1;font-size:14px;font-weight:600;margin-bottom:8px}
+.filter-panel .flt-sel{width:100%}
+.flt-reset{color:#cfe0c8;font-size:13px;font-weight:600;text-decoration:underline;margin-top:6px}
+.explore-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-soft)}
+.empty h3{color:var(--ink);font-size:18px;margin-bottom:6px}
+
+/* ============ FIELD DETAIL ============ */
+.detail{padding:26px 0 80px}
+.go-back{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:14px;color:var(--green-700);margin-bottom:24px;padding:7px 12px;border-radius:99px;transition:.18s}
+.go-back:hover{background:var(--tint)}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.plotmap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px}
+.plotmap h3{text-align:center;color:var(--green-700);font-weight:700;font-size:16px;margin-bottom:18px}
+.plot-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}
+.plot{aspect-ratio:1;border-radius:6px;background:#9DCD5A;transition:.15s}
+.plot.available{background:#9DCD5A}
+.plot.adopted{background:#c7ccc2}
+.plot.yours{background:#1F4224;box-shadow:0 0 0 2px rgba(31,66,36,.2)}
+.plot-legend{display:flex;justify-content:center;gap:20px;margin-top:18px;font-size:12.5px;color:var(--ink-soft);font-weight:600}
+.plot-legend span{display:flex;align-items:center;gap:6px}
+.dot{width:12px;height:12px;border-radius:4px}
+.dot.av{background:#9DCD5A}.dot.ad{background:#c7ccc2}.dot.yo{background:#1F4224}
+
+.timeline{margin-top:28px;padding-left:6px}
+.timeline h4{font-size:14px;font-weight:700;color:var(--green-700);margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+.tl-item{position:relative;padding:0 0 22px 28px;border-left:2px solid var(--line)}
+.tl-item:last-child{border-left-color:transparent;padding-bottom:0}
+.tl-item::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--lime)}
+.tl-item.done::before{background:var(--lime);border-color:var(--lime)}
+.tl-item.now::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(248,195,44,.25)}
+.tl-item h5{font-size:15px;font-weight:700}
+.tl-item .tl-date{font-size:13px;color:var(--ink-soft);margin-top:2px}
+.tl-item .tl-note{font-size:13px;color:var(--green-600);font-weight:600;margin-top:4px}
+.tag-done{font-size:11px;font-weight:700;color:var(--green-600)}
+.tag-now{font-size:11px;font-weight:700;color:var(--gold-deep)}
+
+.detail-info h1{font-size:30px;font-weight:800;color:var(--green-700);letter-spacing:-.6px}
+.detail-loc{color:var(--ink-soft);margin-top:6px;display:flex;align-items:center;gap:6px;font-size:14.5px}
+.stars{display:flex;align-items:center;gap:8px;margin:12px 0 20px;font-size:14px;color:var(--ink-soft);font-weight:500}
+.stars .s{color:var(--gold);font-size:18px;letter-spacing:1px}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin-bottom:26px;font-size:14.5px}
+.spec dt{color:var(--ink-soft)}
+.spec dd{font-weight:600;text-align:right}
+.pkg-title{font-size:14px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
+.pkg{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--lime);border-radius:var(--r-md);padding:16px 20px;margin-bottom:12px;cursor:pointer;border:2.5px solid transparent;transition:.18s}
+.pkg:hover{transform:translateY(-2px)}
+.pkg.sel{border-color:var(--green-900);box-shadow:0 0 0 3px rgba(13,64,28,.12)}
+.pkg-info b{display:block;font-size:16px;color:var(--green-900);font-weight:700}
+.pkg-info span{font-size:12.5px;color:#3a4d22}
+.pkg-price{font-weight:800;font-size:17px;color:var(--green-900);white-space:nowrap}
+.guarantee{background:var(--tint);border-radius:var(--r-md);padding:14px 16px;margin-top:16px;font-size:13px;color:#4a5b3a;line-height:1.55}
+.guarantee b{color:var(--gold-deep)}
+
+/* ============ MY FIELD ============ */
+.myfield{padding:34px 0 80px}
+.mf-grid{display:grid;grid-template-columns:380px 1fr;gap:34px;align-items:start}
+.cert{background:var(--tint);border:2px solid var(--lime);border-radius:var(--r-lg);padding:32px 28px;text-align:center;font-family:'Cormorant Garamond',serif}
+.cert .eyebrow{font-family:'Plus Jakarta Sans';font-size:11px;letter-spacing:3px;font-weight:700;color:var(--green-600);text-transform:uppercase}
+.cert .seal{margin:16px auto 8px}
+.cert h2{font-size:30px;font-weight:700;color:var(--green-900);margin-top:6px}
+.cert .sub{font-size:15px;color:var(--ink-soft);font-style:italic}
+.cert .field-name{font-size:21px;font-weight:600;color:var(--green-700);margin:14px 0 10px}
+.cert .meta{font-size:15px;color:#4a5b3a;line-height:1.7}
+.cert .cid{font-family:'Plus Jakarta Sans';font-size:12px;letter-spacing:1px;color:var(--green-600);font-weight:600;margin:14px 0 18px}
+.cert-actions{display:flex;gap:10px;justify-content:center;font-family:'Plus Jakarta Sans'}
+.mf-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.stat{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;text-align:left;overflow:hidden}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--lime)}
+.stat .v{font-size:23px;font-weight:800;line-height:1.1;color:var(--green-900)}
+.stat .l{font-size:12px;color:var(--ink-soft);margin-top:5px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.mf-list{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.mf-row{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line);transition:.15s}
+.mf-row:last-child{border-bottom:none}
+.mf-thumb{width:56px;height:56px;border-radius:12px;flex:none}
+.mf-row .info{flex:1;min-width:0}
+.mf-row .info b{font-size:15px;font-weight:700}
+.mf-row .info span{display:block;font-size:13px;color:var(--ink-soft)}
+.mf-row .harvest{text-align:right;font-size:13px;color:var(--ink-soft)}
+.mf-row .harvest b{display:block;color:var(--green-700)}
+
+/* ============ CART ============ */
+.cartpage{padding:30px 0 80px}
+.cart-tabs{display:flex;gap:24px;border-bottom:1.5px solid var(--line);margin-bottom:26px}
+.cart-tab{padding:10px 2px;font-weight:600;font-size:15px;color:var(--ink-soft);border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:.18s}
+.cart-tab.active{color:var(--green-700);border-color:var(--gold)}
+.cart-grid{display:grid;grid-template-columns:1fr 360px;gap:34px;align-items:start}
+.cart-item{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+.cart-item .ci-thumb{width:64px;height:64px;border-radius:12px;flex:none}
+.cart-item .ci-info{flex:1;display:flex;flex-direction:column;align-items:flex-start}
+.cart-item .ci-info b{font-size:15.5px;font-weight:700}
+.cart-item .ci-info span{display:block;font-size:13px;color:var(--ink-soft);margin-top:2px}
+.cart-item .ci-price{font-weight:800;color:var(--green-900);font-size:15px;text-align:right;white-space:nowrap}
+.ci-remove{color:#b34a3a;font-size:12.5px;font-weight:600;margin-top:6px;display:inline-block}
+.summary{background:var(--paper-2);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:24px;position:sticky;top:calc(var(--nav-h) + 20px)}
+.summary h3{font-size:17px;font-weight:700;margin-bottom:18px}
+.sum-row{display:flex;align-items:center;justify-content:space-between;font-size:14px;padding:7px 0;color:var(--ink-soft)}
+.sum-row b{color:var(--ink);font-weight:600}
+.sum-total{display:flex;align-items:center;justify-content:space-between;font-size:17px;font-weight:800;padding:14px 0 18px;margin-top:6px;border-top:1.5px solid var(--line);color:var(--ink)}
+.sum-total span:last-child{color:var(--green-700)}
+.cart-empty{text-align:center;padding:60px 20px;color:var(--ink-soft)}
+.cart-empty h3{color:var(--ink);font-size:18px;margin-bottom:8px}
+.confirmed-box{text-align:center;padding:50px 24px}
+.confirmed-box .check{width:80px;height:80px;border-radius:50%;background:var(--tint);border:3px solid var(--lime);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:var(--green-600)}
+.confirmed-box h2{font-size:26px;font-weight:800;color:var(--green-700)}
+.confirmed-box p{color:var(--ink-soft);margin:10px auto 24px;max-width:420px}
+.conf-id{font-size:13px;color:var(--green-600);font-weight:600;letter-spacing:1px;margin-bottom:24px}
+
+/* ============ TOAST ============ */
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,40px);background:var(--green-900);color:#fff;padding:13px 22px;border-radius:99px;font-size:14px;font-weight:600;box-shadow:var(--shadow-lg);z-index:300;opacity:0;transition:.32s;display:flex;align-items:center;gap:9px;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ============ PKG STEPPER ============ */
+.pkg{flex-direction:column;gap:12px}
+.pkg-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.pkg-stepper{display:flex;align-items:center;gap:12px;padding-top:12px;border-top:1px solid rgba(13,64,28,.18)}
+.pkg-stepper>span:first-child{font-size:13px;font-weight:700;color:var(--green-900)}
+.stepper{display:inline-flex;align-items:center;background:#fff;border-radius:99px;overflow:hidden}
+.stepper .stp{width:30px;height:30px;font-size:18px;font-weight:800;color:var(--green-700);display:flex;align-items:center;justify-content:center}
+.stepper .stp:hover{background:var(--tint)}
+.stepper b{min-width:32px;text-align:center;font-size:15px;color:var(--green-900)}
+.stp-hint{font-size:11.5px;color:#3a4d22;margin-left:auto;text-align:right}
+
+/* ============ CART CONTROLS ============ */
+.cart-item.unsel{opacity:.55}
+.ci-check{width:18px;height:18px;accent-color:var(--green-700);flex:none;cursor:pointer}
+.ci-stepper{display:inline-flex;align-items:center;margin-top:8px;background:var(--tint);border-radius:99px}
+.ci-stepper .ci-stp{width:26px;height:26px;font-size:16px;font-weight:800;color:var(--green-700)}
+.ci-stepper b{min-width:26px;text-align:center;font-size:14px;color:var(--green-900)}
+.ci-stepper>span{font-size:12px;color:var(--ink-soft);padding:0 10px 0 6px}
+.ci-plots{display:inline-block;margin-top:8px;font-size:12px;font-weight:600;color:var(--green-600);background:var(--tint);padding:3px 10px;border-radius:99px}
+.sum-count{font-size:13px;color:var(--ink-soft);margin-bottom:14px}
+.sum-empty{font-size:13px;color:var(--ink-soft);padding:8px 0}
+#checkoutBtn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* ============ AUTH ============ */
+.auth-wrap{min-height:calc(100vh - var(--nav-h));display:flex;align-items:center;justify-content:center;padding:40px 20px;background:linear-gradient(160deg,var(--tint-2),#fff 60%)}
+.auth-card{width:100%;max-width:420px;background:#fff;border:1.5px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--shadow-md);padding:36px 32px}
+.auth-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--green-900);justify-content:center;margin-bottom:16px}
+.auth-card h2{text-align:center;font-size:24px;font-weight:800;color:var(--green-900)}
+.auth-sub{text-align:center;color:var(--ink-soft);font-size:14px;margin:6px 0 22px}
+.role-toggle{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.role-opt{border:1.5px solid var(--line);border-radius:var(--r-md);padding:16px 12px;text-align:center;transition:.18s;background:#fff}
+.role-opt:hover{border-color:var(--lime)}
+.role-opt.active{border-color:var(--green-700);background:var(--tint);box-shadow:0 0 0 3px rgba(13,64,28,.08)}
+.role-opt .ic{width:42px;height:42px;border-radius:12px;background:var(--tint);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;color:var(--green-600)}
+.role-opt.active .ic{background:var(--lime)}
+.role-opt b{display:block;font-size:15px;color:var(--green-900)}
+.role-opt span{font-size:11.5px;color:var(--ink-soft)}
+.auth-fields label{display:block;font-size:13px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.auth-fields input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-size:14px;font-family:inherit;outline:none;margin-bottom:14px;transition:.18s}
+.auth-fields input:focus{border-color:var(--green-600)}
+.bank-fields label{display:block;font-size:13px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.bank-fields input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-size:14px;font-family:inherit;outline:none;margin-bottom:14px;transition:.18s;background:#fff}
+.bank-fields input:focus{border-color:var(--green-600)}
+.auth-foot{text-align:center;font-size:13px;color:var(--ink-soft);margin-top:16px}
+.auth-foot a{color:var(--green-700);font-weight:600}
+.avatar.logged{border-color:var(--gold);box-shadow:0 0 0 2px rgba(248,195,44,.4)}
+
+/* ============ PROFILE ============ */
+.profilepage{padding:40px 0 80px;max-width:720px}
+.profile-head{display:flex;align-items:center;gap:20px;background:var(--green-900);color:#fff;border-radius:var(--r-xl);padding:28px 30px}
+.profile-head .pa{width:74px;height:74px;border-radius:50%;background:var(--lime);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:var(--green-900);flex:none}
+.profile-head h2{font-size:22px;font-weight:800}
+.profile-head .em{color:#cfe0c8;font-size:14px;margin-top:2px}
+.role-badge{display:inline-block;margin-top:10px;background:var(--gold);color:var(--green-900);font-size:12px;font-weight:700;padding:4px 12px;border-radius:99px}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+.profile-menu{background:#fff;border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:22px}
+.pm-row{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid var(--line);cursor:pointer;transition:.15s}
+.pm-row:last-child{border-bottom:none}
+.pm-row:hover{background:var(--tint-2)}
+.pm-row .pm-ic{color:var(--green-600);display:flex}
+.pm-row b{flex:1;font-size:15px;font-weight:600}
+.pm-row .chev{color:var(--ink-soft);font-size:20px}
+.logout-btn{width:100%;padding:14px;border:1.5px solid #e2b6ad;color:#b34a3a;border-radius:99px;font-weight:700;font-size:15px;background:#fff;transition:.15s}
+.logout-btn:hover{background:#fdf0ed}
+
+/* ============ SELLER PLACEHOLDER ============ */
+.sellerpage{min-height:calc(100vh - var(--nav-h));display:flex;align-items:center;justify-content:center;padding:60px 20px;text-align:center}
+.seller-box{max-width:440px}
+.seller-box .ic{width:90px;height:90px;border-radius:24px;background:var(--tint);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;color:var(--green-600)}
+.seller-box h2{font-size:26px;font-weight:800;color:var(--green-900)}
+.seller-box .tag{display:inline-block;background:var(--gold);color:var(--green-900);font-size:12px;font-weight:700;padding:4px 12px;border-radius:99px;margin:12px 0}
+.seller-box p{color:var(--ink-soft);margin-bottom:22px}
+
+/* ============ PROFILE DROPDOWN ============ */
+.profile-menu-wrap{position:relative}
+.profile-pop{position:absolute;right:0;top:calc(100% + 14px);width:248px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 60px rgba(13,64,28,.26);padding:8px;opacity:0;transform:translateY(-8px) scale(.97);transform-origin:top right;pointer-events:none;transition:.18s cubic-bezier(.2,.8,.3,1);z-index:200}
+.profile-pop.open{opacity:1;transform:none;pointer-events:auto}
+.profile-pop::before{content:"";position:absolute;top:-6px;right:18px;width:12px;height:12px;background:#fff;border-left:1px solid var(--line);border-top:1px solid var(--line);transform:rotate(45deg);border-radius:2px 0 0 0}
+.pop-title{font-size:11px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.7px;padding:11px 12px 7px}
+.pop-head{display:flex;align-items:center;gap:12px;padding:10px 12px 14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.pop-av{width:44px;height:44px;border-radius:50%;background:var(--lime);color:var(--green-900);font-weight:800;font-size:19px;display:flex;align-items:center;justify-content:center;flex:none}
+.pop-id b{display:block;font-size:14px;color:var(--ink);font-weight:700;line-height:1.2}
+.pop-id span{font-size:12px;color:var(--green-600);font-weight:600}
+.pop-item{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:11px 12px;border-radius:11px;font-size:14px;font-weight:600;color:var(--ink);transition:.14s}
+.pop-item:hover{background:var(--tint-2)}
+.pop-item svg{color:var(--green-600);flex:none}
+.pop-item.danger{color:#b34a3a}
+.pop-item.danger svg{color:#b34a3a}
+.pop-item.danger:hover{background:#fdf0ed}
+.pop-item.muted{color:var(--ink-soft);justify-content:center;font-weight:500}
+.pop-item.muted:hover{background:var(--paper-2)}
+.pop-divider{height:1px;background:var(--line);margin:6px 4px}
+
+/* ============ PRO POLISH ============ */
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--green-600);margin-bottom:18px}
+.hero-eyebrow::before{content:"";width:22px;height:2px;background:var(--gold);border-radius:2px}
+.fcard,.hero-card{border:1px solid rgba(13,64,28,.07)}
+.field-photo::after{content:"";position:absolute;inset:0;box-shadow:inset 0 -30px 40px -28px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.03);pointer-events:none}
+.field-variety{background:var(--tint);border:1px solid rgba(86,134,18,.18)}
+.btn-primary{box-shadow:0 8px 20px rgba(13,64,28,.20)}
+
+/* ============ NAV HIDDEN FIX + BADGE Z ============ */
+.nav-links[hidden]{display:none}
+.field-photo::after{z-index:1}
+.field-photo .badge-new,.field-photo .rating{z-index:2}
+.cart-label{display:inline}
+
+/* ============ MOBILE NAV PANEL ============ */
+.mobile-nav{position:absolute;top:var(--nav-h);left:0;right:0;display:none;flex-direction:column;background:var(--green-800);box-shadow:0 14px 30px rgba(13,64,28,.28);z-index:90}
+.mobile-nav.open{display:flex}
+.mobile-nav a{padding:15px 24px;color:#e9f1e6;font-weight:600;font-size:15px;border-bottom:1px solid rgba(255,255,255,.06)}
+.mobile-nav a:hover{background:rgba(255,255,255,.07)}
+
+/* ============ SELLER SHELL ============ */
+.sellerwrap{padding:34px 0 80px}
+.seller-hello{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:26px;flex-wrap:wrap}
+.seller-hello h1{font-size:30px;font-weight:800;letter-spacing:-.7px;color:var(--green-900)}
+.seller-hello p{color:var(--ink-soft);margin-top:4px}
+.badge-status{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px}
+.badge-status.active{background:var(--tint);color:var(--green-600)}
+.badge-status.pending{background:#fdf1d6;color:#a9760f}
+.badge-status.draft{background:#edeee9;color:#6b6f66}
+.badge-status.on-photo{position:absolute;top:12px;left:12px;z-index:2;background:rgba(255,255,255,.94)}
+
+/* dashboard */
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.dash-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:start}
+.dash-block{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px}
+.block-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.block-head h3{font-size:17px;font-weight:700}
+.link-more{font-size:13px;font-weight:600;color:var(--green-600)}
+.mini-field{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:.14s}
+.mini-field:last-child{border-bottom:none}
+.mini-field:hover{opacity:.85}
+.mini-thumb{width:50px;height:50px;border-radius:12px;flex:none}
+.mini-info{flex:1;min-width:0}
+.mini-info b{font-size:14.5px;font-weight:700;display:block;margin-bottom:7px}
+.ad-av{width:40px;height:40px;border-radius:50%;background:var(--green-700);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;font-size:15px}
+.ad-av.sm{width:30px;height:30px;font-size:12px}
+
+/* seller field cards */
+.sf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.sf-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:.2s}
+.sf-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.sf-photo{height:140px}
+.sf-card .field-body{flex:1;display:flex;flex-direction:column}
+.sf-actions{display:flex;gap:10px;margin-top:auto;padding-top:14px}
+.sf-actions .btn{flex:1}
+
+/* field form */
+.formwrap{padding:30px 0 80px;max-width:760px}
+.formwrap h1{font-size:28px;font-weight:800;color:var(--green-900);margin-top:6px}
+.form-sub{color:var(--ink-soft);margin:6px 0 22px}
+.form-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg{display:flex;flex-direction:column}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:13px;font-weight:600;margin-bottom:6px}
+.fg input,.fg select{padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;font-size:14px;font-family:inherit;outline:none;transition:.18s;background:#fff}
+.fg input:focus,.fg select:focus{border-color:var(--green-600)}
+.form-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:22px}
+
+/* seller field detail */
+.sfd-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:6px 0 22px}
+.sfd-head h1{font-size:26px;font-weight:800;color:var(--green-900)}
+.update-box{margin-top:22px;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-md);padding:18px}
+.update-box h4{font-size:14px;font-weight:700;margin-bottom:10px}
+.update-box textarea{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;font-family:inherit;font-size:14px;resize:vertical;outline:none;margin-bottom:10px}
+.update-box textarea:focus{border-color:var(--green-600)}
+.update-log{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.upd{font-size:13px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.upd.muted{color:var(--ink-soft);background:transparent;border-style:dashed}
+.sect-label{font-size:13px;font-weight:700;color:var(--green-700);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
+
+/* adopters table */
+.table-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;overflow-x:auto}
+.data-table{width:100%;border-collapse:collapse;min-width:680px}
+.data-table th{text-align:left;font-size:12px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px;padding:14px 18px;background:var(--paper-2);border-bottom:1px solid var(--line)}
+.data-table td{padding:14px 18px;font-size:14px;border-bottom:1px solid var(--line);color:var(--ink)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tbody tr:hover{background:var(--tint-2)}
+.td-user{display:flex;align-items:center;gap:10px;font-weight:600}
+.empty-mini{padding:26px;text-align:center;color:var(--ink-soft);font-size:14px}
+
+/* order history (buyer) */
+.order-history{margin-top:30px;max-width:560px;margin-left:auto;margin-right:auto}
+.order-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+.order-row b{font-size:14px}
+.order-row span{display:block;font-size:12.5px;color:var(--ink-soft)}
+.order-amt{font-weight:800;color:var(--green-700)}
+
+/* ============ AUTH CHIP (login indicator) ============ */
+.auth-chip{display:flex;align-items:center;gap:9px;padding:5px 6px 5px 14px;border-radius:99px;background:rgba(255,255,255,.09);transition:.16s}
+.auth-chip:hover{background:rgba(255,255,255,.17)}
+.auth-chip #authChipText{color:#e9f1e6;font-size:13.5px;font-weight:600;white-space:nowrap}
+.auth-chip.guest #authChipText{color:var(--gold)}
+.auth-chip .avatar{width:34px;height:34px}
+
+/* ============ ADOPT BOX (plot stepper) ============ */
+.adopt-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;margin-top:4px}
+.adopt-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.adopt-label{font-size:16px;font-weight:700;color:var(--green-900)}
+.adopt-sub{font-size:12.5px;color:var(--ink-soft);margin-top:3px}
+.stepper{border:1px solid var(--line)}
+.stepper.lg .stp{width:40px;height:40px;font-size:20px}
+.stepper.lg b{min-width:44px;font-size:17px}
+.adopt-total{display:flex;align-items:center;justify-content:space-between;margin:18px 0;padding-top:16px;border-top:1px dashed var(--line);font-size:14px;color:var(--ink-soft)}
+.adopt-total b{font-size:22px;font-weight:800;color:var(--green-900)}
+.adopt-perks{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+.adopt-perks span{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-soft);font-weight:500}
+.adopt-perks svg{color:var(--green-600);flex:none}
+
+/* ============ MY FIELD (redesign) ============ */
+.myfield{padding:34px 0 80px}
+.mf-header h1{font-size:30px;font-weight:800;color:var(--green-900);letter-spacing:-.7px}
+.mf-header p{color:var(--ink-soft);margin-top:6px}
+.mf-stats{margin-top:22px;margin-bottom:0}
+.mf-body{display:grid;grid-template-columns:1fr 320px;gap:26px;align-items:start;margin-top:26px}
+.mf-row[data-myfield]{cursor:pointer}
+.mf-row[data-myfield]:hover{background:var(--tint-2)}
+.mf-plots{display:inline-block;font-size:12px;font-weight:600;color:var(--green-600);background:var(--accent-soft);padding:3px 10px;border-radius:99px}
+.mf-row .info span.mf-plots{display:inline-block;width:auto;margin-top:0}
+.mf-tags{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+.mf-go{display:flex;align-items:center;gap:10px;color:var(--ink-soft);flex:none}
+.harvest-mini{font-size:12.5px;font-weight:600;white-space:nowrap}
+.mf-body .cert{position:sticky;top:calc(var(--nav-h) + 20px);margin:0}
+
+/* ============ MY FIELD DETAIL ============ */
+.mfd-wrap{padding:26px 0 80px}
+.mfd-cover{position:relative;height:220px;border-radius:var(--r-lg);overflow:hidden;margin-bottom:22px;border:1px solid var(--line)}
+.mfd-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55))}
+.mfd-cover-note{position:absolute;top:14px;right:14px;z-index:2;background:rgba(255,255,255,.92);color:var(--ink-soft);font-size:11px;font-weight:600;padding:5px 11px;border-radius:99px}
+.mfd-cover-info{position:absolute;left:24px;bottom:20px;z-index:2;color:#fff}
+.mfd-cover-info h1{font-size:26px;font-weight:800;letter-spacing:-.5px}
+.mfd-cover-info span{font-size:14px;opacity:.92}
+.mfd-stats{margin-bottom:24px}
+.mfd-grid{display:grid;grid-template-columns:1fr 330px;gap:26px;align-items:start}
+.info-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;margin-bottom:18px}
+.info-card h4{font-size:15px;font-weight:700;margin-bottom:14px;color:var(--green-900)}
+.info-card .spec{margin-bottom:0}
+.feed{display:flex;flex-direction:column;gap:16px}
+.feed-item{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 20px}
+.feed-head{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.feed-who b{font-size:14px;display:block;line-height:1.2}
+.feed-who span{font-size:12px;color:var(--ink-soft)}
+.feed-item p{font-size:14.5px;color:var(--ink);line-height:1.6}
+.feed-photo{height:190px;border-radius:14px;margin-top:13px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.feed-photo span{position:absolute;bottom:10px;left:12px;background:rgba(255,255,255,.88);font-size:11px;color:var(--ink-soft);padding:3px 9px;border-radius:99px;font-weight:600}
+.tl-compact{margin-top:0}
+.tl-compact .tl-item{padding-bottom:18px}
+
+/* ============ PROFILE (refined) ============ */
+.profile-head{background:linear-gradient(135deg,var(--green-900) 0%,var(--green-600) 130%)}
+.pm-row .pm-ic{width:38px;height:38px;border-radius:11px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;color:var(--green-600);flex:none}
+.pm-row b{font-size:15px;font-weight:600}
+.profile-menu{box-shadow:var(--shadow-sm)}
+
+/* ============ DASHBOARD CLARITY ============ */
+.mini-field{position:relative;padding-right:22px}
+.mini-field::after{content:"›";position:absolute;right:2px;top:50%;transform:translateY(-50%);color:var(--ink-soft);font-size:22px;line-height:1}
+.dash-block{box-shadow:var(--shadow-sm)}
+.block-head h3{letter-spacing:-.2px}
+.seller-hello h1{letter-spacing:-.7px}
+
+/* ============ FARMER CONTACT ============ */
+.farmer-contact{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px 18px}
+.fc-id{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.fc-av{width:42px;height:42px;border-radius:50%;background:var(--green-700);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.fc-id b{display:block;font-size:15px}
+.fc-id span{font-size:12.5px;color:var(--ink-soft)}
+.fc-wa{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:11px;border-radius:99px;background:#25D366;color:#fff;font-weight:700;font-size:14px;transition:.15s}
+.fc-wa:hover{background:#1eb858}
+.fc-phone{text-align:center;font-size:13px;color:var(--ink-soft);margin-top:9px;font-weight:600;letter-spacing:.3px}
+
+/* ============ CART PAYMENT ============ */
+.pay-block{margin:18px 0 6px;padding-top:18px;border-top:1px dashed var(--line)}
+.pay-head{font-size:13px;font-weight:700;color:var(--green-900);margin-bottom:12px}
+.pay-acc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.pay-bank{font-size:13px;font-weight:700;color:var(--green-800)}
+.pay-no{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0}
+.pay-no span{font-size:17px;font-weight:800;letter-spacing:1px;color:var(--ink)}
+.copy-btn{font-size:12px;font-weight:700;color:var(--green-700);background:var(--accent-soft);padding:4px 10px;border-radius:8px}
+.copy-btn:hover{background:#dcecbf}
+.pay-name{font-size:12.5px;color:var(--ink-soft)}
+.pay-name b{color:var(--green-700)}
+.upload-label{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:12px;border:1.5px dashed var(--lime);border-radius:12px;font-size:13.5px;font-weight:600;color:var(--green-700);cursor:pointer;transition:.15s;margin-top:6px}
+.upload-label:hover{background:var(--tint-2)}
+.proof-preview{margin-top:10px;border-radius:12px;overflow:hidden;border:1px solid var(--line);min-height:54px;display:flex;align-items:center;justify-content:center;background:var(--paper-2)}
+.proof-preview span{font-size:12.5px;color:var(--ink-soft);padding:18px}
+.proof-preview.has{background:#10210f}
+.proof-preview img{width:100%;max-height:220px;object-fit:contain;display:block}
+.pay-hint{text-align:center;font-size:12px;color:var(--ink-soft);margin-top:8px}
+.ostat{font-weight:700}.ostat.pending{color:var(--gold-deep)}.ostat.active{color:var(--green-600)}
+.confirmed-box .check.pending{background:#fdf1d6;border-color:var(--gold);color:var(--gold-deep)}
+.badge-status.confirmed{background:var(--tint);color:var(--green-600)}
+.badge-status.done{background:#e6edf2;color:#4d6b86}
+
+/* ============ STATUS TAB ============ */
+.status-head{margin-bottom:18px}
+.status-head h3{font-size:21px;font-weight:800;color:var(--green-900);letter-spacing:-.3px}
+.status-head p{color:var(--ink-soft);font-size:14px;margin-top:4px}
+.status-list{display:flex;flex-direction:column;gap:14px}
+.status-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--shadow-sm)}
+.sc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+.sc-code{font-size:15px;font-weight:800;color:var(--green-900);letter-spacing:.2px}
+.sc-sub{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+.sc-now{font-size:13.5px;color:var(--ink);background:var(--paper-2);border-radius:10px;padding:10px 13px;margin-bottom:18px;border-left:3px solid var(--lime)}
+.sc-now.pending{border-left-color:var(--gold)}
+.sc-now.confirmed{border-left-color:var(--green-600)}
+.sc-now.done{border-left-color:#4d6b86}
+.sc-now b{color:var(--green-900)}
+.track{display:flex;align-items:center;margin:6px 4px 4px}
+.trk{display:flex;flex-direction:column;align-items:center;gap:7px;flex:none;width:74px}
+.tk-ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;background:var(--line-2);color:var(--ink-soft);border:2px solid var(--line-2);transition:.2s}
+.tk-lbl{font-size:11.5px;font-weight:700;color:var(--ink-soft);text-align:center}
+.trk.done .tk-ic{background:var(--lime);border-color:var(--lime);color:var(--green-900)}
+.trk.done .tk-lbl{color:var(--green-700)}
+.trk.cur .tk-ic{background:#fff;border-color:var(--gold);color:var(--gold-deep);box-shadow:0 0 0 4px rgba(248,195,44,.18)}
+.trk.cur .tk-lbl{color:var(--gold-deep)}
+.trk-line{flex:1;height:3px;background:var(--line-2);border-radius:3px;margin:0 -6px;margin-bottom:24px}
+.sc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.sc-foot span{font-size:13px;color:var(--ink-soft)}
+.sc-foot b{font-size:17px;font-weight:800;color:var(--green-900)}
+.status-cta{display:flex;justify-content:center;width:100%;max-width:280px;margin:22px auto 0}
+
+/* ============ ADOPTER MODAL ============ */
+.data-table tr.ad-clickable{cursor:pointer}
+.data-table tr.ad-clickable:hover{background:var(--tint-2)}
+.data-table tr.ad-pending:hover{background:#fdf8ec}
+.row-view{font-size:12px;font-weight:600;color:var(--ink-soft);margin-left:4px;opacity:0;transition:.12s}
+.data-table tr.ad-clickable:hover .row-view{opacity:1}
+.modal-confirmed{display:flex;align-items:center;gap:8px;justify-content:center;background:var(--tint);color:var(--green-700);font-weight:700;font-size:13.5px;padding:11px;border-radius:12px;margin-top:16px}
+.modal-overlay{position:fixed;inset:0;z-index:400;background:rgba(13,30,16,.5);display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:var(--r-xl);width:100%;max-width:440px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);padding:24px}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.modal-head h3{font-size:19px;font-weight:800;color:var(--green-900)}
+.modal-x{font-size:17px;color:var(--ink-soft);width:32px;height:32px;border-radius:50%}
+.modal-x:hover{background:var(--paper-2)}
+.adopter-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:16px}
+.adopter-card .ad-av{width:42px;height:42px;font-size:16px}
+.adopter-card b{display:block;font-size:15px}
+.adopter-card>div span{font-size:13px;color:var(--ink-soft)}
+.adopter-card .badge-status{margin-left:auto}
+.modal-spec{margin-bottom:16px}
+.proof-label{font-size:13px;font-weight:700;color:var(--green-900);margin-bottom:8px}
+.proof-box{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2);min-height:120px;display:flex;align-items:center;justify-content:center}
+.proof-box img{width:100%;max-height:280px;object-fit:contain;display:block}
+.proof-demo{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--ink-soft);padding:30px}
+.proof-demo span{font-size:12.5px}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.modal-actions .btn{flex:1}
+
+/* ============ RATING ============ */
+.rate-now{font-size:13px;color:var(--ink-soft);margin-bottom:6px}
+.rate-stars{display:flex;gap:4px}
+.star{font-size:26px;line-height:1;color:#d8dcd2;background:none;padding:0;cursor:pointer;transition:.12s}
+.star:hover{transform:scale(1.12)}
+.star.on{color:var(--gold)}
+.rate-hint{font-size:12px;color:var(--ink-soft);margin-top:8px}
+.sfd-rate{font-size:13px;font-weight:700;color:var(--gold-deep)}
+.upd-photo{height:120px;border-radius:10px;margin-top:8px;border:1px solid var(--line)}
+
+/* ============ AUTH EXTRA (register) ============ */
+.cover-preview{margin-top:10px;border-radius:12px;overflow:hidden}
+.cover-preview img{width:100%;max-height:200px;object-fit:cover;display:block;border:1px solid var(--line)}
+.fg select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;font-size:14px;font-family:inherit;background:#fff;outline:none}
+.fg select:focus{border-color:var(--green-600)}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:2px 0}
+.fg-row label{display:block;font-size:13px;font-weight:600;margin:10px 0 6px}
+.fg-row select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;font-size:14px;font-family:inherit;background:#fff;outline:none}
+.fg-row select:focus{border-color:var(--green-600)}
+.seller-docs{margin-top:6px;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;gap:10px}
+.seller-docs[hidden]{display:none!important}
+.docs-title{font-size:13.5px;font-weight:700;color:var(--green-900);margin-bottom:2px}
+.docs-title span{font-weight:500;color:var(--ink-soft);font-size:12px}
+.doc-perjanjian{border-top:1px dashed var(--line);padding-top:10px;margin-top:2px}
+.doc-perjanjian-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.doc-perjanjian-head>span{font-size:13px;font-weight:700;color:var(--green-900)}
+.tmpl-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--green-700);background:var(--accent-soft);padding:5px 10px;border-radius:8px}
+.tmpl-btn:hover{background:#dcecbf}
+.auth-demo{margin-top:14px;font-size:12px;color:var(--ink-soft);text-align:center;background:var(--paper-2);padding:8px;border-radius:10px}
+.auth-demo b{color:var(--green-700)}
+
+/* ============ PHASE CARD (seller) ============ */
+.phase-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 20px;margin-bottom:22px;box-shadow:var(--shadow-sm)}
+.phase-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.phase-head h4{font-size:15px;font-weight:800;color:var(--green-900)}
+.phase-now{font-size:12px;font-weight:700;color:var(--gold-deep);background:#fdf1d6;padding:4px 11px;border-radius:99px}
+.phase-now.done{color:var(--green-700);background:var(--tint)}
+.phase-ctrl{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.phase-ctrl select{flex:1;min-width:140px;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:14px;background:#fff;outline:none}
+.phase-ctrl select:focus{border-color:var(--green-600)}
+.btn-danger{background:#fce8e6;color:#c0392b;font-weight:700}
+.btn-danger:hover{background:#f8d7d3}
+.phase-hint{font-size:12px;color:var(--ink-soft);margin-top:10px}
+
+.filter-fab,.sheet-head,.sheet-close,.sheet-apply,.filter-backdrop{display:none}
+
+/* ============ EDIT PROFIL ============ */
+.ep-avatar-row{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+.ep-av{width:84px;height:84px;border-radius:50%;background:var(--lime) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:var(--green-900);flex:none}
+.ep-upload{cursor:pointer;display:inline-block}
+.ep-rmphoto{margin-left:8px}
+.btn-text-danger{background:transparent;color:#c0392b;font-weight:700;padding:8px 6px}
+.btn-text-danger:hover{text-decoration:underline}
+.ep-hint{font-size:12px;color:var(--ink-soft);margin-top:8px}
+.ep-bank{margin-top:6px;margin-bottom:6px}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .menu-toggle{display:flex;align-items:center}
+  .cart-label{display:none}
+  .hero .wrap{grid-template-columns:1fr;gap:34px}
+  .hero-card{max-width:400px}
+  .hero-copy h1{font-size:40px}
+  .grid-fields,.why-grid,.steps{grid-template-columns:1fr}
+  .steps .dash{display:none}
+  .step-num{transform:translateX(18px)}
+  .explore-layout{grid-template-columns:1fr}
+  .filter-panel{position:static}
+  .explore-grid{grid-template-columns:1fr}
+  .detail-grid,.mf-grid,.cart-grid{grid-template-columns:1fr}
+  .summary,.filter-panel{position:static}
+  .mf-stats{grid-template-columns:1fr 1fr}
+  .profile-stats{grid-template-columns:1fr 1fr}
+  .dash-stats{grid-template-columns:1fr 1fr}
+  .dash-cols{grid-template-columns:1fr}
+  .sf-grid{grid-template-columns:1fr 1fr}
+  .form-grid{grid-template-columns:1fr}
+  .mf-body,.mfd-grid{grid-template-columns:1fr}
+  .mf-body .cert{position:static;order:-1}
+  .mfd-cover{height:180px}
+}
+@media(max-width:560px){
+  .wrap{padding:0 16px}
+  .hero-copy h1{font-size:32px}
+  .sec-head h2,.sec-center h2{font-size:24px}
+  .explore-grid{grid-template-columns:1fr}
+  .dash-stats{grid-template-columns:1fr 1fr}
+  .sf-grid{grid-template-columns:1fr}
+}
+
+/* ====== MOBILE POLISH (≤640px) — desktop tidak terpengaruh ====== */
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  /* tipografi judul lebih pas */
+  .hero-copy h1{font-size:30px;line-height:1.12;letter-spacing:-.5px}
+  .hero .wrap{gap:24px}
+  .hero-card{max-width:100%}
+  .sec-head h2,.sec-center h2,.status-head h3,.sfd-head h1{font-size:21px}
+  .mfd-cover-info h1{font-size:20px}
+
+  /* navbar rapat */
+  .nav .wrap{padding:0 14px}
+  .brand b,.brand>span{font-size:17px}
+
+  /* kartu statistik */
+  .mf-stats{grid-template-columns:1fr 1fr;gap:10px}
+  .dash-stats{grid-template-columns:1fr 1fr;gap:10px}
+  .profile-stats{grid-template-columns:1fr 1fr;gap:10px}
+
+  /* katalog 1 kolom */
+  .explore-grid,.featured-grid{grid-template-columns:1fr}
+
+  /* detail & form */
+  .detail-grid{gap:22px}
+  .adopt-box{padding:18px}
+  .form-grid{gap:12px}
+
+  /* KERANJANG: item rapi, harga ke kanan-bawah */
+  .cart-item{gap:12px;flex-wrap:wrap;align-items:flex-start}
+  .cart-item .ci-thumb{width:54px;height:54px}
+  .cart-item .ci-info{min-width:0}
+  .cart-item .ci-info b{font-size:14.5px}
+  .cart-item .ci-price{margin-left:auto;font-size:15px}
+  .pay-no span{font-size:15px}
+
+  /* STATUS & FASE: tracker 4 langkah muat di layar kecil */
+  .status-card,.phase-card{padding:16px}
+  .track{margin:6px 0 2px}
+  .trk{width:auto;flex:1 1 0;min-width:0}
+  .tk-ic{width:28px;height:28px;font-size:12px}
+  .tk-lbl{font-size:9.5px;letter-spacing:0;line-height:1.2}
+  .trk-line{margin:0 -2px 22px}
+  .sc-now{font-size:12.5px}
+  .phase-ctrl{gap:8px}
+  .phase-ctrl select{min-width:0;flex:1 1 100%}
+  .phase-ctrl .btn{flex:1}
+
+  /* TABEL bisa digeser horizontal */
+  .table-card{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  /* MY FIELD detail */
+  .mfd-grid{gap:20px}
+  .mfd-cover{height:160px}
+  .mfd-cover-info{left:16px;bottom:14px}
+
+  /* MODAL muat layar */
+  .modal{padding:18px;max-width:none}
+  .modal-overlay{padding:12px}
+  .adopter-card{padding:12px}
+
+  /* AUTH */
+  .auth-card{padding:26px 20px}
+
+  /* baris adopter/mf */
+  .mf-row{padding:12px;gap:12px}
+  .mf-thumb,.mf-row .mf-thumb{width:48px;height:48px}
+
+  /* tombol nyaman disentuh */
+  .btn-sm{padding:9px 14px;font-size:13px}
+
+  /* toast lebar penuh */
+  .toast{left:16px;right:16px;bottom:20px;transform:translateY(30px);max-width:none;justify-content:center;text-align:center}
+  .toast.show{transform:translateY(0)}
+}
+
+/* layar sangat kecil */
+@media(max-width:380px){
+  .mf-stats,.dash-stats,.profile-stats{grid-template-columns:1fr}
+  .hero-copy h1{font-size:27px}
+  .tk-lbl{font-size:9px}
+  .role-toggle{grid-template-columns:1fr}
+}
+
+/* ============ MOBILE MARKETPLACE (≤640px) ============ */
+@media(max-width:640px){
+  /* NAVBAR rapat + hamburger DIJAMIN tampil */
+  .nav .wrap{gap:10px}
+  .nav-right{gap:10px}
+  .menu-toggle{display:flex!important;flex:0 0 auto;margin-left:0;padding:2px}
+  .cart-btn{flex:0 0 auto}
+  .auth-chip{padding:4px;max-width:none}
+  #authChipText{display:none}
+
+  /* FEATURED FIELDS tetap carousel 1 baris (swipe) */
+  .grid-fields{display:flex;grid-template-columns:none;gap:12px;overflow-x:auto;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    padding:2px 16px 12px;margin:0 -16px;scrollbar-width:none}
+  .grid-fields::-webkit-scrollbar{display:none}
+  .grid-fields>.fcard{flex:0 0 80%;scroll-snap-align:start}
+
+  /* STEPS: list ringkas ke bawah (ikon kiri, teks kanan) — TANPA scroll */
+  .steps{display:flex;flex-direction:column;gap:10px;position:static;grid-template-columns:none;padding:0;margin:0;overflow:visible}
+  .steps .dash{display:none}
+  .steps>.step{display:grid;grid-template-columns:46px 1fr;column-gap:14px;align-items:center;
+    text-align:left;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;position:relative}
+  .steps .step-ic{grid-row:1 / span 2;width:46px;height:46px;margin:0;border-width:1.5px}
+  .steps .step-ic svg{width:24px;height:24px}
+  .steps>.step h3{grid-column:2;font-size:14.5px;margin:0}
+  .steps>.step p{grid-column:2;font-size:12px;line-height:1.4;margin:2px 0 0}
+  .steps .step-num{position:absolute;top:10px;right:12px;left:auto;transform:none;width:20px;height:20px;font-size:11px}
+
+  /* WHY: list ringkas ke bawah */
+  .why-grid{display:flex;flex-direction:column;gap:10px;grid-template-columns:none;padding:0;margin:0;overflow:visible}
+  .why-grid>.why-card{display:grid;grid-template-columns:46px 1fr;column-gap:14px;align-items:center;text-align:left;padding:16px 18px}
+  .why-card .why-ic{grid-row:1 / span 2;width:46px;height:46px;margin:0}
+  .why-card .why-ic svg{width:24px;height:24px}
+  .why-card h3{grid-column:2;font-size:15px;margin:0}
+  .why-card p{grid-column:2;font-size:12px;line-height:1.4;margin:3px 0 0}
+
+  /* EXPLORE: tombol Filter → popup bottom-sheet; grid 2 kolom */
+  .filter-fab{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);
+    color:var(--green-700);font-weight:700;font-size:13px;padding:10px 14px;border-radius:99px;cursor:pointer;white-space:nowrap}
+  .explore-bar{flex-wrap:wrap}
+  .explore-head{padding:16px 0 10px}
+  .explore-layout{display:block;padding-bottom:40px}
+  .filter-backdrop{display:block;position:fixed;inset:0;background:rgba(10,28,14,.45);z-index:120;opacity:0;pointer-events:none;transition:.25s}
+  body.filter-open .filter-backdrop{opacity:1;pointer-events:auto}
+  .filter-panel{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:130;background:#fff;
+    border-radius:20px 20px 0 0;padding:6px 20px 22px;margin:0;max-height:82vh;overflow-y:auto;
+    transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:0 -10px 40px rgba(0,0,0,.22)}
+  body.filter-open .filter-panel{transform:translateY(0)}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;padding:12px 0 10px;border-bottom:1px solid var(--line);margin-bottom:14px}
+  .sheet-head b{font-size:17px;color:var(--green-900)}
+  .sheet-close{display:block;background:none;font-size:20px;color:var(--ink-soft);width:34px;height:34px;cursor:pointer;line-height:1}
+  .filter-panel>h3{display:none}
+  .filter-panel .flt-group{margin:0 0 14px}
+  .filter-panel .flt-group label{display:block;color:var(--ink);font-weight:700;font-size:13px;margin-bottom:6px}
+  .filter-panel .flt-sel{width:100%;background:#fff;color:var(--ink);border:1.5px solid var(--line);padding:11px 13px;font-size:14px;border-radius:11px}
+  .filter-panel .flt-reset{display:inline-block;color:var(--green-700);font-weight:700;font-size:13.5px;margin:2px 0 0}
+  .sheet-apply{display:block;margin-top:16px}
+
+  /* GRID 2 kolom + kartu ringkas */
+  .explore-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .explore-grid .field-photo{height:115px}
+  .explore-grid .field-body{padding:10px 11px}
+  .explore-grid .field-title{font-size:13px;line-height:1.25}
+  .explore-grid .field-loc{font-size:10.5px;margin-top:3px}
+  .explore-grid .field-loc svg{width:11px;height:11px}
+  .explore-grid .field-variety{font-size:10px;padding:2px 8px}
+  .explore-grid .progress-meta{font-size:9.5px}
+  .explore-grid .rating{font-size:11px}
+  .explore-grid .field-foot{flex-direction:column;align-items:stretch;gap:8px;margin-top:10px;padding-top:10px}
+  .explore-grid .field-price{font-size:13.5px}
+  .explore-grid .field-price small{font-size:10px}
+  .explore-grid .field-foot .btn{width:100%;justify-content:center;padding:9px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="#" data-go="home">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+        <path d="M15 26c0-6 3-10 8-12-1 6-4 10-8 12z" fill="#F8C32C"/>
+        <path d="M15 26c0-6-3-10-8-12 1 6 4 10 8 12z" fill="#97C459"/>
+        <path d="M15 24c0-7 0-12 0-18 0 6 0 11 0 18z" stroke="#F8C32C" stroke-width="2"/>
+      </svg>
+      SawahKu
+    </a>
+    <div class="nav-links" id="navBuyer">
+      <a href="#" data-go="home" class="active">Beranda</a>
+      <a href="#" data-go="explore">Jelajah Sawah</a>
+      <a href="#" data-go="myfield">Sawah Adopsiku</a>
+    </div>
+    <div class="nav-links" id="navSeller" hidden>
+      <a href="#" data-go="dashboard">Dashboard</a>
+      <a href="#" data-go="sellerfields">Sawah Saya</a>
+      <a href="#" data-go="adopters">Adopsi Masuk</a>
+    </div>
+    <div class="nav-right">
+      <button class="cart-btn" id="cartBtn" data-go="cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-label">Keranjang</span><span class="cart-count" id="cartCount">0</span>
+      </button>
+      <div class="profile-menu-wrap">
+        <button class="auth-chip" id="authChip">
+          <span id="authChipText">Belum login</span>
+          <span class="avatar" id="avatarBtn"></span>
+        </button>
+        <div class="profile-pop" id="profilePop"></div>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav"></div>
+</nav>
+
+<!-- ============ PAGE: HOME ============ -->
+<main class="page active" id="page-home">
+  <div class="landing-bg">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-copy">
+          <div class="hero-eyebrow">Adopsi Sawah Organik · Aceh</div>
+          <h1>Adopsi Sawah,<span class="accent">Panen di Rumah.</span></h1>
+          <p>Terhubung langsung dengan petani lokal di Aceh. Pilih plot-mu, pantau pertumbuhan padi tiap minggu, dan terima beras organik segar saat panen tiba.</p>
+          <div class="hero-cta">
+            <button class="btn btn-primary" data-go="explore">Jelajah Sawah</button>
+            <button class="btn btn-ghost" onclick="document.getElementById('how').scrollIntoView()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 8l6 4-6 4z"/></svg>
+              Cara Kerja
+            </button>
+          </div>
+          <div class="trust">
+            <span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Petani Terverifikasi</span>
+            <span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>Update Real-time</span>
+            <span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 20c-4-1-7-4-7-9 4 0 7 2 7 6"/><path d="M11 20c4-1 7-4 7-9-4 0-7 2-7 6"/><path d="M11 20V8"/></svg>Pertanian Berkelanjutan</span>
+          </div>
+        </div>
+        <div class="hero-card" id="heroCard"><!-- injected --></div>
+      </div>
+    </section>
+
+    <!-- FEATURED FIELDS (yellow band) -->
+    <section class="band-yellow">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>Sawah Pilihan</h2>
+          <button class="btn btn-ghost btn-sm" data-go="explore">Lihat Semua
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </button>
+        </div>
+        <div class="grid-fields" id="featuredGrid"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="sec-center">
+        <h2>Cara Kerja <span class="accent">SawahKu</span></h2>
+        <p>Dari memilih sawah sampai panen diantar ke rumahmu.</p>
+      </div>
+      <div class="steps">
+        <div class="dash d1"></div><div class="dash d2"></div>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-ic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22V9"/><path d="M12 9c0-3-2-5-5-5 0 3 2 5 5 5z"/><path d="M12 12c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M12 16c0-2.5 2-4.5 4.5-4.5 0 2.5-2 4.5-4.5 4.5z"/></svg></div>
+          <h3>Pilih sawahmu</h3>
+          <p>Jelajahi sawah yang tersedia di seluruh Aceh. Lihat profil petani dan varietas padi.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-ic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/><path d="M9 4l-2-2M15 4l2-2"/></svg></div>
+          <h3>Adopsi &amp; pantau</h3>
+          <p>Dapatkan sertifikat digital dan pantau pertumbuhan padimu lewat update mingguan dari petani.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-ic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M7 11c0-3 2-5 5-5s5 2 5 5"/><path d="M12 3v3"/></svg></div>
+          <h3>Terima panenmu</h3>
+          <p>Beras organik segar dari plot-mu sendiri diantar langsung ke depan pintu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY ADOPT -->
+  <section class="why">
+    <div class="wrap">
+      <div class="sec-center"><h2>Kenapa adopsi di <span class="accent">SawahKu</span>?</h2></div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>Garansi panen</h3>
+          <p>Dana kembali 100% jika panen gagal karena bencana alam, atau adopsi gratis musim berikutnya.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="12" cy="10" r="2.5"/><path d="M10 18l-1.5 3 3.5-1.5L15.5 21 14 18"/></svg></div>
+          <h3>Sertifikat digital</h3>
+          <p>Terima sertifikat digital resmi dengan ID plot unik setelah adopsi.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="7" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/><path d="M7 5l-2-2M17 5l2-2"/></svg></div>
+          <h3>Dukung petani lokal</h3>
+          <p>Setiap adopsi menyalurkan pendapatan langsung ke petani kecil terverifikasi di Aceh.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <a class="brand" href="#" data-go="home">
+        <svg width="26" height="26" viewBox="0 0 30 30" fill="none"><path d="M15 26c0-6 3-10 8-12-1 6-4 10-8 12z" fill="#F8C32C"/><path d="M15 26c0-6-3-10-8-12 1 6 4 10 8 12z" fill="#97C459"/></svg>
+        SawahKu
+      </a>
+      <small>© 2026 SawahKu · Adopsi sawah, dukung petani Aceh.</small>
+    </div>
+  </footer>
+</main>
+
+<!-- ============ PAGE: EXPLORE ============ -->
+<main class="page" id="page-explore">
+  <div class="wrap explore-head">
+    <div class="explore-bar">
+      <span class="count">Menampilkan <b id="fieldCount">0</b> sawah tersedia</span>
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="searchInput" placeholder="Cari sawah atau petani">
+      </div>
+      <select class="sort-sel" id="sortSel">
+        <option value="popular">Paling Populer</option>
+        <option value="price-low">Harga: Termurah</option>
+        <option value="price-high">Harga: Termahal</option>
+        <option value="rating">Rating Tertinggi</option>
+      </select>
+      <button class="filter-fab" id="filterFab" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg> Filter
+      </button>
+    </div>
+  </div>
+  <div class="filter-backdrop" id="filterBackdrop"></div>
+  <div class="wrap explore-layout">
+    <aside class="filter-panel">
+      <div class="sheet-head"><b>Filter</b><button class="sheet-close" id="filterClose" type="button">✕</button></div>
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filter Sawah</h3>
+      <div class="flt-group">
+        <label>Kabupaten/Kota</label>
+        <select class="flt-sel" id="fltKab"></select>
+      </div>
+      <div class="flt-group">
+        <label>Kecamatan</label>
+        <select class="flt-sel" id="fltKec"></select>
+      </div>
+      <div class="flt-group">
+        <label>Varietas padi</label>
+        <select class="flt-sel" id="fltVar">
+          <option value="">Semua varietas</option>
+          <option>Beras Putih Organik</option><option>Beras Merah Organik</option><option>Beras Hitam Organik</option><option>Beras Ketan Putih</option>
+        </select>
+      </div>
+      <div class="flt-group">
+        <label>Durasi musim</label>
+        <select class="flt-sel" id="fltSeason">
+          <option value="">Semua durasi</option>
+          <option>90–110 hari</option><option>110–130 hari</option>
+        </select>
+      </div>
+      <a href="#" class="flt-reset" id="fltReset">Atur ulang filter</a>
+      <button class="btn btn-primary btn-block sheet-apply" id="filterApply" type="button">Terapkan</button>
+    </aside>
+    <div class="explore-grid" id="exploreGrid"></div>
+  </div>
+</main>
+
+<!-- ============ PAGE: FIELD DETAIL ============ -->
+<main class="page" id="page-field">
+  <div class="wrap detail">
+    <a href="#" class="go-back" data-go="explore">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>Kembali
+    </a>
+    <div class="detail-grid">
+      <!-- left -->
+      <div>
+        <div class="plotmap">
+          <h3>Peta Plot Sawah</h3>
+          <div class="plot-grid" id="plotGrid"></div>
+          <div class="plot-legend">
+            <span><i class="dot av"></i>Tersedia</span>
+            <span><i class="dot ad"></i>Teradopsi</span>
+            <span><i class="dot yo"></i>Plot kamu</span>
+          </div>
+        </div>
+        <div class="timeline">
+          <h4>Progres musim tanam</h4>
+          <div class="tl-item done">
+            <h5>Persiapan lahan</h5>
+            <div class="tl-date">1 April 2026 · <span class="tag-done">Selesai</span></div>
+          </div>
+          <div class="tl-item done">
+            <h5>Bibit ditanam</h5>
+            <div class="tl-date">15 April 2026 · <span class="tag-done">Selesai</span></div>
+          </div>
+          <div class="tl-item now">
+            <h5>Fase vegetatif</h5>
+            <div class="tl-date">Mei–Juni 2026 · <span class="tag-now">Berlangsung</span></div>
+            <div class="tl-note">Tinggi 42 cm · kondisi optimal</div>
+          </div>
+          <div class="tl-item">
+            <h5>Panen</h5>
+            <div class="tl-date">Agustus 2026 · Mendatang</div>
+          </div>
+        </div>
+      </div>
+      <!-- right -->
+      <div class="detail-info">
+        <h1 id="dTitle">—</h1>
+        <div class="detail-loc">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <span id="dLoc">Indrapuri, Aceh Besar</span>
+        </div>
+        <div class="stars"><span class="s">★★★★★</span><span id="dRating">—</span></div>
+        <dl class="spec">
+          <dt>Ukuran plot</dt><dd>10 × 10 meter</dd>
+          <dt>Varietas padi</dt><dd id="dVar">—</dd>
+          <dt>Estimasi hasil</dt><dd>5–7 kg beras / plot</dd>
+          <dt>Sertifikasi</dt><dd>Organik SNI 6729:2016</dd>
+          <dt>Harga</dt><dd id="dPerPlot">—</dd>
+        </dl>
+        <div class="adopt-box">
+          <div class="adopt-row">
+            <div>
+              <div class="adopt-label">Jumlah plot</div>
+              <div class="adopt-sub" id="adoptSub">IDR 150.000 / plot · maks 12</div>
+            </div>
+            <div class="stepper lg">
+              <button class="stp" data-stp="-">−</button>
+              <b id="adoptQty">1</b>
+              <button class="stp" data-stp="+">+</button>
+            </div>
+          </div>
+          <div class="adopt-total">
+            <span>Total</span>
+            <b id="adoptTotal">IDR 150.000</b>
+          </div>
+          <button class="btn btn-primary btn-block" id="addCartBtn">Tambah ke keranjang</button>
+          <div class="adopt-perks">
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>Update mingguan dari petani</span>
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>Beras organik dikirim saat panen</span>
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>Sertifikat adopsi digital</span>
+          </div>
+        </div>
+        <div class="guarantee"><b>Jaminan SawahKu:</b> jika panen gagal akibat bencana alam, kami beri pengembalian penuh atau adopsi gratis musim depan.</div>
+        <div class="farmer-contact" id="dContact"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: MY FIELD ============ -->
+<main class="page" id="page-myfield">
+  <div class="wrap myfield">
+    <div class="mf-header">
+      <div class="hero-eyebrow">Sawah Adopsiku</div>
+      <h1>Sawah yang kamu adopsi</h1>
+      <p>Pantau progress tanam dan update terbaru langsung dari petani.</p>
+    </div>
+    <div class="mf-stats">
+      <div class="stat"><div class="v" id="mfPlots">3</div><div class="l">Plot diadopsi</div></div>
+      <div class="stat"><div class="v" id="mfKg">18 kg</div><div class="l">Est. panen</div></div>
+      <div class="stat"><div class="v" id="mfInvested">IDR 450.000</div><div class="l">Total investasi</div></div>
+    </div>
+    <div class="mf-body">
+      <section class="mf-main">
+        <h4 class="sect-label">Sawah saya · klik untuk lihat progress</h4>
+        <div class="mf-list" id="mfList"></div>
+      </section>
+      <aside class="cert">
+        <div class="eyebrow">Sertifikat Adopsi</div>
+        <svg class="seal" width="38" height="38" viewBox="0 0 30 30" fill="none"><path d="M15 26c0-6 3-10 8-12-1 6-4 10-8 12z" fill="#F8C32C"/><path d="M15 26c0-6-3-10-8-12 1 6 4 10 8 12z" fill="#97C459"/></svg>
+        <h2 id="certName">—</h2>
+        <div class="sub">resmi mengadopsi sawah</div>
+        <div class="field-name" id="certField">—</div>
+        <div class="meta" id="certMeta">—</div>
+        <div class="cid" id="certId">ID: —</div>
+        <div class="cert-actions">
+          <button class="btn btn-lime btn-sm" id="dlCert">Unduh PDF</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: MY FIELD DETAIL ============ -->
+<main class="page" id="page-myfielddetail">
+  <div class="wrap mfd-wrap">
+    <a href="#" class="go-back" data-go="myfield"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>Kembali ke My Field</a>
+    <div class="mfd-cover" id="mfdCover">
+      <span class="mfd-cover-note">Foto cover · diupload petani</span>
+      <div class="mfd-cover-info"><h1 id="mfdName">Pak Burhan's Field — Block A</h1><span id="mfdLoc">Indrapuri, Aceh Besar</span></div>
+    </div>
+    <div class="mfd-stats mf-stats" id="mfdStats"></div>
+    <div class="mfd-grid">
+      <section class="mfd-main">
+        <h4 class="sect-label">Update dari petani</h4>
+        <div class="feed" id="mfdFeed"></div>
+      </section>
+      <aside class="mfd-side">
+        <div class="info-card">
+          <h4>Beri rating</h4>
+          <div id="mfdRate"></div>
+        </div>
+        <div class="info-card">
+          <h4>Kontak petani</h4>
+          <div id="mfdContact"></div>
+        </div>
+        <div class="info-card">
+          <h4>Info sawah</h4>
+          <dl class="spec" id="mfdSpec"></dl>
+        </div>
+        <div class="info-card">
+          <h4>Progress musim tanam</h4>
+          <div class="timeline tl-compact">
+            <div class="tl-item done"><h5>Persiapan lahan</h5><div class="tl-date">1 April 2026 · <span class="tag-done">Selesai</span></div></div>
+            <div class="tl-item done"><h5>Penanaman bibit</h5><div class="tl-date">15 April 2026 · <span class="tag-done">Selesai</span></div></div>
+            <div class="tl-item now"><h5>Fase vegetatif</h5><div class="tl-date">Mei–Juni 2026 · <span class="tag-now">Berlangsung</span></div><div class="tl-note">Tinggi 42 cm · kondisi optimal</div></div>
+            <div class="tl-item"><h5>Panen</h5><div class="tl-date">Agustus 2026 · Mendatang</div></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: CART ============ -->
+<main class="page" id="page-cart">
+  <div class="wrap cartpage">
+    <div class="cart-tabs">
+      <button class="cart-tab active" id="tabCart">Cart</button>
+      <button class="cart-tab" id="tabConfirmed">Status</button>
+    </div>
+    <div id="cartView">
+      <div class="cart-grid">
+        <div id="cartItems"></div>
+        <aside class="summary" id="cartSummary"></aside>
+      </div>
+    </div>
+    <div id="confirmedView" style="display:none">
+      <div id="confirmedBody"></div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: LOGIN ============ -->
+<main class="page" id="page-login">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <svg width="26" height="26" viewBox="0 0 30 30" fill="none"><path d="M15 26c0-6 3-10 8-12-1 6-4 10-8 12z" fill="#F8C32C"/><path d="M15 26c0-6-3-10-8-12 1 6 4 10 8 12z" fill="#97C459"/></svg>
+        SawahKu
+      </div>
+      <h2>Masuk ke SawahKu</h2>
+      <p class="auth-sub">Masuk sebagai pembeli atau penjual</p>
+      <div class="role-toggle">
+        <button class="role-opt active" data-role="buyer">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg></div>
+          <b>Pembeli</b><span>Adopsi &amp; pantau sawah</span>
+        </button>
+        <button class="role-opt" data-role="seller">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg></div>
+          <b>Penjual</b><span>Kelola sawah &amp; harga</span>
+        </button>
+      </div>
+      <div class="auth-fields">
+        <label>Email</label>
+        <input id="loginEmail" type="email" placeholder="nama@email.com">
+        <label>Kata sandi</label>
+        <input id="loginPass" type="password" placeholder="••••••••">
+      </div>
+      <button class="btn btn-primary btn-block" id="loginBtn">Masuk sebagai Pembeli</button>
+      <p class="auth-foot">Belum punya akun? <a href="#" data-go="register">Daftar di sini</a></p>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: REGISTER ============ -->
+<main class="page" id="page-register">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <svg width="26" height="26" viewBox="0 0 30 30" fill="none"><path d="M15 26c0-6 3-10 8-12-1 6-4 10-8 12z" fill="#F8C32C"/><path d="M15 26c0-6-3-10-8-12 1 6 4 10 8 12z" fill="#97C459"/></svg>
+        SawahKu
+      </div>
+      <h2>Daftar akun</h2>
+      <p class="auth-sub">Pilih jenis akun yang mau kamu buat</p>
+      <div class="role-toggle">
+        <button class="role-opt active" data-rrole="buyer">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg></div>
+          <b>Pembeli</b><span>Cukup data diri</span>
+        </button>
+        <button class="role-opt" data-rrole="seller">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg></div>
+          <b>Penjual</b><span>Data diri + dokumen</span>
+        </button>
+      </div>
+      <div class="auth-fields">
+        <label>Nama lengkap</label>
+        <input id="regName" type="text" placeholder="Nama kamu">
+        <label>Email</label>
+        <input id="regEmail" type="email" placeholder="nama@email.com">
+        <label>No. HP (WhatsApp)</label>
+        <input id="regPhone" type="text" placeholder="0812-xxxx-xxxx">
+        <div class="fg-row">
+          <div><label>Kabupaten/Kota</label><select id="regKab"></select></div>
+          <div><label>Kecamatan</label><select id="regKec"></select></div>
+        </div>
+        <label>Kata sandi</label>
+        <input id="regPass" type="password" placeholder="••••••••">
+      </div>
+      <div class="seller-docs" id="sellerDocs" hidden>
+        <div class="docs-title">Rekening pencairan <span>(tujuan pembayaran dari pembeli)</span></div>
+        <div class="bank-fields">
+          <label>Nama bank</label>
+          <input id="regBank" type="text" placeholder="cth. Bank Syariah Indonesia (BSI)">
+          <div class="fg-row">
+            <div><label>Nomor rekening</label><input id="regRek" type="text" placeholder="123456789"></div>
+            <div><label>Atas nama</label><input id="regRekNama" type="text" placeholder="Nama pemilik rekening"></div>
+          </div>
+        </div>
+        <div class="docs-title" style="margin-top:14px">Dokumen penjual <span>(wajib untuk verifikasi)</span></div>
+        <label class="upload-label"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg> <span id="lblSkck">Upload SKCK</span><input id="docSkck" type="file" accept="image/*,application/pdf" hidden></label>
+        <label class="upload-label"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg> <span id="lblSert">Upload Sertifikat sawah</span><input id="docSert" type="file" accept="image/*,application/pdf" hidden></label>
+        <label class="upload-label"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg> <span id="lblKtp">Upload Data diri (KTP)</span><input id="docKtp" type="file" accept="image/*,application/pdf" hidden></label>
+        <div class="doc-perjanjian">
+          <div class="doc-perjanjian-head">
+            <span>Surat perjanjian</span>
+            <button type="button" class="tmpl-btn" id="dlTemplate"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg> Download template</button>
+          </div>
+          <label class="upload-label"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg> <span id="lblPerjanjian">Upload surat perjanjian (isi template)</span><input id="docPerjanjian" type="file" accept="image/*,application/pdf,.doc,.docx" hidden></label>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" id="regBtn">Daftar sebagai Pembeli</button>
+      <p class="auth-foot">Sudah punya akun? <a href="#" data-go="login">Masuk di sini</a></p>
+    </div>
+  </div>
+</main>
+</main>
+
+<!-- ============ PAGE: PROFILE (role-aware) ============ -->
+<main class="page" id="page-profile">
+  <div class="wrap profilepage">
+    <div class="profile-head">
+      <div class="pa" id="profInitial">B</div>
+      <div>
+        <h2 id="profName">Budi Santoso</h2>
+        <div class="em" id="profEmail">budi.santoso@email.com</div>
+        <span class="role-badge" id="profRole">Pembeli</span>
+      </div>
+    </div>
+    <div class="profile-stats" id="profStats"></div>
+    <div class="profile-menu" id="profMenu"></div>
+    <button class="logout-btn" id="logoutBtn">Keluar</button>
+  </div>
+</main>
+
+<!-- ============ PAGE: EDIT PROFILE ============ -->
+<main class="page" id="page-editprofile">
+  <div class="wrap formwrap">
+    <a href="#" class="go-back" data-go="profile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>Kembali</a>
+    <h1>Edit profil</h1>
+    <p class="form-sub">Perbarui data diri dan foto profilmu.</p>
+    <div class="form-card">
+      <div class="ep-avatar-row">
+        <div class="ep-av" id="epAvatar">B</div>
+        <div>
+          <label class="btn btn-ghost btn-sm ep-upload">Ganti foto profil<input id="epPhoto" type="file" accept="image/*" hidden></label>
+          <button class="btn btn-text-danger ep-rmphoto" id="epRemovePhoto" type="button">Hapus foto</button>
+          <div class="ep-hint">Foto kotak/persegi lebih bagus. Maks. ~2MB.</div>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="fg full"><label>Nama lengkap</label><input id="epName" placeholder="Nama kamu"></div>
+        <div class="fg full"><label>No. HP (WhatsApp)</label><input id="epPhone" placeholder="0812-xxxx-xxxx"></div>
+        <div class="fg"><label>Kabupaten/Kota</label><select id="epKab"></select></div>
+        <div class="fg"><label>Kecamatan</label><select id="epKec"></select></div>
+      </div>
+      <div class="ep-bank" id="epBank" hidden>
+        <div class="docs-title">Rekening pencairan <span>(tujuan pembayaran dari pembeli)</span></div>
+        <div class="form-grid">
+          <div class="fg full"><label>Nama bank</label><input id="epBankName" placeholder="cth. Bank Syariah Indonesia (BSI)"></div>
+          <div class="fg"><label>Nomor rekening</label><input id="epBankAcc" placeholder="123456789"></div>
+          <div class="fg"><label>Atas nama</label><input id="epBankHolder" placeholder="Nama pemilik rekening"></div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" id="epSave" style="margin-top:8px">Simpan perubahan</button>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: SELLER DASHBOARD ============ -->
+<main class="page" id="page-dashboard">
+  <div class="wrap sellerwrap">
+    <div class="seller-hello">
+      <div>
+        <div class="hero-eyebrow">Dashboard Penjual</div>
+        <h1 id="dashHi">Halo, Pak Burhan</h1>
+        <p>Kelola sawah, atur harga per plot, dan pantau adopsi yang masuk.</p>
+      </div>
+      <button class="btn btn-primary" data-go="fieldform" id="dashAddBtn">+ Tambah sawah</button>
+    </div>
+    <div class="suspend-banner" id="suspendBanner" hidden>⚠ Akun kamu <b>ditangguhkan</b> karena fee belum dibayar. Bayar fee di tiap sawah (menu Sawah Saya), lalu tunggu admin mengaktifkan kembali.</div>
+    <div class="dash-stats" id="dashStats"></div>
+    <div class="dash-cols">
+      <section class="dash-block">
+        <div class="block-head"><h3>Sawah saya</h3><a href="#" class="link-more" data-go="sellerfields">Lihat semua ›</a></div>
+        <div id="dashFields"></div>
+      </section>
+      <section class="dash-block">
+        <div class="block-head"><h3>Adopsi terbaru</h3><a href="#" class="link-more" data-go="adopters">Lihat semua ›</a></div>
+        <div id="dashAdopters"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: SELLER FIELDS ============ -->
+<main class="page" id="page-sellerfields">
+  <div class="wrap sellerwrap">
+    <div class="seller-hello">
+      <div><div class="hero-eyebrow">Kelola</div><h1>Sawah Saya</h1><p id="sfCount">3 sawah terdaftar</p></div>
+      <button class="btn btn-primary" data-go="fieldform">+ Tambah sawah</button>
+    </div>
+    <div class="sf-grid" id="sfGrid"></div>
+  </div>
+</main>
+
+<!-- ============ PAGE: FIELD FORM (add/edit) ============ -->
+<main class="page" id="page-fieldform">
+  <div class="wrap formwrap">
+    <a href="#" class="go-back" data-go="sellerfields"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>Kembali</a>
+    <h1 id="ffTitle">Tambah sawah</h1>
+    <p class="form-sub">Lengkapi detail sawah. Harga ditetapkan per 1 plot.</p>
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="fg full"><label>Nama sawah</label><input id="ffName" placeholder="cth. Block A — Sawah Utama"></div>
+        <div class="fg"><label>Kabupaten/Kota</label><select id="ffKab"></select></div>
+        <div class="fg"><label>Kecamatan</label><select id="ffKec"></select></div>
+        <div class="fg full"><label>Detail lokasi (desa/patokan)</label><input id="ffLoc" placeholder="cth. Desa Lambaro, dekat masjid"></div>
+        <div class="fg"><label>Varietas padi</label>
+          <select id="ffVariety"><option>Beras Putih Organik</option><option>Beras Merah Organik</option><option>Beras Hitam Organik</option><option>Beras Ketan Putih</option></select></div>
+        <div class="fg"><label>Harga per plot (IDR)</label><input id="ffPrice" type="number" min="0" step="10000" placeholder="150000"></div>
+        <div class="fg"><label>Jumlah plot</label><input id="ffPlots" type="number" min="1" placeholder="48"></div>
+        <div class="fg"><label>Ukuran plot</label><input id="ffSize" placeholder="10 × 10 m"></div>
+        <div class="fg"><label>Sertifikasi</label><input id="ffCert" placeholder="Organic SNI 6729:2016"></div>
+        <div class="fg"><label>No. HP petani (WhatsApp)</label><input id="ffPhone" placeholder="0812-3456-7890"></div>
+        <div class="fg"><label>Durasi musim</label>
+          <select id="ffSeason"><option>90–110 hari</option><option>110–130 hari</option></select></div>
+        <div class="fg full"><label>Foto cover sawah (dilihat pembeli)</label>
+          <label class="upload-label" id="ffCoverLbl"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg> Upload foto cover<input id="ffCover" type="file" accept="image/*" hidden></label>
+          <div class="cover-preview" id="ffCoverPrev"></div></div>
+        <div class="fg"><label>Status</label>
+          <select id="ffStatus"><option value="active">Aktif (dibuka untuk adopsi)</option><option value="draft">Draf (belum dibuka)</option></select></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-ghost" data-go="sellerfields">Batal</button>
+        <button class="btn btn-primary" id="ffSave">Simpan sawah</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: SELLER FIELD DETAIL ============ -->
+<main class="page" id="page-sellerfield">
+  <div class="wrap sellerwrap">
+    <a href="#" class="go-back" data-go="sellerfields"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>Kembali</a>
+    <div class="sfd-head">
+      <div>
+        <h1 id="sfdName">Block A — Sawah Utama</h1>
+        <div class="detail-loc"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="sfdLoc">Indrapuri, Aceh Besar</span></div>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="sfdEdit">Edit sawah</button>
+    </div>
+    <div class="dash-stats" id="sfdStats"></div>
+    <div class="phase-card">
+      <div class="phase-head"><h4>Fase pertumbuhan sawah</h4><span class="phase-now" id="sfdPhaseNow"></span></div>
+      <div class="track" id="sfdPhaseTrack"></div>
+      <div class="phase-ctrl">
+        <select id="sfdPhaseSel"></select>
+        <button class="btn btn-lime btn-sm" id="sfdPhaseSave">Ubah fase</button>
+        <button class="btn btn-danger btn-sm" id="sfdDelete">Hapus sawah</button>
+      </div>
+      <div class="phase-hint">Mengubah fase atau menghapus sawah perlu sandi akunmu.</div>
+    </div>
+    <div class="detail-grid">
+      <div>
+        <div class="plotmap"><h3>Peta Plot</h3><div class="plot-grid" id="sfdPlots"></div>
+          <div class="plot-legend"><span><i class="dot ad"></i>Teradopsi</span><span><i class="dot av"></i>Tersedia</span></div>
+        </div>
+        <div class="update-box">
+          <h4>Kirim update mingguan</h4>
+          <textarea id="sfdUpdate" rows="2" placeholder="cth. Tinggi padi 42 cm, kondisi optimal…"></textarea>
+          <label class="upload-label" id="sfdPhotoLbl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg> Tambah foto progress (opsional)<input id="sfdPhoto" type="file" accept="image/*" hidden></label>
+          <div class="cover-preview" id="sfdPhotoPrev"></div>
+          <button class="btn btn-lime btn-sm" id="sfdPost">Posting update</button>
+          <div class="update-log" id="sfdLog"></div>
+        </div>
+      </div>
+      <div>
+        <h4 class="sect-label">Adopter sawah ini</h4>
+        <div class="mf-list" id="sfdAdopters"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ PAGE: ADOPTERS ============ -->
+<main class="page" id="page-adopters">
+  <div class="wrap sellerwrap">
+    <div class="seller-hello">
+      <div><div class="hero-eyebrow">Adopsi Masuk</div><h1>Adopter</h1><p id="adCount">5 adopsi aktif</p></div>
+      <select class="flt-sel" id="adFilter"></select>
+    </div>
+    <div class="table-card">
+      <table class="data-table">
+        <thead><tr><th>Adopter</th><th>Sawah</th><th>Plot</th><th>Nominal</th><th>Panen</th><th>Status</th></tr></thead>
+        <tbody id="adBody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="adopterModal"><div class="modal" id="modalBody"></div></div>
+<div class="modal-overlay" id="feeModal"><div class="modal" id="feeBody"></div></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ============ MODE PROTOTYPE ============ */
+/* ============ KONFIGURASI SUPABASE ============
+   >>> TARUH ANON KEY DI SINI <<<
+   1) SUPABASE_URL: sudah diisi sesuai project kamu (arxljixnyhrruhsopgrk).
+   2) SUPABASE_ANON_KEY: buka Supabase → Project Settings → API Keys →
+      salin key "anon / public" (diawali eyJ...), tempel di bawah ini.
+   Lalu jalankan file sawahku_simple.sql di SQL Editor (sekali saja). */
+const SUPABASE_URL = 'https://ywpgvjseugfdaosmgkye.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl3cGd2anNldWdmZGFvc21na3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NTkzNDMsImV4cCI6MjA5ODEzNTM0M30.KZxXHzTz2j8YSri5BKUJNl79jXKbBE8IKN81Kn2nmes';
+/* Link template surat perjanjian (taruh template.docx di GitHub, tempel link RAW di sini).
+   Contoh: https://github.com/USERNAME/REPO/raw/main/template.docx */
+const PERJANJIAN_TEMPLATE_URL = 'https://github.com/kiaawrdny-collab/SawahKu/raw/main/template.docx';
+/* Rekening tujuan pembayaran fee 3% (rekening pemilik web/admin) — isi sesuai punyamu */
+const PLATFORM_BANK = { name:'Bank Syariah Indonesia (BSI)', account:'7312166113', holder:'SawahKu Indonesia' };
+const SB_READY = /^https:\/\//.test(SUPABASE_URL) && SUPABASE_ANON_KEY.length > 20 && !!window.supabase;
+const sb = SB_READY ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const idDate = s => { try { return new Date(s).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}); } catch(e){ return s||''; } };
+
+/* ============ DATA (diisi dari Supabase) ============ */
+const FIELDS = [];
+const KG_PER_PLOT = 6;
+const PHASES = ['Bibit','Vegetatif','Generatif','Panen (Selesai)'];
+
+// buyer auth state — not logged in by default; home is public
+let auth = {loggedIn:false, role:null, pendingRole:'buyer', name:'Budi Santoso', email:'budi.santoso@email.com', user:null};
+
+/* ============ AKUN: dari tabel Supabase 'accounts' ============ */
+
+/* ============ WILAYAH ACEH (kabupaten/kota → kecamatan) ============ */
+const ACEH = {
+  'Banda Aceh':['Baiturrahman','Kuta Alam','Meuraxa','Syiah Kuala','Lueng Bata','Kuta Raja','Banda Raya','Jaya Baru','Ulee Kareng'],
+  'Aceh Besar':['Indrapuri','Lhoknga','Darul Imarah','Ingin Jaya','Kuta Baro','Montasik','Seulimeum','Mesjid Raya','Suka Makmur'],
+  'Sabang':['Sukakarya','Sukajaya'],
+  'Pidie':['Kota Sigli','Delima','Mutiara','Padang Tiji','Indrajaya','Peukan Baro'],
+  'Pidie Jaya':['Meureudu','Bandar Dua','Trienggadeng','Bandar Baru','Ulim'],
+  'Bireuen':['Kota Juang','Peusangan','Jeunieb','Gandapura','Jeumpa','Kuala'],
+  'Aceh Utara':['Lhoksukon','Muara Batu','Dewantara','Samudera','Tanah Pasir','Syamtalira Aron'],
+  'Lhokseumawe':['Banda Sakti','Muara Dua','Blang Mangat','Muara Satu'],
+  'Aceh Timur':['Idi Rayeuk','Peureulak','Julok','Darul Aman','Simpang Ulim'],
+  'Langsa':['Langsa Kota','Langsa Barat','Langsa Timur','Langsa Lama'],
+  'Aceh Tamiang':['Karang Baru','Kejuruan Muda','Manyak Payed','Kuala Simpang','Seruway'],
+  'Aceh Tengah':['Lut Tawar','Bebesen','Pegasing','Bintang','Kebayakan'],
+  'Bener Meriah':['Bukit','Bandar','Pintu Rime Gayo','Wih Pesam'],
+  'Aceh Barat':['Johan Pahlawan','Meureubo','Kaway XVI','Samatiga','Woyla'],
+  'Nagan Raya':['Suka Makmue','Seunagan','Kuala','Beutong','Darul Makmur'],
+  'Aceh Jaya':['Teunom','Krueng Sabee','Setia Bakti','Jaya'],
+  'Aceh Barat Daya':['Blangpidie','Susoh','Tangan-Tangan','Manggeng'],
+  'Aceh Selatan':['Tapaktuan','Labuhanhaji','Samadua','Kluet Utara','Meukek'],
+  'Aceh Singkil':['Singkil','Gunung Meriah','Simpang Kanan','Pulau Banyak'],
+  'Subulussalam':['Simpang Kiri','Penanggalan','Rundeng','Sultan Daulat'],
+  'Aceh Tenggara':['Babussalam','Kutacane','Bambel','Lawe Sigala-Gala'],
+  'Gayo Lues':['Blangkejeren','Kutapanjang','Rikit Gaib','Terangun'],
+  'Simeulue':['Simeulue Timur','Teupah Barat','Simeulue Tengah','Salang']
+};
+const KAB_LIST = Object.keys(ACEH);
+function fillSelect(sel, items, placeholder){
+  sel.innerHTML = (placeholder?`<option value="">${placeholder}</option>`:'') + items.map(x=>`<option>${x}</option>`).join('');
+}
+function linkKabKec(kabSel, kecSel){
+  fillSelect(kabSel, KAB_LIST, 'Pilih kabupaten/kota');
+  kecSel.innerHTML='<option value="">Pilih kecamatan</option>';
+  kabSel.addEventListener('change',()=>{ fillSelect(kecSel, ACEH[kabSel.value]||[], 'Pilih kecamatan'); });
+}
+// data pembeli (diisi dari Supabase)
+let adoptions = [];
+let cart = [];
+let currentFieldId='a', adoptQty=1, myFieldId='a', cartProof=null, cartProofFile=null;
+let myRatings={}; // fieldId -> rating bintang oleh pembeli (prototype)
+const fmt = n => 'IDR '+Number(n||0).toLocaleString('id-ID');
+let fieldsCache = {};
+FIELDS.forEach(f=>fieldsCache[f.id]=f);
+const fieldById = id => fieldsCache[id];
+const lineTotal = (fieldId,plots)=>(fieldById(fieldId)?.price||0)*plots;
+const waLink = ph => 'https://wa.me/62'+(ph||'').replace(/[^0-9]/g,'').replace(/^0/,'');
+
+let orders = [];
+let farmerFeed = {};
+const buyerToSeller = {};
+
+/* ============ SELLER DATA (diisi dari Supabase) ============ */
+const seller = {name:'', email:'', region:'', phone:'', bank:'', rekening:'', rekNama:''};
+let sellerFields = [];
+let adopterSeq = 100;
+let sellerAdopters = [];
+let fieldUpdates = {};
+let sellerCurrentId='sa', editingFieldId=null;
+const sFieldById = id => sellerFields.find(f=>f.id===id);
+
+/* ============ SUPABASE DATA LAYER (skema simpel) ============ */
+let ACCOUNTS_CACHE={}; // id -> account (untuk info petani)
+async function getAccount(id){
+  if(!id) return null;
+  if(ACCOUNTS_CACHE[id]) return ACCOUNTS_CACHE[id];
+  const {data}=await sb.from('accounts').select('*').eq('id',id).maybeSingle();
+  if(data) ACCOUNTS_CACHE[id]=data;
+  return data;
+}
+function mapDbField(r, owner){
+  const adopted=r.adopted_plots||0;
+  const f={id:r.id, owner_id:r.owner_id, name:r.name,
+    loc:[r.loc_detail,r.kecamatan,r.kabupaten].filter(Boolean).join(', '),
+    region:r.kabupaten, kab:r.kabupaten, kec:r.kecamatan, locDetail:r.loc_detail,
+    variety:r.variety, grain:r.grain||r.variety, price:r.price_per_plot,
+    totalPlots:r.total_plots, adoptedPlots:adopted,
+    left:Math.max(0,(r.total_plots||0)-adopted),
+    adopted: r.total_plots? Math.round(adopted*100/r.total_plots):0,
+    plotSize:r.plot_size, cert:r.certification, season:r.season, stage:r.stage,
+    status:r.status, hue:r.hue||100, cover:r.cover_url||null,
+    rating:Number(r.rating||0), reviews:r.reviews||0, isNew:false,
+    farmer:owner?.name||'Petani', phone:owner?.phone||'',
+    bank:owner?.bank_name||'-', rekening:owner?.bank_account||'-', rekNama:owner?.bank_holder||'-',
+    feeStatus:r.fee_status||'unpaid', feeProof:r.fee_proof_url||null, feePaidAmount:r.fee_amount||0,
+    feeBase:0, feeDue:0};
+  fieldsCache[f.id]=f; return f;
+}
+async function loadExplore(){
+  if(!SB_READY) return;
+  const {data,error}=await sb.from('fields').select('*').eq('status','active').order('created_at',{ascending:false});
+  if(error){console.error(error);toast('Gagal memuat sawah');return;}
+  FIELDS.length=0;
+  for(const r of (data||[])){ const owner=await getAccount(r.owner_id); FIELDS.push(mapDbField(r,owner)); }
+}
+async function loadField(id){
+  if(!SB_READY) return;
+  const {data}=await sb.from('fields').select('*').eq('id',id).maybeSingle();
+  if(data){ const owner=await getAccount(data.owner_id); mapDbField(data,owner); }
+}
+async function loadMyField(){
+  if(!SB_READY) return;
+  if(!auth.account){adoptions=[];return;}
+  const {data}=await sb.from('adoptions').select('*').eq('buyer_id',auth.account.id).order('created_at',{ascending:false});
+  adoptions=[];
+  for(const a of (data||[])){ if(!fieldsCache[a.field_id]) await loadField(a.field_id);
+    adoptions.push({id:a.id,fieldId:a.field_id,plots:a.plots,harvest:a.harvest_label||'-',status:a.status,orderId:a.order_id}); }
+}
+async function loadMyFieldDetail(){
+  if(!SB_READY) return;
+  await loadField(myFieldId);
+  const {data:ups}=await sb.from('field_updates').select('*').eq('field_id',myFieldId).order('created_at',{ascending:false});
+  farmerFeed[myFieldId]=(ups||[]).map(u=>({date:idDate(u.created_at),text:u.body,photo:!!u.photo_url,photoUrl:u.photo_url}));
+  // rating milikku
+  if(auth.account){ const {data:r}=await sb.from('ratings').select('stars').eq('field_id',myFieldId).eq('buyer_id',auth.account.id).maybeSingle();
+    if(r) myRatings[myFieldId]=r.stars; }
+}
+async function loadStatus(){
+  if(!SB_READY) return;
+  if(!auth.account){orders=[];return;}
+  const {data}=await sb.from('orders').select('*').eq('buyer_id',auth.account.id).order('created_at',{ascending:false});
+  orders=[];
+  for(const o of (data||[])){
+    const {data:its}=await sb.from('adoptions').select('field_id,plots,amount').eq('order_id',o.id);
+    for(const it of (its||[])) if(!fieldsCache[it.field_id]) await loadField(it.field_id);
+    orders.push({id:o.code||o.id,date:idDate(o.created_at),total:o.total,status:o.status,proof:o.payment_proof_url||'demo',
+      items:(its||[]).map(it=>({fieldId:it.field_id,plots:it.plots,amount:it.amount}))});
+  }
+}
+async function loadSeller(){
+  if(!SB_READY||!auth.account) return;
+  seller.name=auth.account.name; seller.email=auth.account.email; seller.phone=auth.account.phone;
+  seller.region=auth.account.kabupaten; seller.bank=auth.account.bank_name; seller.rekening=auth.account.bank_account; seller.rekNama=auth.account.bank_holder;
+}
+async function loadSellerFields(){
+  if(!SB_READY) return;
+  if(!auth.account){sellerFields=[];return;}
+  const {data:fs}=await sb.from('fields').select('*').eq('owner_id',auth.account.id).order('created_at',{ascending:false});
+  const ids=(fs||[]).map(f=>f.id);
+  // omzet adopsi terkonfirmasi per sawah → dasar fee
+  let omzet={};
+  if(ids.length){
+    const {data:ads}=await sb.from('adoptions').select('field_id,amount,status').in('field_id',ids);
+    (ads||[]).forEach(a=>{ if(a.status==='confirmed'||a.status==='done') omzet[a.field_id]=(omzet[a.field_id]||0)+(a.amount||0); });
+  }
+  sellerFields=(fs||[]).map(r=>{
+    const f=mapDbField(r,auth.account);
+    f.feeBase = omzet[r.id]||0;
+    f.feeDue = Math.round(f.feeBase*0.03);
+    return f;
+  });
+}
+const FEE_RATE = 0.03;
+async function loadAdopters(){
+  if(!SB_READY) return;
+  if(!sellerFields.length) await loadSellerFields();
+  const ids=sellerFields.map(f=>f.id);
+  if(!ids.length){sellerAdopters=[];return;}
+  const {data}=await sb.from('adoptions').select('*').in('field_id',ids).order('created_at',{ascending:false});
+  sellerAdopters=[];
+  for(const a of (data||[])){
+    const buyer=await getAccount(a.buyer_id);
+    let proof='demo';
+    if(a.order_id){ const {data:o}=await sb.from('orders').select('payment_proof_url').eq('id',a.order_id).maybeSingle(); if(o&&o.payment_proof_url) proof=o.payment_proof_url; }
+    sellerAdopters.push({id:a.id,name:buyer?.name||'Pembeli',phone:buyer?.phone||'-',fieldId:a.field_id,
+      plots:a.plots,amount:a.amount,harvest:a.harvest_label||'-',status:(a.status==='pending'?'pending':'active'),
+      proof,orderId:a.order_id,date:idDate(a.created_at)});
+  }
+}
+async function loadSellerField(){
+  if(!SB_READY) return;
+  if(!sellerFields.length) await loadSellerFields();
+  const {data:ups}=await sb.from('field_updates').select('*').eq('field_id',sellerCurrentId).order('created_at',{ascending:false});
+  fieldUpdates[sellerCurrentId]=(ups||[]).map(u=>({text:idDate(u.created_at)+' — '+u.body, photo:u.photo_url||null}));
+  await loadAdopters();
+}
+async function loadDashboard(){ if(!SB_READY) return; await loadSeller(); await loadSellerFields(); await loadAdopters(); }
+
+function fieldPhoto(hue){return `background-image:`+
+  `radial-gradient(130% 90% at 82% -25%, rgba(255,248,225,.7), rgba(255,248,225,0) 55%),`+
+  `repeating-linear-gradient(95deg, hsl(${hue} 46% 50%) 0 5px, hsl(${hue} 52% 43%) 5px 11px),`+
+  `linear-gradient(180deg, hsl(202 58% 82%) 0%, hsl(196 42% 88%) 27%, hsl(${hue-4} 44% 60%) 27%, hsl(${hue+4} 50% 46%) 100%);`+
+  `background-size:100% 100%, 100% 73%, 100% 100%;`+
+  `background-position:0 0, 0 100%, 0 0;background-repeat:no-repeat;position:relative`;}
+function coverStyle(f){ return f && f.cover ? `background-image:url('${f.cover}');background-size:cover;background-position:center;position:relative` : fieldPhoto(f?f.hue:100); }
+
+/* ============ RENDER: FIELD CARD ============ */
+function cardHTML(f, btnLabel='Adopt'){
+  return `<article class="fcard" data-field="${f.id}">
+    <div class="field-photo" style="${coverStyle(f)}">
+      ${f.isNew?'<span class="badge-new">NEW</span>':''}
+      <span class="rating">★ ${(f.rating||0).toFixed(1)}</span>
+    </div>
+    <div class="field-body">
+      <div class="field-title">${f.name}</div>
+      <div class="field-loc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>${f.loc}</div>
+      <span class="field-variety">${f.variety}</span>
+      <div class="progress">
+        <div class="progress-bar"><i data-w="${f.adopted}"></i></div>
+        <div class="progress-meta"><span>${f.adopted}% teradopsi</span><span>${f.left} plot tersisa</span></div>
+      </div>
+      <div class="field-foot">
+        <div class="field-price">${fmt(f.price)} <small>/ plot</small></div>
+        <button class="btn btn-lime btn-sm adopt-btn" data-field="${f.id}">${btnLabel}</button>
+      </div>
+    </div>
+  </article>`;
+}
+function animateBars(scope){
+  scope.querySelectorAll('.progress-bar i').forEach(i=>{
+    setTimeout(()=>{ i.style.width = i.dataset.w+'%'; },80);
+  });
+}
+
+/* ============ NAV / ROUTER ============ */
+const BUYER_PAGES=['home','explore','field','myfield','myfielddetail','cart'];
+const SELLER_PAGES=['dashboard','sellerfields','fieldform','sellerfield','adopters'];
+function applyRole(){
+  const isSeller = auth.loggedIn && auth.role==='seller';
+  document.getElementById('navBuyer').hidden = isSeller;
+  document.getElementById('navSeller').hidden = !isSeller;
+  document.getElementById('cartBtn').style.display = isSeller ? 'none' : '';
+  // login indicator chip
+  const chip=document.getElementById('authChip'), txt=document.getElementById('authChipText');
+  if(auth.loggedIn){
+    chip.classList.remove('guest');
+    txt.textContent = isSeller ? seller.name : auth.name.split(' ')[0];
+  } else {
+    chip.classList.add('guest'); txt.textContent='Belum login';
+  }
+}
+async function go(page){
+  if(typeof closePop==='function') closePop();
+  closeMobileNav();
+  // ---- guards ----
+  if(page==='profile' && !auth.loggedIn) { setLoginRole('buyer'); page='login'; }
+  if(page==='editprofile' && !auth.loggedIn) { setLoginRole('buyer'); page='login'; }
+  if(page==='myfield' && !(auth.loggedIn && auth.role==='buyer')){ setLoginRole('buyer'); toast('Masuk sebagai pembeli untuk melihat sawahmu'); page='login'; }
+  if(page==='myfielddetail' && !(auth.loggedIn && auth.role==='buyer')){ setLoginRole('buyer'); page='login'; }
+  if(SELLER_PAGES.includes(page) && !(auth.loggedIn && auth.role==='seller')){ setLoginRole('seller'); page='login'; }
+  if(BUYER_PAGES.includes(page) && auth.role==='seller'){ page='dashboard'; } // seller can't use buyer pages
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.toggle('active', a.dataset.go===page || (page==='myfielddetail'&&a.dataset.go==='myfield')));
+  window.scrollTo({top:0,behavior:'instant'});
+  try{
+    if(page==='home'){ await loadExplore(); renderHome(); }
+    else if(page==='explore'){ await loadExplore(); renderExplore(); }
+    else if(page==='field'){ await loadField(currentFieldId); renderField(); }
+    else if(page==='cart') renderCart();
+    else if(page==='myfield'){ await loadMyField(); renderMyField(); }
+    else if(page==='myfielddetail'){ await loadMyFieldDetail(); renderMyFieldDetail(); }
+    else if(page==='profile'){ if(auth.role==='seller') await loadSeller(); else if(auth.role==='buyer') await loadMyField(); renderProfile(); }
+    else if(page==='editprofile'){ openEditProfile(); }
+    else if(page==='dashboard'){ await loadDashboard(); renderDashboard(); }
+    else if(page==='sellerfields'){ await loadSellerFields(); renderSellerFields(); }
+    else if(page==='fieldform'){
+      if(auth.account && auth.account.suspended){ toast('Akun ditangguhkan — bayar fee & tunggu admin mengaktifkan'); go('sellerfields'); return; }
+      openFieldForm(editingFieldId);
+    }
+    else if(page==='sellerfield'){ await loadSellerField(); renderSellerField(); }
+    else if(page==='adopters'){ await loadAdopters(); renderAdopters(); }
+  }catch(e){ console.error(e); toast('Gagal memuat data'); }
+}
+function openField(id){
+  currentFieldId=id; adoptQty=1;
+  go('field');
+}
+document.addEventListener('click',e=>{
+  const mf=e.target.closest('[data-myfield]');
+  if(mf){ myFieldId=mf.dataset.myfield; go('myfielddetail'); return; }
+  const pf=e.target.closest('[data-payfee]');
+  if(pf){ openFeeModal(pf.dataset.payfee); return; }
+  const ed=e.target.closest('[data-edit]');
+  if(ed){ editingFieldId=ed.dataset.edit; go('fieldform'); return; }
+  const sf=e.target.closest('[data-sfield]');
+  if(sf){ sellerCurrentId=sf.dataset.sfield; go('sellerfield'); return; }
+  const g=e.target.closest('[data-go]');
+  if(g){ e.preventDefault(); if(g.dataset.go==='fieldform') editingFieldId=null; go(g.dataset.go); return; }
+  const adopt=e.target.closest('.adopt-btn');
+  if(adopt){openField(adopt.dataset.field);return;}
+  const fc=e.target.closest('.fcard');
+  if(fc && !e.target.closest('.adopt-btn')){openField(fc.dataset.field);}
+});
+
+/* ---- mobile nav ---- */
+const mNav=document.getElementById('mobileNav');
+function buildMobileNav(){
+  const links = (auth.loggedIn && auth.role==='seller')
+    ? [['dashboard','Dashboard'],['sellerfields','Sawah Saya'],['adopters','Adopsi Masuk']]
+    : [['home','Home'],['explore','Explore Field'],['myfield','My Field'],['cart','Keranjang']];
+  mNav.innerHTML = links.map(l=>`<a href="#" data-go="${l[0]}">${l[1]}</a>`).join('');
+}
+function closeMobileNav(){ if(mNav) mNav.classList.remove('open'); }
+document.getElementById('menuToggle').addEventListener('click',e=>{
+  e.stopPropagation(); buildMobileNav(); mNav.classList.toggle('open');
+});
+document.addEventListener('click',e=>{
+  if(mNav.classList.contains('open') && !e.target.closest('#mobileNav') && !e.target.closest('#menuToggle')) closeMobileNav();
+});
+
+/* ============ HOME ============ */
+function renderHome(){
+  const f=FIELDS[0];
+  const hero=document.getElementById('heroCard');
+  if(f){
+    hero.innerHTML = `
+      <div class="field-photo" style="${coverStyle(f)}">
+        ${f.isNew?'<span class="badge-new">NEW</span>':''}<span class="rating">★ ${(f.rating||0).toFixed(1)}</span>
+      </div>
+      <div class="field-body">
+        <div class="field-title">${f.name}</div>
+        <div class="field-loc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>${f.loc}</div>
+        <span class="field-variety">${f.variety}</span>
+        <div class="progress"><div class="progress-bar"><i data-w="${f.adopted}"></i></div>
+        <div class="progress-meta"><span>${f.adopted}% teradopsi</span><span>${f.left} plot tersisa</span></div></div>
+        <div class="field-foot"><div class="field-price">${fmt(f.price)} <small>/ plot</small></div>
+        <button class="btn btn-lime btn-sm adopt-btn" data-field="${f.id}">Adopsi Sekarang</button></div>
+      </div>`;
+  } else {
+    hero.innerHTML = `<div class="field-body" style="padding:30px"><div class="field-title">Belum ada sawah</div><div class="field-loc">Sawah dari petani akan muncul di sini.</div></div>`;
+  }
+  document.getElementById('featuredGrid').innerHTML = FIELDS.slice(0,3).map(x=>cardHTML(x)).join('') || '<div class="empty-mini">Belum ada sawah tersedia.</div>';
+  animateBars(document.getElementById('page-home'));
+}
+
+/* ============ EXPLORE ============ */
+function renderExplore(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase();
+  const kab=document.getElementById('fltKab').value;
+  const kec=document.getElementById('fltKec').value;
+  const vr=document.getElementById('fltVar').value;
+  const sn=document.getElementById('fltSeason').value;
+  const sort=document.getElementById('sortSel').value;
+  let list=FIELDS.filter(f=>
+    (!q || f.name.toLowerCase().includes(q) || f.loc.toLowerCase().includes(q)) &&
+    (!kab || f.region===kab || (f.loc||'').includes(kab)) &&
+    (!kec || (f.loc||'').includes(kec)) &&
+    (!vr || f.variety===vr) && (!sn || f.season===sn));
+  if(sort==='price-low') list.sort((a,b)=>a.price-b.price);
+  if(sort==='price-high') list.sort((a,b)=>b.price-a.price);
+  if(sort==='rating') list.sort((a,b)=>b.rating-a.rating);
+  if(sort==='popular') list.sort((a,b)=>b.adopted-a.adopted);
+  document.getElementById('fieldCount').textContent=list.length;
+  const grid=document.getElementById('exploreGrid');
+  grid.innerHTML = list.length ? list.map(f=>cardHTML(f)).join('')
+    : `<div class="empty"><h3>Tidak ada sawah yang cocok</h3><p>Coba ubah pencarian atau atur ulang filter.</p></div>`;
+  animateBars(grid);
+}
+['searchInput'].forEach(id=>document.getElementById(id).addEventListener('input',renderExplore));
+['sortSel','fltKab','fltKec','fltVar','fltSeason'].forEach(id=>document.getElementById(id).addEventListener('change',renderExplore));
+// cascading kab→kec untuk filter
+(function(){
+  const kabSel=document.getElementById('fltKab'), kecSel=document.getElementById('fltKec');
+  fillSelect(kabSel, KAB_LIST, 'Semua kabupaten/kota');
+  kecSel.innerHTML='<option value="">Semua kecamatan</option>';
+  kabSel.addEventListener('change',()=>{ fillSelect(kecSel, ACEH[kabSel.value]||[], 'Semua kecamatan'); renderExplore(); });
+})();
+document.getElementById('fltReset').addEventListener('click',e=>{
+  e.preventDefault();
+  document.getElementById('searchInput').value='';
+  ['fltKab','fltKec','fltVar','fltSeason'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fltKec').innerHTML='<option value="">Semua kecamatan</option>';
+  document.getElementById('sortSel').value='popular';
+  renderExplore();
+});
+/* popup filter (mobile) */
+const openFilter=()=>document.body.classList.add('filter-open');
+const closeFilter=()=>document.body.classList.remove('filter-open');
+document.getElementById('filterFab').addEventListener('click',openFilter);
+document.getElementById('filterClose').addEventListener('click',closeFilter);
+document.getElementById('filterApply').addEventListener('click',()=>{ renderExplore(); closeFilter(); });
+document.getElementById('filterBackdrop').addEventListener('click',closeFilter);
+
+/* ============ FIELD DETAIL ============ */
+function renderField(){
+  const f=fieldById(currentFieldId);
+  document.getElementById('dTitle').textContent=f.name;
+  document.getElementById('dLoc').textContent=f.loc;
+  document.getElementById('dRating').textContent=`${f.rating.toFixed(1)} · ${f.reviews} adopters`;
+  document.getElementById('dVar').textContent=f.grain;
+  document.getElementById('dPerPlot').textContent=fmt(f.price)+' / plot';
+  // plot map: 40 plots — "yours" only if buyer actually adopted THIS field
+  const total=40, adopted=Math.round(total*f.adopted/100);
+  const myAdoption = (auth.loggedIn && auth.role==='buyer') ? adoptions.find(a=>a.fieldId===f.id) : null;
+  const mine = myAdoption ? Math.min(myAdoption.plots, adopted) : 0;
+  let cells='';
+  for(let i=0;i<total;i++){
+    let cls = i<mine ? 'plot yours' : (i<adopted ? 'plot adopted' : 'plot available');
+    cells+=`<div class="${cls}"></div>`;
+  }
+  document.getElementById('plotGrid').innerHTML=cells;
+  // adopt box (plot quantity) — max = ALL available plots in this field
+  adoptQty=Math.min(Math.max(1,adoptQty), f.left);
+  document.getElementById('adoptQty').textContent=adoptQty;
+  document.getElementById('adoptSub').textContent=`${fmt(f.price)} / plot · tersedia ${f.left} plot`;
+  document.getElementById('adoptTotal').textContent=fmt(f.price*adoptQty);
+  // farmer contact
+  document.getElementById('dContact').innerHTML=`
+    <div class="fc-id"><div class="fc-av">${(f.farmer||'P').charAt(0)}</div>
+      <div><b>${f.farmer||'Petani'}</b><span>Petani pengelola sawah</span></div></div>
+    <a class="fc-wa" href="${waLink(f.phone)}" target="_blank" rel="noopener">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.4-5.6c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8 1-.3.2-.5.1a6.5 6.5 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c.6.3 1.1.4 1.5.6a3.6 3.6 0 0 0 1.6.1c.5-.1 1.4-.6 1.6-1.1s.2-1 .1-1.1-.2-.2-.5-.3z"/></svg>
+      Hubungi via WhatsApp
+    </a>
+    <div class="fc-phone">${f.phone}</div>`;
+}
+document.querySelector('.adopt-box').addEventListener('click',e=>{
+  const stp=e.target.closest('.stp'); if(!stp)return;
+  const f=fieldById(currentFieldId);
+  adoptQty = stp.dataset.stp==='+' ? Math.min(f.left, adoptQty+1) : Math.max(1, adoptQty-1);
+  renderField();
+});
+document.getElementById('addCartBtn').addEventListener('click',()=>{
+  const ex=cart.find(i=>i.fieldId===currentFieldId);
+  if(ex){ ex.plots=Math.min(fieldById(currentFieldId).left, ex.plots+adoptQty); ex.selected=true; }
+  else cart.push({fieldId:currentFieldId,plots:adoptQty,selected:true});
+  updateCartCount();
+  toast(`Ditambahkan: ${adoptQty} plot ✓`);
+});
+
+/* ============ MY FIELD ============ */
+function renderMyField(){
+  const activePlots=adoptions.filter(a=>a.status!=='pending').reduce((s,a)=>s+a.plots,0);
+  document.getElementById('mfPlots').textContent=activePlots;
+  document.getElementById('mfKg').textContent=(activePlots*KG_PER_PLOT)+' kg';
+  document.getElementById('mfInvested').textContent=fmt(adoptions.filter(a=>a.status!=='pending').reduce((s,a)=>s+lineTotal(a.fieldId,a.plots),0));
+  // one clickable card per adoption (with status)
+  document.getElementById('mfList').innerHTML=adoptions.map(a=>{
+    const f=fieldById(a.fieldId);
+    const pend=a.status==='pending';
+    return `<div class="mf-row" data-myfield="${a.fieldId}">
+      <div class="mf-thumb" style="${fieldPhoto(f.hue)}"></div>
+      <div class="info"><b>${f.name}</b><span>${f.loc} · ${f.grain}</span>
+        <div class="mf-tags"><span class="mf-plots">${a.plots} plot</span>${pend?'<span class="badge-status pending">Menunggu konfirmasi</span>':'<span class="badge-status active">Aktif</span>'}</div></div>
+      <div class="mf-go"><span class="harvest-mini">Panen ${a.harvest}</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+    </div>`;
+  }).join('') || `<div class="empty-mini">Belum ada sawah yang diadopsi.</div>`;
+  // sertifikat adopsi (pakai adopsi aktif pertama)
+  const act=adoptions.find(a=>a.status!=='pending');
+  const cf=act?fieldById(act.fieldId):null;
+  document.getElementById('certName').textContent=auth.name||'—';
+  document.getElementById('certField').textContent=cf?cf.name:'Belum ada adopsi aktif';
+  document.getElementById('certMeta').innerHTML=cf?`${cf.loc}<br>Panen ${act.harvest}`:'—';
+  document.getElementById('certId').textContent='ID: '+(act?('SK-'+(act.id||'').toString().slice(0,8).toUpperCase()):'—');
+}
+function renderMyFieldDetail(){
+  const f=fieldById(myFieldId); if(!f){ go('myfield'); return; }
+  const a=adoptions.find(x=>x.fieldId===myFieldId) || {plots:0,harvest:'—'};
+  document.getElementById('mfdCover').setAttribute('style', fieldPhoto(f.hue));
+  document.getElementById('mfdName').textContent=f.name;
+  document.getElementById('mfdLoc').textContent=f.loc;
+  document.getElementById('mfdStats').innerHTML=
+    `<div class="stat"><div class="v">${a.plots}</div><div class="l">Plot kamu</div></div>`+
+    `<div class="stat"><div class="v">${a.plots*KG_PER_PLOT} kg</div><div class="l">Est. panen</div></div>`+
+    `<div class="stat"><div class="v">Panen</div><div class="l">${a.harvest}</div></div>`;
+  document.getElementById('mfdSpec').innerHTML=
+    `<dt>Varietas</dt><dd>${f.grain}</dd>`+
+    `<dt>Ukuran plot</dt><dd>10 × 10 m</dd>`+
+    `<dt>Est. hasil</dt><dd>5–7 kg / plot</dd>`+
+    `<dt>Sertifikasi</dt><dd>Organic SNI 6729:2016</dd>`+
+    `<dt>Harga / plot</dt><dd>${fmt(f.price)}</dd>`;
+  document.getElementById('mfdContact').innerHTML=`
+    <div class="fc-id"><div class="fc-av">${(f.farmer||'P').charAt(0)}</div>
+      <div><b>${f.farmer||'Petani'}</b><span>${f.phone}</span></div></div>
+    <a class="fc-wa" href="${waLink(f.phone)}" target="_blank" rel="noopener">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.4-5.6c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8 1-.3.2-.5.1a6.5 6.5 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c.6.3 1.1.4 1.5.6a3.6 3.6 0 0 0 1.6.1c.5-.1 1.4-.6 1.6-1.1s.2-1 .1-1.1-.2-.2-.5-.3z"/></svg>
+      Chat WhatsApp</a>`;
+  // rating: pembeli yang sudah adopsi bisa memberi rating
+  const myR = myRatings[myFieldId]||0;
+  const stars = n => [1,2,3,4,5].map(i=>`<button class="star ${i<=n?'on':''}" data-rate="${i}">★</button>`).join('');
+  document.getElementById('mfdRate').innerHTML = `
+    <div class="rate-now">Rating sawah ini:</div>
+    <div class="rate-stars" id="mfdStars">${stars(myR)}</div>
+    <div class="rate-hint">${myR?('Kamu memberi '+myR+'/5 ★'):'Klik bintang untuk menilai'}</div>`;
+  const feed = farmerFeed[myFieldId] || [
+    {date:'Minggu ini',text:'Petani belum mengirim update terbaru. Update akan muncul di sini.',photo:false}
+  ];
+  document.getElementById('mfdFeed').innerHTML=feed.map(u=>`
+    <div class="feed-item">
+      <div class="feed-head"><div class="ad-av sm">P</div><div class="feed-who"><b>${seller.name}</b><span>${u.date}</span></div></div>
+      <p>${u.text}</p>
+      ${u.photoUrl?`<div class="feed-photo" style="background:url('${u.photoUrl}') center/cover"></div>`:(u.photo?`<div class="feed-photo" style="${fieldPhoto(f.hue)}"><span>Foto dari petani</span></div>`:'')}
+    </div>`).join('');
+}
+// handler beri rating (delegasi)
+document.addEventListener('click',async e=>{
+  const st=e.target.closest('#mfdStars .star'); if(!st) return;
+  const n=+st.dataset.rate;
+  const f=fieldById(myFieldId); if(!f) return;
+  const had=myRatings[myFieldId];
+  myRatings[myFieldId]=n;
+  if(!had){ f.reviews=(f.reviews||0)+1; }
+  f.rating = +(( (f.rating||0)* ((f.reviews||1)-(had?1:0)) + n ) / (f.reviews||1)).toFixed(1);
+  if(SB_READY){
+    try{
+      // simpan/replace rating pembeli ini, lalu hitung ulang rata-rata dari semua rating
+      await sb.from('ratings').delete().eq('field_id',myFieldId).eq('buyer_id',auth.account.id);
+      await sb.from('ratings').insert({field_id:myFieldId,buyer_id:auth.account.id,stars:n});
+      const {data:all}=await sb.from('ratings').select('stars').eq('field_id',myFieldId);
+      const arr=(all||[]).map(r=>r.stars); const avg=arr.length? +(arr.reduce((s,x)=>s+x,0)/arr.length).toFixed(1):n;
+      await sb.from('fields').update({rating:avg,reviews:arr.length}).eq('id',myFieldId);
+      f.rating=avg; f.reviews=arr.length;
+    }catch(err){ console.error(err); toast('Gagal simpan rating'); }
+  }
+  renderMyFieldDetail();
+  toast('Rating tersimpan: '+n+'/5 ★');
+});
+
+/* ============ CART ============ */
+function renderCart(){
+  const wrap=document.getElementById('cartItems');
+  const sum=document.getElementById('cartSummary');
+  if(cart.length===0){
+    wrap.innerHTML=`<div class="cart-empty"><h3>Keranjang kamu kosong</h3><p>Jelajahi sawah dan adopsi plot pertamamu.</p><button class="btn btn-lime" data-go="explore">Jelajah Sawah</button></div>`;
+    sum.style.display='none'; return;
+  }
+  sum.style.display='block';
+  wrap.innerHTML=cart.map((item,idx)=>{
+    const f=fieldById(item.fieldId);
+    const price=lineTotal(item.fieldId,item.plots);
+    return `<div class="cart-item ${item.selected?'':'unsel'}">
+      <input type="checkbox" class="ci-check" data-idx="${idx}" ${item.selected?'checked':''} aria-label="Pilih item">
+      <div class="ci-thumb" style="${fieldPhoto(f.hue)}"></div>
+      <div class="ci-info"><b>${f.name}</b><span>${fmt(f.price)} / plot · ${f.loc}</span>
+        <div class="ci-stepper"><button class="ci-stp" data-ci-stp="-" data-idx="${idx}">−</button><b>${item.plots}</b><button class="ci-stp" data-ci-stp="+" data-idx="${idx}">+</button><span>plot</span></div>
+        <a href="#" class="ci-remove" data-rm="${idx}">Hapus</a></div>
+      <div class="ci-price">${fmt(price)}</div>
+    </div>`;
+  }).join('');
+  const sel=cart.filter(i=>i.selected);
+  const total=sel.reduce((s,i)=>s+lineTotal(i.fieldId,i.plots),0);
+  const lines = sel.length
+    ? sel.map(i=>{const f=fieldById(i.fieldId);const blk=(f.name.split('—')[1]||f.name).trim();
+        return `<div class="sum-row"><span>🌾 ${blk} · ${i.plots} plot</span><b>${fmt(lineTotal(i.fieldId,i.plots))}</b></div>`;}).join('')
+    : `<p class="sum-empty">Pilih plot yang mau kamu beli dulu.</p>`;
+  const dests = sel.map(i=>{const f=fieldById(i.fieldId);return `
+    <div class="pay-acc">
+      <div class="pay-bank">${f.bank}</div>
+      <div class="pay-no"><span>${f.rekening}</span><button class="copy-btn" data-copy="${f.rekening.replace(/\s/g,'')}">Salin</button></div>
+      <div class="pay-name">a.n. ${f.rekNama} · <b>${fmt(lineTotal(i.fieldId,i.plots))}</b></div>
+    </div>`;}).join('');
+  sum.innerHTML=`<h3>Ringkasan pesanan</h3>
+    <div class="sum-count">${sel.length} dari ${cart.length} sawah dipilih</div>
+    ${lines}
+    <div class="sum-total"><span>Total</span><span>${fmt(total)}</span></div>
+    ${sel.length?`<div class="pay-block">
+      <div class="pay-head">Transfer pembayaran ke rekening petani:</div>
+      ${dests}
+      <label class="upload-label">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+        ${cartProof?'Ganti bukti pembayaran':'Upload bukti pembayaran'}
+        <input type="file" id="proofInput" accept="image/*" hidden>
+      </label>
+      <div class="proof-preview ${cartProof?'has':''}">${cartProof?`<img src="${cartProof}" alt="bukti pembayaran">`:'<span>Belum ada bukti diunggah</span>'}</div>
+    </div>`:''}
+    <button class="btn btn-lime btn-block" id="checkoutBtn" ${(sel.length&&cartProof)?'':'disabled'}>Kirim bukti &amp; konfirmasi</button>
+    ${sel.length&&!cartProof?'<div class="pay-hint">Upload bukti transfer untuk melanjutkan</div>':''}`;
+}
+document.getElementById('cartItems').addEventListener('change',e=>{
+  const c=e.target.closest('.ci-check');
+  if(c){
+    const idx=+c.dataset.idx;
+    // single-select: hanya boleh 1 pesanan di-checkout dalam 1 waktu
+    cart.forEach((it,i)=>it.selected=(i===idx && c.checked));
+    renderCart();
+  }
+});
+document.getElementById('cartItems').addEventListener('click',e=>{
+  const stp=e.target.closest('.ci-stp');
+  if(stp){const i=cart[+stp.dataset.idx],f=fieldById(i.fieldId);
+    i.plots = stp.dataset.ciStp==='+' ? Math.min(f.left,i.plots+1) : Math.max(1,i.plots-1);
+    renderCart();return;}
+  const rm=e.target.closest('[data-rm]');
+  if(rm){e.preventDefault();cart.splice(+rm.dataset.rm,1);updateCartCount();renderCart();}
+});
+let pendingCheckout=false;
+async function doCheckout(){
+  const sel=cart.filter(i=>i.selected);
+  if(!sel.length) return;
+  if(!(auth.loggedIn && auth.role==='buyer')){
+    pendingCheckout=true; setLoginRole('buyer');
+    toast('Masuk sebagai pembeli untuk checkout'); go('login'); return;
+  }
+  if(!cartProof){ toast('Upload bukti pembayaran dulu'); return; }
+  const items=sel.map(i=>({fieldId:i.fieldId,plots:i.plots,amount:lineTotal(i.fieldId,i.plots)}));
+  const total=items.reduce((s,i)=>s+i.amount,0);
+
+  if(SB_READY){
+    try{
+      toast('Mengirim pesanan…');
+      const code='SK-'+new Date().getFullYear()+'-ORD-'+String(Math.floor(Math.random()*9000+1000));
+      const {data:order,error:oErr}=await sb.from('orders').insert({code,buyer_id:auth.account.id,total,payment_proof_url:cartProof,status:'pending'}).select().single();
+      if(oErr) throw oErr;
+      const rows=sel.map(i=>({order_id:order.id,field_id:i.fieldId,buyer_id:auth.account.id,plots:i.plots,amount:lineTotal(i.fieldId,i.plots),harvest_label:'August 2026',status:'pending'}));
+      const {error:aErr}=await sb.from('adoptions').insert(rows);
+      if(aErr) throw aErr;
+      cart=cart.filter(i=>!i.selected); cartProof=null; cartProofFile=null; updateCartCount();
+      await loadStatus(); showConfirmedTab(); renderConfirmed();
+      toast('Bukti terkirim · menunggu konfirmasi petani');
+    }catch(err){ console.error(err); toast('Gagal checkout: '+(err.message||'')); }
+    return;
+  }
+
+  // ---- fallback dummy ----
+  const orderId='SK-2026-ORD-'+String(Math.floor(Math.random()*9000+1000));
+  orders.unshift({id:orderId,date:'21 Jun 2026',items,total,status:'pending',proof:cartProof});
+  sel.forEach(i=>{
+    adoptions.push({fieldId:i.fieldId,plots:i.plots,harvest:'August 2026',status:'pending',orderId});
+    const sid=buyerToSeller[i.fieldId];
+    if(sid){ sellerAdopters.unshift({id:'ad'+(++adopterSeq),name:auth.name,phone:'0857-3201-9988',fieldId:sid,plots:i.plots,amount:lineTotal(i.fieldId,i.plots),harvest:'August 2026',status:'pending',proof:cartProof,orderId,date:'21 Jun 2026'}); }
+  });
+  cart=cart.filter(i=>!i.selected); cartProof=null;
+  updateCartCount();
+  showConfirmedTab(); renderConfirmed();
+  toast('Bukti terkirim · menunggu konfirmasi petani');
+}
+function showConfirmedTab(){
+  document.getElementById('cartView').style.display='none';
+  document.getElementById('confirmedView').style.display='block';
+  document.getElementById('tabConfirmed').classList.add('active');
+  document.getElementById('tabCart').classList.remove('active');
+}
+function renderConfirmed(){
+  const body=document.getElementById('confirmedBody');
+  if(!orders.length){
+    body.innerHTML=`<div class="cart-empty"><h3>Belum ada pesanan</h3><p>Pesanan yang sudah kamu checkout akan muncul di sini.</p><button class="btn btn-lime" data-go="explore">Jelajah Sawah</button></div>`;
+    return;
+  }
+  const meta={
+    pending:{label:'Menunggu konfirmasi',now:'Petani sedang mengecek bukti pembayaranmu.',cls:'pending'},
+    confirmed:{label:'Dikonfirmasi',now:'Pembayaran diterima. Adopsi aktif & update petani berjalan.',cls:'confirmed'},
+    done:{label:'Selesai',now:'Masa adopsi selesai. Panen telah dikirim. Terima kasih!',cls:'done'}
+  };
+  const doneUpTo={pending:1,confirmed:2,done:3};
+  const curStep={pending:2,confirmed:3,done:0};
+  const steps=['Dibayar','Dikonfirmasi','Selesai'];
+  body.innerHTML=`
+    <div class="status-head"><h3>Status pesanan</h3><p>Pantau status tiap adopsi kamu di sini.</p></div>
+    <div class="status-list">
+      ${orders.map(o=>{
+        const m=meta[o.status]||meta.pending;
+        const fields=o.items.map(i=>{const f=fieldById(i.fieldId);return (f.name.split('—')[1]||f.name).trim();}).join(', ');
+        const plots=o.items.reduce((s,i)=>s+i.plots,0);
+        const track=steps.map((s,idx)=>{
+          const n=idx+1;
+          const done=n<=doneUpTo[o.status];
+          const cur=n===curStep[o.status];
+          const ic = done?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>':n;
+          return `<div class="trk ${done?'done':''} ${cur?'cur':''}"><div class="tk-ic">${ic}</div><div class="tk-lbl">${s}</div></div>`;
+        }).join('<div class="trk-line"></div>');
+        return `<div class="status-card">
+          <div class="sc-head">
+            <div><div class="sc-code">${o.id}</div><div class="sc-sub">${o.date} · ${fields} · ${plots} plot</div></div>
+            <span class="badge-status ${m.cls}">${m.label}</span>
+          </div>
+          <div class="sc-now ${m.cls}"><b>Status saat ini:</b> ${m.now}</div>
+          <div class="track">${track}</div>
+          <div class="sc-foot"><span>Total dibayar</span><b>${fmt(o.total)}</b></div>
+        </div>`;
+      }).join('')}
+    </div>
+    <button class="btn btn-primary btn-block status-cta" data-go="myfield">Buka My Field</button>`;
+}
+document.getElementById('cartSummary').addEventListener('change',e=>{
+  if(e.target.id==='proofInput'){
+    const file=e.target.files[0]; if(!file)return;
+    cartProofFile=file;
+    const r=new FileReader(); r.onload=()=>{ cartProof=r.result; renderCart(); }; r.readAsDataURL(file);
+  }
+});
+document.getElementById('cartSummary').addEventListener('click',e=>{
+  const cp=e.target.closest('.copy-btn');
+  if(cp){ if(navigator.clipboard) navigator.clipboard.writeText(cp.dataset.copy); toast('No. rekening disalin ✓'); return; }
+  if(e.target.id==='checkoutBtn') doCheckout();
+});
+document.getElementById('tabCart').addEventListener('click',()=>{
+  document.getElementById('cartView').style.display='block';
+  document.getElementById('confirmedView').style.display='none';
+  document.getElementById('tabCart').classList.add('active');
+  document.getElementById('tabConfirmed').classList.remove('active');
+  renderCart();
+});
+document.getElementById('tabConfirmed').addEventListener('click',async()=>{
+  showConfirmedTab();
+  document.getElementById('confirmedBody').innerHTML='<div class="cart-empty"><p>Memuat…</p></div>';
+  await loadStatus(); renderConfirmed();
+});
+
+/* certificate buttons */
+document.getElementById('dlCert').addEventListener('click',()=>{
+  const name=document.getElementById('certName').textContent;
+  const field=document.getElementById('certField').textContent;
+  const meta=document.getElementById('certMeta').textContent.replace(/\s+/g,' ').trim();
+  const cid=document.getElementById('certId').textContent;
+  if(!window.jspdf){ toast('Gagal memuat PDF'); return; }
+  const { jsPDF }=window.jspdf;
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  const W=297, H=210;
+  // latar & bingkai
+  doc.setFillColor(251,252,248); doc.rect(0,0,W,H,'F');
+  doc.setDrawColor(13,64,28); doc.setLineWidth(1.5); doc.rect(10,10,W-20,H-20);
+  doc.setDrawColor(151,196,89); doc.setLineWidth(0.5); doc.rect(13,13,W-26,H-26);
+  // judul
+  doc.setTextColor(13,64,28); doc.setFont('helvetica','bold'); doc.setFontSize(13);
+  doc.text('SAWAHKU',W/2,32,{align:'center'});
+  doc.setFontSize(10); doc.setTextColor(120,120,120); doc.setFont('helvetica','normal');
+  doc.text('SERTIFIKAT ADOPSI SAWAH',W/2,40,{align:'center'});
+  // nama
+  doc.setFont('times','bold'); doc.setFontSize(34); doc.setTextColor(13,64,28);
+  doc.text(name,W/2,72,{align:'center'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(12); doc.setTextColor(90,90,90);
+  doc.text('dengan ini resmi mengadopsi sawah',W/2,84,{align:'center'});
+  // sawah
+  doc.setFont('times','bold'); doc.setFontSize(20); doc.setTextColor(31,66,36);
+  doc.text(field,W/2,100,{align:'center'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(90,90,90);
+  doc.text(meta,W/2,110,{align:'center'});
+  // id + tanda tangan
+  doc.setFontSize(10); doc.setTextColor(120,120,120);
+  doc.text(cid,W/2,130,{align:'center'});
+  doc.setDrawColor(180,180,180); doc.setLineWidth(0.3);
+  doc.line(W/2-35,165,W/2+35,165);
+  doc.setFontSize(9); doc.text('Tim SawahKu',W/2,171,{align:'center'});
+  doc.save('Sertifikat-Adopsi-SawahKu.pdf');
+  toast('Sertifikat PDF diunduh ✓');
+});
+
+/* ============ AUTH / LOGIN / PROFILE ============ */
+function renderProfile(){
+  const sellerMode = auth.role==='seller';
+  document.getElementById('profName').textContent = sellerMode ? seller.name : auth.name;
+  document.getElementById('profEmail').textContent = sellerMode ? seller.email : auth.email;
+  document.getElementById('profInitial').textContent = (sellerMode ? seller.name : auth.name).charAt(0);
+  document.getElementById('profRole').textContent = sellerMode ? 'Penjual' : 'Pembeli';
+  const stats=document.getElementById('profStats');
+  const menu=document.getElementById('profMenu');
+  if(sellerMode){
+    const adoptedTot=sellerFields.reduce((s,f)=>s+f.adoptedPlots,0);
+    const revenue=sellerFields.reduce((s,f)=>s+f.adoptedPlots*f.price,0);
+    stats.innerHTML=`
+      <div class="stat"><div class="v">${sellerFields.length}</div><div class="l">Sawah</div></div>
+      <div class="stat"><div class="v">${adoptedTot}</div><div class="l">Plot teradopsi</div></div>
+      <div class="stat"><div class="v">${fmt(revenue)}</div><div class="l">Pendapatan</div></div>`;
+    menu.innerHTML=`
+      ${pmRow('dashboard','<path d="M3 13h8V3H3zM13 21h8V3h-8zM3 21h8v-6H3z"/>','Dashboard')}
+      ${pmRow('sellerfields','<path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M7 11c0-3 2-5 5-5s5 2 5 5"/>','Sawah saya')}
+      ${pmRow('adopters','<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 11h5M16 15h5"/>','Adopsi masuk')}
+      ${pmRowId('pmEdit','<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>','Edit profil')}`;
+  } else {
+    const totalPlots=adoptions.reduce((s,a)=>s+a.plots,0);
+    stats.innerHTML=`
+      <div class="stat"><div class="v">${totalPlots}</div><div class="l">Adopted Plots</div></div>
+      <div class="stat"><div class="v">${totalPlots*KG_PER_PLOT} kg</div><div class="l">Est. harvest</div></div>
+      <div class="stat"><div class="v">${fmt(adoptions.reduce((s,a)=>s+lineTotal(a.fieldId,a.plots),0))}</div><div class="l">Total dana</div></div>`;
+    menu.innerHTML=`
+      ${pmRow('myfield','<path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M7 11c0-3 2-5 5-5s5 2 5 5"/>','My Field')}
+      ${pmRow('cart','<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>','Keranjang')}
+      ${pmRowId('pmEdit','<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>','Edit profil')}`;
+  }
+  // (re)bind edit row
+  const ed=document.getElementById('pmEdit');
+  if(ed) ed.onclick=()=>go('editprofile');
+  setAvatar(auth.account&&auth.account.avatar_url, sellerMode?seller.name:auth.name);
+}
+/* ---- AVATAR / FOTO PROFIL ---- */
+function setAvatar(url, name){
+  const initial=(name||'?').charAt(0).toUpperCase();
+  const av=document.getElementById('avatarBtn');
+  if(av){
+    if(url){ av.style.backgroundImage=`url("${url}")`; av.style.backgroundSize='cover'; av.style.backgroundPosition='center'; av.textContent=''; av.classList.add('has-img'); }
+    else { av.style.backgroundImage=''; av.classList.remove('has-img'); }
+  }
+  const pi=document.getElementById('profInitial');
+  if(pi){
+    if(url){ pi.style.backgroundImage=`url("${url}")`; pi.style.backgroundSize='cover'; pi.style.backgroundPosition='center'; pi.textContent=''; }
+    else { pi.style.backgroundImage=''; pi.textContent=initial; }
+  }
+}
+/* ---- EDIT PROFIL ---- */
+let epPhotoData; // undefined=tak berubah, null=dihapus, string=foto baru
+function openEditProfile(){
+  const a=auth.account||{};
+  epPhotoData=undefined;
+  document.getElementById('epName').value=a.name||'';
+  document.getElementById('epPhone').value=a.phone||'';
+  linkKabKec(document.getElementById('epKab'), document.getElementById('epKec'));
+  document.getElementById('epKab').value=a.kabupaten||a.kab||'';
+  document.getElementById('epKab').dispatchEvent(new Event('change'));
+  setTimeout(()=>{ document.getElementById('epKec').value=a.kecamatan||a.kec||''; }, 0);
+  // foto preview
+  const epa=document.getElementById('epAvatar');
+  if(a.avatar_url){ epa.style.backgroundImage=`url("${a.avatar_url}")`; epa.style.backgroundSize='cover'; epa.style.backgroundPosition='center'; epa.textContent=''; }
+  else { epa.style.backgroundImage=''; epa.textContent=(a.name||'?').charAt(0).toUpperCase(); }
+  // bank (penjual saja)
+  const bankWrap=document.getElementById('epBank');
+  if(auth.role==='seller'){ bankWrap.hidden=false;
+    document.getElementById('epBankName').value=a.bank_name||'';
+    document.getElementById('epBankAcc').value=a.bank_account||'';
+    document.getElementById('epBankHolder').value=a.bank_holder||'';
+  } else { bankWrap.hidden=true; }
+}
+document.getElementById('epPhoto').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const r=new FileReader(); r.onload=()=>{ epPhotoData=r.result;
+    const epa=document.getElementById('epAvatar');
+    epa.style.backgroundImage=`url("${epPhotoData}")`; epa.style.backgroundSize='cover'; epa.style.backgroundPosition='center'; epa.textContent='';
+  }; r.readAsDataURL(file);
+});
+document.getElementById('epRemovePhoto').addEventListener('click',()=>{
+  epPhotoData=null;
+  const epa=document.getElementById('epAvatar');
+  epa.style.backgroundImage=''; epa.textContent=(document.getElementById('epName').value||'?').charAt(0).toUpperCase();
+});
+document.getElementById('epSave').addEventListener('click',async()=>{
+  if(!auth.account){ toast('Kamu belum login'); return; }
+  const name=document.getElementById('epName').value.trim();
+  if(!name){ toast('Nama tidak boleh kosong'); return; }
+  const patch={ name, phone:document.getElementById('epPhone').value.trim(),
+    kabupaten:document.getElementById('epKab').value, kecamatan:document.getElementById('epKec').value };
+  if(epPhotoData!==undefined) patch.avatar_url=epPhotoData; // string atau null
+  if(auth.role==='seller'){
+    patch.bank_name=document.getElementById('epBankName').value.trim();
+    patch.bank_account=document.getElementById('epBankAcc').value.trim();
+    patch.bank_holder=document.getElementById('epBankHolder').value.trim();
+  }
+  if(SB_READY){
+    try{ const {error}=await sb.from('accounts').update(patch).eq('id',auth.account.id); if(error) throw error; }
+    catch(err){ console.error(err); toast('Gagal menyimpan: '+(err.message||'')); return; }
+  }
+  const updated=Object.assign({}, auth.account, patch);
+  applyAccountState(updated);
+  toast('Profil diperbarui ✓');
+  go('profile');
+});
+function pmRow(goPage,svg,label){
+  return `<div class="pm-row" data-go="${goPage}"><span class="pm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${svg}</svg></span><b>${label}</b><span class="chev">›</span></div>`;
+}
+function pmRowId(id,svg,label){
+  return `<div class="pm-row" id="${id}"><span class="pm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${svg}</svg></span><b>${label}</b><span class="chev">›</span></div>`;
+}
+// role toggle on login
+document.querySelectorAll('#page-login .role-opt').forEach(b=>{
+  b.addEventListener('click',()=>{ setLoginRole(b.dataset.role); });
+});
+function setLoginRole(role){
+  auth.pendingRole=role;
+  document.querySelectorAll('#page-login .role-opt').forEach(x=>x.classList.toggle('active', x.dataset.role===role));
+  document.getElementById('loginBtn').textContent =
+    role==='buyer' ? 'Masuk sebagai Pembeli' : 'Masuk sebagai Penjual';
+}
+function openLogin(role){ setLoginRole(role); closePop(); go('login'); }
+document.getElementById('loginBtn').addEventListener('click',async()=>{
+  if(!SB_READY){ toast('Tempel anon key Supabase di atas <script> dulu'); return; }
+  const em=document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pw=document.getElementById('loginPass').value;
+  if(!em||!pw){ toast('Isi email & password'); return; }
+  try{
+    const {data,error}=await sb.from('accounts').select('*').eq('email',em).eq('password',pw).maybeSingle();
+    if(error) throw error;
+    if(!data){ toast('Email atau password salah'); return; }
+    loginWithAccount(data);
+  }catch(err){ console.error(err); toast('Gagal masuk: '+(err.message||'cek koneksi/anon key')); }
+});
+// terapkan akun ke state (tanpa pindah halaman / notifikasi)
+function applyAccountState(acc){
+  // normalisasi field (DB simpel pakai kabupaten/kecamatan)
+  acc.kab=acc.kab||acc.kabupaten; acc.kec=acc.kec||acc.kecamatan;
+  auth.loggedIn=true; auth.role=acc.role; auth.name=acc.name; auth.email=acc.email; auth.account=acc;
+  ACCOUNTS_CACHE[acc.id]=acc;
+  if(acc.role==='seller'){ seller.name=acc.name; seller.email=acc.email; seller.phone=acc.phone; seller.region=acc.kab; seller.bank=acc.bank_name; seller.rekening=acc.bank_account; seller.rekNama=acc.bank_holder; }
+  document.getElementById('avatarBtn').classList.add('logged');
+  setAvatar(acc.avatar_url, acc.name);
+  applyRole();
+}
+// simpan & pulihkan sesi login antar-refresh
+function saveSession(id){ try{ localStorage.setItem('sawahku_session', id); }catch(e){} }
+function clearSession(){ try{ localStorage.removeItem('sawahku_session'); }catch(e){} }
+async function restoreSession(){
+  let id=null; try{ id=localStorage.getItem('sawahku_session'); }catch(e){}
+  if(!id || !SB_READY) return false;
+  try{
+    const {data}=await sb.from('accounts').select('*').eq('id',id).maybeSingle();
+    if(data){ applyAccountState(data); return true; }
+    clearSession(); // akun sudah tidak ada
+  }catch(e){ console.error(e); }
+  return false;
+}
+function loginWithAccount(acc){
+  applyAccountState(acc);
+  saveSession(acc.id);
+  if(pendingCheckout && acc.role==='buyer'){ pendingCheckout=false; go('cart'); doCheckout(); return; }
+  go(acc.role==='seller'?'dashboard':'profile');
+  toast('Selamat datang, '+(acc.name||'').split(' ')[0]+' 👋');
+}
+
+/* ---- REGISTER ---- */
+let regRole='buyer';
+document.querySelectorAll('#page-register .role-opt').forEach(b=>{
+  b.addEventListener('click',()=>{
+    regRole=b.dataset.rrole;
+    document.querySelectorAll('#page-register .role-opt').forEach(x=>x.classList.toggle('active', x.dataset.rrole===regRole));
+    document.getElementById('sellerDocs').hidden = regRole!=='seller';
+    document.getElementById('regBtn').textContent = regRole==='seller'?'Daftar sebagai Penjual':'Daftar sebagai Pembeli';
+  });
+});
+[['docSkck','lblSkck','SKCK'],['docSert','lblSert','Sertifikat sawah'],['docKtp','lblKtp','Data diri (KTP)'],['docPerjanjian','lblPerjanjian','surat perjanjian (isi template)']].forEach(([inp,lbl,name])=>{
+  document.getElementById(inp).addEventListener('change',e=>{
+    document.getElementById(lbl).textContent = e.target.files[0] ? '✓ '+e.target.files[0].name : 'Upload '+name;
+  });
+});
+document.getElementById('dlTemplate').addEventListener('click',()=>{
+  if(!PERJANJIAN_TEMPLATE_URL || PERJANJIAN_TEMPLATE_URL.includes('USERNAME')){ toast('Link template belum diisi (taruh template.docx di GitHub)'); return; }
+  window.open(PERJANJIAN_TEMPLATE_URL,'_blank');
+});
+document.getElementById('regBtn').addEventListener('click',async()=>{
+  if(!SB_READY){ toast('Tempel anon key Supabase di atas <script> dulu'); return; }
+  const name=document.getElementById('regName').value.trim();
+  const email=document.getElementById('regEmail').value.trim().toLowerCase();
+  const phone=document.getElementById('regPhone').value.trim();
+  const kab=document.getElementById('regKab').value, kec=document.getElementById('regKec').value;
+  const pass=document.getElementById('regPass').value;
+  if(!name||!email||!pass){ toast('Lengkapi nama, email, & password'); return; }
+  let docs={skck:null,sertifikat:null,ktp:null,perjanjian:null};
+  let bank={name:null,account:null,holder:null};
+  if(regRole==='seller'){
+    const skck=document.getElementById('docSkck').files[0], sert=document.getElementById('docSert').files[0],
+          ktp=document.getElementById('docKtp').files[0], perj=document.getElementById('docPerjanjian').files[0];
+    if(!skck||!sert||!ktp||!perj){ toast('Penjual wajib upload SKCK, sertifikat sawah, KTP, & surat perjanjian'); return; }
+    docs={skck:skck.name, sertifikat:sert.name, ktp:ktp.name, perjanjian:perj.name};
+    bank={ name:document.getElementById('regBank').value.trim(),
+           account:document.getElementById('regRek').value.trim(),
+           holder:document.getElementById('regRekNama').value.trim() };
+    if(!bank.name||!bank.account||!bank.holder){ toast('Penjual wajib isi rekening pencairan (bank, nomor, atas nama)'); return; }
+  }
+  try{
+    const {data:exist}=await sb.from('accounts').select('id').eq('email',email).maybeSingle();
+    if(exist){ toast('Email sudah terdaftar'); return; }
+    const row={name,email,password:pass,role:regRole,phone,kabupaten:kab,kecamatan:kec,
+      bank_name:bank.name,bank_account:bank.account,bank_holder:bank.holder,
+      doc_skck:docs.skck,doc_sertifikat:docs.sertifikat,doc_ktp:docs.ktp,doc_perjanjian:docs.perjanjian};
+    const {data,error}=await sb.from('accounts').insert(row).select().single();
+    if(error) throw error;
+    toast('Akun berhasil dibuat ✓');
+    loginWithAccount(data);
+  }catch(err){ console.error(err); toast('Gagal daftar: '+(err.message||'')); }
+});
+async function applySession(session, opts={}){
+  if(!session){ setLoggedOut(); return; }
+  auth.user=session.user;
+  const {data:p}=await sb.from('profiles').select('*').eq('id',session.user.id).maybeSingle();
+  auth.loggedIn=true;
+  auth.role=(p?.role)||session.user.user_metadata?.role||'buyer';
+  auth.name=(p?.full_name)||session.user.user_metadata?.full_name||session.user.email;
+  auth.email=session.user.email;
+  if(auth.role==='seller'){ seller.name=auth.name; seller.email=auth.email; }
+  document.getElementById('avatarBtn').classList.add('logged');
+  applyRole();
+  if(opts.silent){ go('home'); return; }
+  if(pendingCheckout && auth.role==='buyer'){ pendingCheckout=false; await go('cart'); doCheckout(); return; }
+  go(auth.role==='seller'?'dashboard':'profile');
+  toast('Selamat datang, '+(auth.name||'').split(' ')[0]+' 👋');
+}
+function setLoggedOut(){
+  auth.loggedIn=false; auth.role=null; auth.user=null; auth.account=null;
+  clearSession();
+  document.getElementById('avatarBtn').classList.remove('logged');
+  setAvatar(null, '');
+  applyRole();
+}
+async function logout(){
+  setLoggedOut(); closePop();
+  if(SB_READY){ await loadExplore(); }
+  go('home'); toast('Kamu sudah keluar');
+}
+document.getElementById('logoutBtn').addEventListener('click',logout);
+
+/* ---- profile dropdown ---- */
+const pop=document.getElementById('profilePop');
+function renderPop(){
+  if(auth.loggedIn){
+    const nm = auth.role==='seller' ? seller.name : auth.name;
+    const rl = auth.role==='seller' ? 'Penjual' : 'Pembeli';
+    pop.innerHTML=`
+      <div class="pop-head">
+        <div class="pop-av">${nm.charAt(0)}</div>
+        <div class="pop-id"><b>${nm}</b><span>${rl}</span></div>
+      </div>
+      <button class="pop-item" data-pop="account">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>Lihat akun</button>
+      <button class="pop-item danger" data-pop="logout">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>Keluar</button>`;
+  } else {
+    pop.innerHTML=`
+      <div class="pop-title">Masuk ke SawahKu</div>
+      <button class="pop-item" data-pop="buyer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>Sebagai Pembeli</button>
+      <button class="pop-item" data-pop="seller">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg>Sebagai Penjual</button>
+      <div class="pop-divider"></div>
+      <button class="pop-item muted" data-pop="close">Keluar</button>`;
+  }
+}
+function openPop(){ renderPop(); pop.classList.add('open'); }
+function closePop(){ pop.classList.remove('open'); }
+document.getElementById('authChip').addEventListener('click',e=>{
+  e.stopPropagation();
+  pop.classList.contains('open') ? closePop() : openPop();
+});
+pop.addEventListener('click',e=>{
+  const it=e.target.closest('.pop-item'); if(!it)return;
+  const a=it.dataset.pop;
+  if(a==='close'){ closePop(); }
+  else if(a==='account'){ closePop(); go('profile'); }
+  else if(a==='logout'){ logout(); }
+  else if(a==='buyer'){ openLogin('buyer'); }
+  else if(a==='seller'){ openLogin('seller'); }
+});
+document.addEventListener('click',e=>{
+  if(pop.classList.contains('open') && !e.target.closest('.profile-menu-wrap')) closePop();
+});
+
+/* ============ SELLER PAGES ============ */
+function sellerStat(v,l){return `<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`;}
+function statusLabel(s){return s==='active'?'Aktif':(s==='draft'?'Draf':s);}
+function adopterRow(a){
+  const f=sFieldById(a.fieldId);
+  return `<div class="mf-row"><div class="ad-av">${a.name.charAt(0)}</div>
+    <div class="info"><b>${a.name}</b><span>${a.plots} plot · ${f?f.name:''}</span></div>
+    <span class="badge-status ${a.status}">${a.status==='active'?'Aktif':'Menunggu'}</span></div>`;
+}
+function sellerMiniField(f){
+  const pct=Math.round(f.adoptedPlots/f.totalPlots*100);
+  return `<div class="mini-field" data-sfield="${f.id}">
+    <div class="mini-thumb" style="${coverStyle(f)}"></div>
+    <div class="mini-info"><b>${f.name}</b>
+      <div class="progress"><div class="progress-bar"><i style="width:${pct}%"></i></div>
+      <div class="progress-meta"><span>${f.adoptedPlots}/${f.totalPlots} plot · ${pct}%</span><span class="badge-status ${f.status}">${statusLabel(f.status)}</span></div></div>
+    </div></div>`;
+}
+function renderDashboard(){
+  document.getElementById('dashHi').textContent='Halo, '+seller.name;
+  document.getElementById('suspendBanner').hidden = !(auth.account && auth.account.suspended);
+  const adopted=sellerFields.reduce((s,f)=>s+f.adoptedPlots,0);
+  const totalP=sellerFields.reduce((s,f)=>s+f.totalPlots,0);
+  const revenue=sellerFields.reduce((s,f)=>s+f.adoptedPlots*f.price,0);
+  document.getElementById('dashStats').innerHTML=
+    sellerStat(sellerFields.length,'Total sawah')+
+    sellerStat(adopted+' / '+totalP,'Plot teradopsi')+
+    sellerStat(sellerAdopters.length,'Adopter')+
+    sellerStat(fmt(revenue),'Pendapatan');
+  document.getElementById('dashFields').innerHTML=sellerFields.map(sellerMiniField).join('');
+  document.getElementById('dashAdopters').innerHTML=sellerAdopters.slice(0,4).map(adopterRow).join('');
+}
+function renderSellerFields(){
+  document.getElementById('sfCount').textContent=sellerFields.length+' sawah terdaftar';
+  document.getElementById('sfGrid').innerHTML=sellerFields.map(f=>{
+    const pct=Math.round(f.adoptedPlots/f.totalPlots*100);
+    return `<article class="sf-card">
+      <div class="field-photo sf-photo" style="${coverStyle(f)}"><span class="badge-status ${f.status} on-photo">${statusLabel(f.status)}</span></div>
+      <div class="field-body">
+        <div class="field-title">${f.name}</div>
+        <div class="field-loc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>${f.loc}</div>
+        <span class="field-variety">${f.variety}</span>
+        <div class="progress"><div class="progress-bar"><i style="width:${pct}%"></i></div>
+          <div class="progress-meta"><span>${f.adoptedPlots}/${f.totalPlots} plot</span><span>${fmt(f.price)} / plot</span></div></div>
+        ${feeBlock(f)}
+        <div class="sf-actions">
+          <button class="btn btn-ghost btn-sm" data-edit="${f.id}">Edit</button>
+          <button class="btn btn-lime btn-sm" data-sfield="${f.id}">Kelola</button>
+        </div>
+      </div></article>`;
+  }).join('');
+}
+function feeBlock(f){
+  if(f.feeStatus==='paid')
+    return `<div class="sf-fee paid"><span>Fee platform (3%)</span><b>Lunas ✓</b></div>`;
+  if(f.feeStatus==='pending')
+    return `<div class="sf-fee pending"><span>Fee platform (3%) · ${fmt(f.feePaidAmount||f.feeDue)}</span><b>Menunggu verifikasi</b></div>`;
+  if((f.feeDue||0) <= 0)
+    return `<div class="sf-fee"><span>Fee platform (3%)</span><b>Belum ada</b></div>`;
+  return `<div class="sf-fee due">
+      <div><span>Fee platform (3%)</span><b>${fmt(f.feeDue)}</b></div>
+      <button class="btn btn-gold btn-sm" data-payfee="${f.id}">Bayar fee</button>
+    </div>`;
+}
+function fval(id){return document.getElementById(id).value;}
+let ffCoverData=null;
+function openFieldForm(id){
+  document.getElementById('ffTitle').textContent = id?'Edit sawah':'Tambah sawah';
+  const f = id?sFieldById(id):{name:'',loc:'',kab:'Banda Aceh',kec:'',variety:'Beras Putih Organik',price:'',totalPlots:'',plotSize:'10 × 10 m',cert:'Organik SNI 6729:2016',season:'110–130 hari',status:'active',phone:seller.phone,cover:null};
+  document.getElementById('ffName').value=f.name;
+  document.getElementById('ffLoc').value=f.locDetail||'';
+  // kab/kec
+  const kabSel=document.getElementById('ffKab'), kecSel=document.getElementById('ffKec');
+  fillSelect(kabSel, KAB_LIST, 'Pilih kabupaten/kota');
+  kabSel.value=f.kab||'';
+  fillSelect(kecSel, ACEH[kabSel.value]||[], 'Pilih kecamatan');
+  kecSel.value=f.kec||'';
+  document.getElementById('ffVariety').value=f.variety;
+  document.getElementById('ffPrice').value=f.price;
+  document.getElementById('ffPlots').value=f.totalPlots;
+  document.getElementById('ffSize').value=f.plotSize;
+  document.getElementById('ffCert').value=f.cert;
+  document.getElementById('ffPhone').value=f.phone||seller.phone;
+  document.getElementById('ffSeason').value=f.season;
+  document.getElementById('ffStatus').value=f.status;
+  // cover
+  ffCoverData=f.cover||null;
+  document.getElementById('ffCoverPrev').innerHTML = ffCoverData?`<img src="${ffCoverData}" alt="cover">`:'';
+  document.querySelector('#ffCoverLbl').childNodes[2].nodeValue = ffCoverData?' Ganti foto cover':' Upload foto cover';
+}
+// listener sekali untuk kab→kec & cover
+document.getElementById('ffKab').addEventListener('change',function(){
+  fillSelect(document.getElementById('ffKec'), ACEH[this.value]||[], 'Pilih kecamatan');
+});
+document.getElementById('ffCover').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const r=new FileReader(); r.onload=()=>{ ffCoverData=r.result;
+    document.getElementById('ffCoverPrev').innerHTML=`<img src="${ffCoverData}" alt="cover">`;
+    document.querySelector('#ffCoverLbl').childNodes[2].nodeValue=' Ganti foto cover';
+  }; r.readAsDataURL(file);
+});
+document.getElementById('ffSave').addEventListener('click',async()=>{
+  const name=fval('ffName').trim(), price=+fval('ffPrice'), plots=+fval('ffPlots');
+  if(!name||!price||!plots){ toast('Lengkapi nama, harga, & jumlah plot'); return; }
+  const kab=fval('ffKab'), kec=fval('ffKec'), detail=fval('ffLoc').trim();
+  if(!kab){ toast('Pilih kabupaten/kota'); return; }
+  const phone=fval('ffPhone').trim()||seller.phone;
+
+  if(SB_READY){
+    try{
+      // perbarui no HP petani di akun (dipakai pembeli untuk kontak)
+      if(phone && auth.account){ await sb.from('accounts').update({phone}).eq('id',auth.account.id); auth.account.phone=phone; ACCOUNTS_CACHE[auth.account.id]=auth.account; }
+      const row={name, kabupaten:kab, kecamatan:kec, loc_detail:detail, variety:fval('ffVariety'), grain:fval('ffVariety'),
+        price_per_plot:price, total_plots:plots, plot_size:fval('ffSize').trim()||'10 × 10 m',
+        certification:fval('ffCert').trim()||'-', season:fval('ffSeason'), status:fval('ffStatus'), cover_url:ffCoverData||null};
+      if(editingFieldId){ const {error}=await sb.from('fields').update(row).eq('id',editingFieldId); if(error) throw error; toast('Sawah diperbarui ✓'); }
+      else { row.owner_id=auth.account.id; row.stage='Bibit'; row.hue=80+Math.floor(Math.random()*80);
+        const {error}=await sb.from('fields').insert(row); if(error) throw error; toast('Sawah ditambahkan ✓'); }
+      editingFieldId=null; ffCoverData=null; go('sellerfields');
+    }catch(err){ console.error(err); toast('Gagal simpan: '+(err.message||'')); }
+    return;
+  }
+
+  // fallback dummy
+  const loc=[detail,kec,kab].filter(Boolean).join(', ');
+  const data={name, loc, locDetail:detail, kab, kec, region:kab,
+    variety:fval('ffVariety'), grain:fval('ffVariety'), price, totalPlots:plots,
+    plotSize:fval('ffSize').trim()||'10 × 10 m', cert:fval('ffCert').trim()||'-',
+    phone, season:fval('ffSeason'), status:fval('ffStatus'), cover:ffCoverData};
+  if(editingFieldId){ Object.assign(sFieldById(editingFieldId), data); toast('Sawah diperbarui ✓'); }
+  else { const id='s'+Date.now().toString(36); sellerFields.push(Object.assign({id,adoptedPlots:0,stage:'Bibit',hue:80+Math.floor(Math.random()*80),rating:0,reviews:0},data)); fieldUpdates[id]=[]; toast('Sawah ditambahkan ✓'); }
+  editingFieldId=null; ffCoverData=null; go('sellerfields');
+});
+function renderSellerField(){
+  const f=sFieldById(sellerCurrentId); if(!f){ go('sellerfields'); return; }
+  document.getElementById('sfdName').textContent=f.name;
+  document.getElementById('sfdLoc').innerHTML=f.loc+(f.reviews?` · <span class="sfd-rate">★ ${(f.rating||0).toFixed(1)} (${f.reviews} ulasan)</span>`:' · <span class="sfd-rate">Belum ada rating</span>');
+  const pct=Math.round(f.adoptedPlots/f.totalPlots*100), rev=f.adoptedPlots*f.price;
+  document.getElementById('sfdStats').innerHTML=
+    sellerStat(f.adoptedPlots+'/'+f.totalPlots,'Plot teradopsi')+
+    sellerStat(pct+'%','Tingkat adopsi')+
+    sellerStat(fmt(f.price),'Harga / plot')+
+    sellerStat(fmt(rev),'Pendapatan');
+  const total=40, adopted=Math.round(total*pct/100);
+  let cells=''; for(let i=0;i<total;i++) cells+=`<div class="plot ${i<adopted?'adopted':'available'}"></div>`;
+  document.getElementById('sfdPlots').innerHTML=cells;
+  renderUpdateLog(f.id);
+  // fase pertumbuhan
+  const cur=Math.max(0, PHASES.indexOf(f.stage));
+  document.getElementById('sfdPhaseNow').textContent=PHASES[cur];
+  document.getElementById('sfdPhaseNow').className='phase-now'+(cur===PHASES.length-1?' done':'');
+  document.getElementById('sfdPhaseTrack').innerHTML=PHASES.map((p,i)=>{
+    const done=i<=cur, isCur=i===cur;
+    const ic=done?'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>':(i+1);
+    return `<div class="trk ${done?'done':''} ${isCur?'cur':''}"><div class="tk-ic">${ic}</div><div class="tk-lbl">${p}</div></div>`;
+  }).join('<div class="trk-line"></div>');
+  const sel=document.getElementById('sfdPhaseSel');
+  sel.innerHTML=PHASES.map((p,i)=>`<option value="${i}" ${i===cur?'selected':''}>${p}</option>`).join('');
+  const list=sellerAdopters.filter(a=>a.fieldId===f.id);
+  document.getElementById('sfdAdopters').innerHTML = list.length ? list.map(a=>`
+    <div class="mf-row"><div class="ad-av">${a.name.charAt(0)}</div>
+      <div class="info"><b>${a.name}</b><span>${a.plots} plot diadopsi</span></div>
+      <span class="badge-status ${a.status}">${a.status==='active'?'Aktif':'Pending'}</span></div>`).join('')
+    : `<div class="empty-mini">Belum ada adopter pada sawah ini.</div>`;
+}
+function renderUpdateLog(id){
+  const log=fieldUpdates[id]||[];
+  document.getElementById('sfdLog').innerHTML = log.length
+    ? log.map(u=>{
+        const o = (typeof u==='string') ? {text:u, photo:null} : u;
+        return `<div class="upd">${o.text}${o.photo?`<div class="upd-photo" style="background:url('${o.photo}') center/cover"></div>`:''}</div>`;
+      }).join('')
+    : `<div class="upd muted">Belum ada update terkirim.</div>`;
+}
+let sfdPhotoData=null;
+document.getElementById('sfdPhaseSave').addEventListener('click',async()=>{
+  const f=sFieldById(sellerCurrentId); if(!f) return;
+  const idx=+document.getElementById('sfdPhaseSel').value;
+  const newPhase=PHASES[idx];
+  if(newPhase===f.stage){ toast('Fase tidak berubah'); return; }
+  const pw=prompt('Masukkan sandi akunmu untuk mengubah fase:');
+  if(pw===null) return;
+  if(!auth.account || pw!==auth.account.password){ toast('Sandi salah'); return; }
+  if(SB_READY){
+    try{ const {error}=await sb.from('fields').update({stage:newPhase}).eq('id',f.id); if(error) throw error; }
+    catch(err){ console.error(err); toast('Gagal ubah fase'); return; }
+  }
+  f.stage=newPhase;
+  renderSellerField();
+  toast(newPhase==='Panen (Selesai)' ? 'Sawah ditandai SELESAI ✓' : 'Fase diperbarui: '+newPhase+' ✓');
+});
+document.getElementById('sfdDelete').addEventListener('click',async()=>{
+  const f=sFieldById(sellerCurrentId); if(!f) return;
+  const pw=prompt('Hapus sawah ini permanen. Masukkan sandi akunmu untuk konfirmasi:');
+  if(pw===null) return;
+  if(!auth.account || pw!==auth.account.password){ toast('Sandi salah'); return; }
+  if(SB_READY){
+    try{
+      await sb.from('field_updates').delete().eq('field_id',f.id);
+      await sb.from('adoptions').delete().eq('field_id',f.id);
+      const {error}=await sb.from('fields').delete().eq('id',f.id);
+      if(error) throw error;
+    }catch(err){ console.error(err); toast('Gagal hapus: '+(err.message||'')); return; }
+  }
+  sellerFields=sellerFields.filter(x=>x.id!==f.id);
+  toast('Sawah dihapus ✓');
+  go('sellerfields');
+});
+document.getElementById('sfdPhoto').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const r=new FileReader(); r.onload=()=>{ sfdPhotoData=r.result;
+    document.getElementById('sfdPhotoPrev').innerHTML=`<img src="${sfdPhotoData}" alt="foto progress">`;
+  }; r.readAsDataURL(file);
+});
+document.getElementById('sfdPost').addEventListener('click',async()=>{
+  const ta=document.getElementById('sfdUpdate'), txt=ta.value.trim();
+  if(!txt){ toast('Tulis update dulu'); return; }
+  if(SB_READY){
+    try{
+      const {error}=await sb.from('field_updates').insert({field_id:sellerCurrentId,body:txt,photo_url:sfdPhotoData||null});
+      if(error) throw error;
+      ta.value=''; sfdPhotoData=null; document.getElementById('sfdPhotoPrev').innerHTML='';
+      await loadSellerField(); renderUpdateLog(sellerCurrentId); toast('Update terkirim ke adopter ✓');
+    }catch(err){ console.error(err); toast('Gagal posting: '+(err.message||'')); }
+    return;
+  }
+  (fieldUpdates[sellerCurrentId]=fieldUpdates[sellerCurrentId]||[]).unshift({text:'21 Jun 2026 — '+txt, photo:sfdPhotoData});
+  const bid=Object.keys(buyerToSeller).find(k=>buyerToSeller[k]===sellerCurrentId);
+  if(bid){ (farmerFeed[bid]=farmerFeed[bid]||[]).unshift({date:'21 Jun 2026',text:txt,photo:!!sfdPhotoData,photoUrl:sfdPhotoData}); }
+  ta.value=''; sfdPhotoData=null; document.getElementById('sfdPhotoPrev').innerHTML='';
+  renderUpdateLog(sellerCurrentId); toast('Update terkirim ke adopter ✓');
+});
+document.getElementById('sfdEdit').addEventListener('click',()=>{ editingFieldId=sellerCurrentId; go('fieldform'); });
+function renderAdopters(){
+  const flt=document.getElementById('adFilter'), cur=flt.value;
+  flt.innerHTML='<option value="">Semua sawah</option>'+sellerFields.map(f=>`<option value="${f.id}">${f.name}</option>`).join('');
+  flt.value=cur;
+  const fid=flt.value;
+  const list=sellerAdopters.filter(a=>!fid||a.fieldId===fid);
+  document.getElementById('adCount').textContent=list.length+' adopsi';
+  document.getElementById('adBody').innerHTML=list.map(a=>{
+    const f=sFieldById(a.fieldId), amt=a.amount||(f?f.price*a.plots:0);
+    const pend=a.status==='pending';
+    return `<tr class="ad-clickable ${pend?'ad-pending':''}" data-adopter="${a.id}">
+      <td><div class="td-user"><div class="ad-av sm">${a.name.charAt(0)}</div>${a.name}</div></td>
+      <td>${f?f.name:'-'}</td><td>${a.plots}</td>
+      <td>${fmt(amt)}</td><td>${a.harvest}</td>
+      <td><span class="badge-status ${a.status}">${a.status==='active'?'Aktif':'Pending'}</span> <span class="row-view">Lihat ›</span></td></tr>`;
+  }).join('') || `<tr><td colspan="6" class="empty-mini">Tidak ada adopter.</td></tr>`;
+}
+document.getElementById('adFilter').addEventListener('change',renderAdopters);
+// open any adopter detail
+document.getElementById('adBody').addEventListener('click',e=>{
+  const row=e.target.closest('[data-adopter]'); if(!row)return;
+  openAdopterModal(row.dataset.adopter);
+});
+function openAdopterModal(id){
+  const a=sellerAdopters.find(x=>x.id===id); if(!a)return;
+  const f=sFieldById(a.fieldId), amt=a.amount||(f?f.price*a.plots:0);
+  const pend=a.status==='pending';
+  const proof = a.proof && a.proof!=='demo'
+    ? `<img src="${a.proof}" alt="bukti pembayaran">`
+    : `<div class="proof-demo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg><span>Bukti transfer (contoh)</span></div>`;
+  document.getElementById('modalBody').innerHTML=`
+    <div class="modal-head"><h3>${pend?'Konfirmasi adopsi':'Detail adopter'}</h3><button class="modal-x" id="modalClose">✕</button></div>
+    <div class="adopter-card">
+      <div class="ad-av">${a.name.charAt(0)}</div>
+      <div><b>${a.name}</b><span>${a.phone||'-'}</span></div>
+      <span class="badge-status ${a.status}">${pend?'Pending':'Aktif'}</span>
+    </div>
+    <dl class="spec modal-spec">
+      <dt>Sawah dipesan</dt><dd>${f?f.name:'-'}</dd>
+      <dt>Lokasi</dt><dd>${f?f.loc:'-'}</dd>
+      <dt>Jumlah plot</dt><dd>${a.plots} plot</dd>
+      <dt>Nominal</dt><dd>${fmt(amt)}</dd>
+      <dt>Tanggal pesan</dt><dd>${a.date||'-'}</dd>
+      <dt>Estimasi panen</dt><dd>${a.harvest}</dd>
+    </dl>
+    <div class="proof-label">Bukti pembayaran dari pembeli</div>
+    <div class="proof-box">${proof}</div>
+    ${pend
+      ? `<div class="modal-actions">
+          <button class="btn btn-ghost" id="modalCancel">Tutup</button>
+          <button class="btn btn-primary" id="confirmPay" data-aid="${a.id}">Terima &amp; konfirmasi</button>
+         </div>`
+      : `<div class="modal-confirmed"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg> Pembayaran sudah dikonfirmasi · adopsi aktif</div>
+         <div class="modal-actions"><button class="btn btn-ghost btn-block" id="modalCancel">Tutup</button></div>`}`;
+  document.getElementById('adopterModal').classList.add('open');
+  // ambil signed URL bukti dari storage (Supabase) bila proof berupa path
+  if(SB_READY && a.proof && a.proof!=='demo' && !/^https?:|^data:/.test(a.proof)){
+    sb.storage.from('payment-proofs').createSignedUrl(a.proof, 600).then(({data})=>{
+      const box=document.querySelector('#adopterModal .proof-box');
+      if(box && data?.signedUrl) box.innerHTML=`<img src="${data.signedUrl}" alt="bukti pembayaran">`;
+    });
+  }
+}
+function closeModal(){ document.getElementById('adopterModal').classList.remove('open'); }
+function closeFeeModal(){ document.getElementById('feeModal').classList.remove('open'); feeProofData=null; }
+let feeProofData=null, feeFieldId=null;
+function openFeeModal(id){
+  const f=sFieldById(id); if(!f) return;
+  feeFieldId=id; feeProofData=null;
+  document.getElementById('feeBody').innerHTML=`
+    <button class="modal-close" id="feeClose">✕</button>
+    <h3 class="modal-title">Bayar fee platform (3%)</h3>
+    <p class="fee-amt">${fmt(f.feeDue)}</p>
+    <p class="fee-sub">Dari total adopsi sawah <b>${f.name}</b> (${fmt(f.feeBase)}).</p>
+    <div class="pay-card">
+      <div class="pay-no"><b>${PLATFORM_BANK.name}</b><span>${PLATFORM_BANK.account}</span></div>
+      <div class="pay-meta">a.n. ${PLATFORM_BANK.holder}</div>
+    </div>
+    <label class="upload-label" id="feeUploadLbl"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg> Upload bukti transfer<input id="feeProof" type="file" accept="image/*" hidden></label>
+    <div class="cover-preview" id="feePrev"></div>
+    <button class="btn btn-primary btn-block" id="feeSubmit" style="margin-top:14px">Kirim bukti pembayaran</button>`;
+  document.getElementById('feeModal').classList.add('open');
+  document.getElementById('feeClose').addEventListener('click',closeFeeModal);
+  document.getElementById('feeProof').addEventListener('change',ev=>{
+    const file=ev.target.files[0]; if(!file)return;
+    const r=new FileReader(); r.onload=()=>{ feeProofData=r.result;
+      document.getElementById('feePrev').innerHTML=`<img src="${feeProofData}" alt="bukti">`;
+      document.getElementById('feeUploadLbl').querySelector('span')||(document.getElementById('feeUploadLbl').childNodes[2].nodeValue=' ✓ '+file.name);
+    }; r.readAsDataURL(file);
+  });
+  document.getElementById('feeSubmit').addEventListener('click',async()=>{
+    if(!feeProofData){ toast('Upload bukti transfer dulu'); return; }
+    const f2=sFieldById(feeFieldId);
+    if(SB_READY){
+      try{
+        const {error}=await sb.from('fields').update({fee_amount:f2.feeDue, fee_proof_url:feeProofData, fee_status:'pending'}).eq('id',feeFieldId);
+        if(error) throw error;
+      }catch(err){ console.error(err); toast('Gagal kirim: '+(err.message||'')); return; }
+    }
+    f2.feeStatus='pending'; f2.feePaidAmount=f2.feeDue;
+    closeFeeModal(); renderSellerFields();
+    toast('Bukti fee terkirim · menunggu verifikasi admin');
+  });
+}
+document.getElementById('feeModal').addEventListener('click',e=>{ if(e.target.id==='feeModal') closeFeeModal(); });
+document.getElementById('adopterModal').addEventListener('click',async e=>{
+  if(e.target.id==='adopterModal' || e.target.id==='modalClose' || e.target.id==='modalCancel'){ closeModal(); return; }
+  const cf=e.target.closest('#confirmPay');
+  if(cf){
+    const a=sellerAdopters.find(x=>x.id===cf.dataset.aid); if(!a)return;
+    if(SB_READY){
+      try{
+        cf.disabled=true; cf.textContent='Memproses…';
+        // 1) set adoption confirmed
+        const {error:e1}=await sb.from('adoptions').update({status:'confirmed'}).eq('id',a.id);
+        if(e1) throw e1;
+        // 2) tambah adopted_plots di sawah
+        const {data:fd}=await sb.from('fields').select('adopted_plots,total_plots').eq('id',a.fieldId).maybeSingle();
+        if(fd){ const np=Math.min(fd.total_plots,(fd.adopted_plots||0)+a.plots);
+          await sb.from('fields').update({adopted_plots:np}).eq('id',a.fieldId); }
+        // 3) jika semua adoption order ini confirmed → order confirmed
+        if(a.orderId){
+          const {data:rest}=await sb.from('adoptions').select('id').eq('order_id',a.orderId).eq('status','pending');
+          if(!rest || !rest.length) await sb.from('orders').update({status:'confirmed'}).eq('id',a.orderId);
+        }
+        closeModal(); await loadAdopters(); renderAdopters(); toast('Pembayaran dikonfirmasi · adopsi aktif ✓');
+      }catch(err){ console.error(err); toast('Gagal konfirmasi: '+(err.message||'')); }
+      return;
+    }
+    // fallback dummy
+    a.status='active';
+    const f=sFieldById(a.fieldId); if(f) f.adoptedPlots=Math.min(f.totalPlots, f.adoptedPlots+a.plots);
+    if(a.orderId){
+      adoptions.filter(x=>x.orderId===a.orderId).forEach(x=>x.status='active');
+      const o=orders.find(x=>x.id===a.orderId); if(o) o.status='confirmed';
+    }
+    closeModal(); renderAdopters(); toast('Pembayaran dikonfirmasi · adopsi aktif ✓');
+  }
+});
+
+/* ============ HELPERS ============ */
+function updateCartCount(){
+  const c=document.getElementById('cartCount');
+  c.textContent=cart.length;
+  c.classList.toggle('show',cart.length>0);
+}
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.innerHTML=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#97C459" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>${msg}`;
+  t.classList.add('show');clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* ============ INIT ============ */
+(async function init(){
+  applyRole();
+  updateCartCount();
+  linkKabKec(document.getElementById('regKab'), document.getElementById('regKec'));
+  if(SB_READY){
+    try{ await loadExplore(); }catch(e){ console.error(e); }
+    try{ await restoreSession(); }catch(e){ console.error(e); }
+    renderHome();
+  } else {
+    // anon key belum diisi
+    renderHome();
+    setTimeout(()=>toast('Tempel anon key Supabase di bagian atas <script> untuk pakai data nyata'), 600);
+  }
+})();
+</script>
+</body>
+</html>
